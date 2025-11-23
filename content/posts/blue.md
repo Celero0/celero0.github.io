@@ -21,11 +21,14 @@ nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.10.40 -oG allPorts
 ```
 En el escaneo nos dice el SO:`Windows 7 professional 7601
 ![[Pasted image 20251104120942.png]]
-<img src="/images/gato.jpg" width="300" height="200">
+<img src="/images/gato.jpg" width="500" height="500">
+
 Si buscamos por vulnerabilidades para la versión de SO, nos aparece MS17-010, y post relacionados con eternalblue 
 # Explotamos SMB
  
 Por tanto utilizaremos metasploit para buscar algún modulo de eternalblue
+
+![Escaneo de puertos](/images/gato.jgp)
  
 Hacemos un
 ```bash

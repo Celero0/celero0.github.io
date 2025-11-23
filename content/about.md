@@ -4,8 +4,6 @@ draft = false
 title = 'Sobre mí'
 +++
 
-# Sobre mí
- 
 Soy estudiante de **Ingeniería en Conectividad y Redes**, actualmente preparando la certificación **eJPT**.  
 Apasionado por la **ciberseguridad**, las **redes** y la **programación**, siempre estoy explorando nuevas
 tecnologías y aprendiendo sobre **ethical hacking**.

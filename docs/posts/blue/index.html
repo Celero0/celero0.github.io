@@ -209,8 +209,8 @@ Explotamos SMB Link to heading Por tanto utilizaremos metasploit para buscar alg
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.40 -oG allPorts
 </span></span></code></pre></div><p>En el escaneo nos dice el SO:`Windows 7 professional 7601
 ![[Pasted image 20251104120942.png]]
-<img src="/images/gato.jpg" width="300" height="200">
-Si buscamos por vulnerabilidades para la versión de SO, nos aparece MS17-010, y post relacionados con eternalblue</p>
+<img src="/images/gato.jpg" width="500" height="500"></p>
+<p>Si buscamos por vulnerabilidades para la versión de SO, nos aparece MS17-010, y post relacionados con eternalblue</p>
 <h1 id="explotamos-smb">
   Explotamos SMB
   <a class="heading-link" href="#explotamos-smb">
@@ -219,6 +219,7 @@ Si buscamos por vulnerabilidades para la versión de SO, nos aparece MS17-010, y
   </a>
 </h1>
 <p>Por tanto utilizaremos metasploit para buscar algún modulo de eternalblue</p>
+<p><img src="/images/gato.jgp" alt="Escaneo de puertos"></p>
 <p>Hacemos un</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfconsole
 </span></span><span style="display:flex;"><span>search eternal
@@ -280,30 +281,7 @@ Si buscamos por vulnerabilidades para la versión de SO, nos aparece MS17-010, y
         
 
 
-        <div id="disqus_thread"></div>
-<script>
-  window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-    
-    document.addEventListener('themeChanged', function (e) { 
-        if (document.readyState == 'complete') {
-          DISQUS.reset({ reload: true, config: disqus_config });
-        }
-    });
-</script>
+        
         
         
         

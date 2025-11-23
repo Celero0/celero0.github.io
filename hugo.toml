@@ -76,3 +76,7 @@ style = "github-dark"
   name = "About"
   weight = 2
   url = "about/"
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

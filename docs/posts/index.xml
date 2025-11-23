@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Nov 2025 02:27:08 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 23 Nov 2025 19:15:11 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>es un post nuevo</title>
+      <link>https://celero0.github.io/posts/nuevo/</link>
+      <pubDate>Sun, 23 Nov 2025 19:15:11 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/nuevo/</guid>
+      <description>&lt;h1 id=&#34;post-nuevo&#34;&gt;&#xA;  Post nuevo&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#post-nuevo&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;solo-estoy-probando&#34;&gt;&#xA;  Solo estoy probando&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#solo-estoy-probando&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;a ver que tal&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Blue Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/blue/</link>

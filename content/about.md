@@ -1,7 +1,7 @@
 +++
 date = '2025-11-15T01:50:17Z'
 draft = false
-title = ''
+title = 'Sobre mí'
 +++
 
 # Sobre mí

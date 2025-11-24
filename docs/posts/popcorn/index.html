@@ -197,7 +197,7 @@
 <img src="/images/Pasted image 20251031213541.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>En el directorio <code>test</code>, encontramos una página de <code>PHP 5.2.10</code> por defecto
 <img src="/images/Pasted image 20251031213650.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
-<p>En el directiorio <code>torrent</code> encontramos la página de #TorrentHoster
+<p>En el directorio <code>torrent</code> encontramos la página de #TorrentHoster
 <img src="/images/Pasted image 20251031213720.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Y en el directiorio <code>rename</code> nos encontramos con el siguiente mensaje
 <code>Renamer API Syntax: index.php?filename=old_file_path_an_name&amp;newfilename=new_file_path_and_name</code></p>
@@ -237,7 +237,7 @@ y nos muestra que se subió exitosamente
 <img src="/images/Pasted image 20251031222335.png" style="width:100%; height:auto; display:block; margin:auto;">
 su nombre es <code>d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code></p>
 <p>Ahora vamos a la ruta <code>popcorn.htb/rename/</code> y vemos que la API se utiliza con <code>index.php?filename=nombre del archivo viejo&amp;newfilename=nombre del archivo nuevo</code></p>
-<p>Como no sabemos la ruta absoluta de donde se alberga el torrent podemos interntar adivinarla, pero no es necesario, ya que al poner cualquier valor vemos un mensaje de error mostrandonos la ruta de la aplicación siendo <code>/var/www/rename/index.php</code></p>
+<p>Como no sabemos la ruta absoluta de donde se alberga el torrent podemos intentar adivinarla, pero no es necesario, ya que al poner cualquier valor vemos un mensaje de error mostrandonos la ruta de la aplicación siendo <code>/var/www/rename/index.php</code></p>
 <p>Por lo tanto podemos hacer la estructura por detrás de la web</p>
 <img src="/images/Pasted image 20251031222420.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Nuestra reverse shell se encuentra en la ruta <code>/var/www/torrent/upload/d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code>, por tanto para cambiarle el nombre, y que sea interpretado el código debemos hacer lo siguiente</p>
@@ -265,7 +265,7 @@ su nombre es <code>d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code></p>
 <p>#Dirtycow</p>
 <p>El dirty cow es una vulnerabilidad de kernel que afecta a <code>Linux Kernel 2.6.22 &lt; 3.9</code>, la vulnerabilidad edita el archivo <code>/etc/passwd</code> agregando un usuario en este caso <code>firefart</code> con privilegios root</p>
 <img src="/images/Pasted image 20251031225940.png" style="width:100%; height:auto; display:block; margin:auto;">
-<p>Copiamos todo el script y creamos el archivo dirtycow.c, el archivo se compli de la siguiente forma</p>
+<p>Copiamos todo el script y creamos el archivo dirtycow.c, el archivo se compila de la siguiente forma</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -pthread dirtycow.c -o dirty -lcrypt
 </span></span></code></pre></div><p>Una vez compilado tenemos el archivo <code>dirty</code>
 <img src="/images/Pasted image 20251031230142.png" style="width:100%; height:auto; display:block; margin:auto;"></p>

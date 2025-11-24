@@ -43,7 +43,7 @@ Encontramos los siguientes 3 directorios:
 En el directorio `test`, encontramos una página de `PHP 5.2.10` por defecto
 <img src="/images/Pasted image 20251031213650.png" style="width:100%; height:auto; display:block; margin:auto;">
 
-En el directiorio `torrent` encontramos la página de #TorrentHoster
+En el directorio `torrent` encontramos la página de #TorrentHoster
 <img src="/images/Pasted image 20251031213720.png" style="width:100%; height:auto; display:block; margin:auto;">
 
 Y en el directiorio `rename` nos encontramos con el siguiente mensaje
@@ -86,7 +86,7 @@ su nombre es `d0d14c926e6e99761a2fdcff27b403d96376eff6.png`
 
 Ahora vamos a la ruta `popcorn.htb/rename/` y vemos que la API se utiliza con `index.php?filename=nombre del archivo viejo&newfilename=nombre del archivo nuevo`
 
-Como no sabemos la ruta absoluta de donde se alberga el torrent podemos interntar adivinarla, pero no es necesario, ya que al poner cualquier valor vemos un mensaje de error mostrandonos la ruta de la aplicación siendo `/var/www/rename/index.php`
+Como no sabemos la ruta absoluta de donde se alberga el torrent podemos intentar adivinarla, pero no es necesario, ya que al poner cualquier valor vemos un mensaje de error mostrandonos la ruta de la aplicación siendo `/var/www/rename/index.php`
 
 Por lo tanto podemos hacer la estructura por detrás de la web
 
@@ -129,7 +129,7 @@ El dirty cow es una vulnerabilidad de kernel que afecta a `Linux Kernel 2.6.22 <
 
 <img src="/images/Pasted image 20251031225940.png" style="width:100%; height:auto; display:block; margin:auto;">
 
-Copiamos todo el script y creamos el archivo dirtycow.c, el archivo se compli de la siguiente forma 
+Copiamos todo el script y creamos el archivo dirtycow.c, el archivo se compila de la siguiente forma 
 ```bash
 gcc -pthread dirtycow.c -o dirty -lcrypt
 ````

@@ -6,14 +6,14 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Nov 2025 19:15:11 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Nov 2025 18:35:18 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>es un post nuevo</title>
-      <link>https://celero0.github.io/posts/nuevo/</link>
-      <pubDate>Sun, 23 Nov 2025 19:15:11 +0000</pubDate>
-      <guid>https://celero0.github.io/posts/nuevo/</guid>
-      <description>&lt;h1 id=&#34;post-nuevo&#34;&gt;&#xA;  Post nuevo&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#post-nuevo&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;solo-estoy-probando&#34;&gt;&#xA;  Solo estoy probando&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#solo-estoy-probando&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;a ver que tal&lt;/p&gt;</description>
+      <title>Popcorn Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/popcorn/</link>
+      <pubDate>Mon, 24 Nov 2025 18:35:18 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/popcorn/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Linux #Easy&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;enumeración-nmap&#34;&gt;&#xA;  Enumeración Nmap&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#enumeraci%c3%b3n-nmap&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Comando:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -p- --open -sS -vvv --min-rate &lt;span style=&#34;color:#a5d6ff&#34;&gt;5000&lt;/span&gt; -n -Pn 10.10.10.6 -oG allPorts&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;En el escaneo encontramos dos puertos abiertos, el puerto 22 que corre el servicio SSH, el cual por su versión 5.1p1 es vulnerable a &lt;code&gt;UserEnumeration&lt;/code&gt;. Además del servicio HTTP que corre por el puerto 80, donde nos muestra el nombre de dominio &lt;code&gt;popcorn.htb&lt;/code&gt;&#xA;&lt;img src=&#34;https://celero0.github.io/images/Pasted image 20251031205654.png&#34; style=&#34;width:100%; height:auto; display:block; margin:auto;&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blue Machine - HackTheBox</title>
@@ -28,13 +28,6 @@
       <pubDate>Sat, 15 Nov 2025 01:50:17 +0000</pubDate>
       <guid>https://celero0.github.io/about/</guid>
       <description>&lt;p&gt;Soy estudiante de &lt;strong&gt;Ingeniería en Conectividad y Redes&lt;/strong&gt;, actualmente preparando la certificación &lt;strong&gt;eJPT&lt;/strong&gt;.&lt;br&gt;&#xA;Apasionado por la &lt;strong&gt;ciberseguridad&lt;/strong&gt;, las &lt;strong&gt;redes&lt;/strong&gt; y la &lt;strong&gt;programación&lt;/strong&gt;, siempre estoy explorando nuevas&#xA;tecnologías y aprendiendo sobre &lt;strong&gt;ethical hacking&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;En este blog comparto &lt;strong&gt;writeups&lt;/strong&gt;, notas de aprendizaje y experiencias relacionadas con el &lt;strong&gt;hacking ético&lt;/strong&gt;, con el objetivo de documentar mi camino y aportar a la comunidad.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Este es mi primer post</title>
-      <link>https://celero0.github.io/posts/prueba/</link>
-      <pubDate>Sat, 15 Nov 2025 00:54:47 +0000</pubDate>
-      <guid>https://celero0.github.io/posts/prueba/</guid>
-      <description>&lt;p&gt;Quiero probar si funciona&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -sCV -p80 10.10.10.10.&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;XD&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

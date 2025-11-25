@@ -1,7 +1,7 @@
 +++ 
 draft = false
 date = 2025-11-25T23:27:52Z
-title = "Armageddon MAchine - HackTheBox"
+title = "Armageddon Machine - HackTheBox"
 description = "Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox"
 slug = ""
 authors = []

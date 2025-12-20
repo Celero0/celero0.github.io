@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Dec 2025 17:16:26 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 20 Dec 2025 20:19:28 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Builder Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/builder/</link>
+      <pubDate>Sat, 20 Dec 2025 20:19:28 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/builder/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Linux&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;enumeración-nmap&#34;&gt;&#xA;  Enumeración Nmap&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#enumeraci%c3%b3n-nmap&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Comando:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -p- --open -sS -vvv --min-rate &lt;span style=&#34;color:#a5d6ff&#34;&gt;5000&lt;/span&gt; -n -Pn 10.10.11.74 -oG allPorts&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;https://celero0.github.io/images/Pasted image 20250926155642.png&#34; style=&#34;width:100%; height:auto; display:block; margin:auto;&#34;&gt;&#xA;&lt;p&gt;Vemos información importante, como la versión de Jetty 10.0.18, y que se utiliza Jenkins&lt;/p&gt;&#xA;&lt;h1 id=&#34;enumeración-puerto-http-8080&#34;&gt;&#xA;  Enumeración puerto HTTP 8080&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#enumeraci%c3%b3n-puerto-http-8080&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Utilizando la herramienta whatweb sobre el puerto 8080 nos encontramos con la versión de Jenkins 2.441&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Busqueda Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/busqueda/</link>

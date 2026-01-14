@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Jan 2026 03:29:08 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Jan 2026 21:05:56 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Timelapse Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/timelapse/</link>
+      <pubDate>Wed, 14 Jan 2026 21:05:56 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/timelapse/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Windows #Easy #LAPS&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Esta es una máquina Windows que expone un recurso compartido mediante el protocolo &lt;strong&gt;SMB&lt;/strong&gt;, el cual contiene un archivo comprimido protegido por contraseña. Para obtener su contenido, es necesario romper dicha contraseña utilizando la herramienta &lt;strong&gt;John the Ripper&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Al extraer el archivo comprimido, se obtiene un archivo &lt;strong&gt;PFX&lt;/strong&gt; que también se encuentra protegido mediante contraseña. Este archivo puede convertirse a un formato de hash compatible con John, permitiendo nuevamente la recuperación de su contraseña.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Blue Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/blue/</link>

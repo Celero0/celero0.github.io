@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Jan 2026 21:05:56 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 28 Jan 2026 05:30:45 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Usage Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/usage/</link>
+      <pubDate>Wed, 28 Jan 2026 05:30:45 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/usage/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Linux #Easy #SQLI&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Esta es una máquina Linux que aloja un servicio web vulnerable. En la funcionalidad de recuperación de contraseña se identifica una vulnerabilidad de SQL Injection, que mediante un ataque boolean-based permite enumerar la base de datos y extraer credenciales.&lt;/p&gt;&#xA;&lt;p&gt;Gracias a esto, se obtienen las credenciales del usuario administrador de un sitio alojado en un subdominio, el cual utiliza Laravel 10.18.0. Esta versión presenta una vulnerabilidad de subida de archivos, lo que permite cargar un archivo PHP malicioso y obtener ejecución remota de comandos como un usuario de bajos privilegios.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Timelapse Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/timelapse/</link>

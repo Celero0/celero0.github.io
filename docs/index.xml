@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Jan 2026 21:05:56 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 28 Jan 2026 05:30:45 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Usage Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/usage/</link>
+      <pubDate>Wed, 28 Jan 2026 05:30:45 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/usage/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Linux #Easy #SQLI&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Esta es una máquina Linux que aloja un servicio web vulnerable. En la funcionalidad de recuperación de contraseña se identifica una vulnerabilidad de SQL Injection, que mediante un ataque boolean-based permite enumerar la base de datos y extraer credenciales.&lt;/p&gt;&#xA;&lt;p&gt;Gracias a esto, se obtienen las credenciales del usuario administrador de un sitio alojado en un subdominio, el cual utiliza Laravel 10.18.0. Esta versión presenta una vulnerabilidad de subida de archivos, lo que permite cargar un archivo PHP malicioso y obtener ejecución remota de comandos como un usuario de bajos privilegios.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Timelapse Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/timelapse/</link>
@@ -118,7 +125,7 @@
       <link>https://celero0.github.io/about/</link>
       <pubDate>Sat, 15 Nov 2025 01:50:17 +0000</pubDate>
       <guid>https://celero0.github.io/about/</guid>
-      <description>&lt;p&gt;Soy estudiante de &lt;strong&gt;Ingeniería en Conectividad y Redes&lt;/strong&gt;, actualmente preparando la certificación &lt;strong&gt;eJPT&lt;/strong&gt;.&lt;br&gt;&#xA;Apasionado por la &lt;strong&gt;ciberseguridad&lt;/strong&gt;, las &lt;strong&gt;redes&lt;/strong&gt; y la &lt;strong&gt;programación&lt;/strong&gt;, siempre estoy explorando nuevas&#xA;tecnologías y aprendiendo sobre &lt;strong&gt;ethical hacking&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;En este blog comparto &lt;strong&gt;writeups&lt;/strong&gt;, notas de aprendizaje y experiencias relacionadas con el &lt;strong&gt;hacking ético&lt;/strong&gt;, con el objetivo de documentar mi camino y aportar a la comunidad.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Soy estudiante de &lt;strong&gt;Ingeniería en Conectividad y Redes&lt;/strong&gt;, certificado en &lt;strong&gt;eJPT (eLearnSecurity Junior Penetration Tester)&lt;/strong&gt;.&#xA;Apasionado por la &lt;strong&gt;ciberseguridad&lt;/strong&gt;, las &lt;strong&gt;redes&lt;/strong&gt; y la &lt;strong&gt;programación&lt;/strong&gt;, con especial interés en &lt;strong&gt;pentesting&lt;/strong&gt; y &lt;strong&gt;ethical hacking&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;En este blog comparto &lt;strong&gt;writeups&lt;/strong&gt;, notas de aprendizaje y experiencias relacionadas con el &lt;strong&gt;hacking ético&lt;/strong&gt;, con el objetivo de documentar mi progreso y aportar a la comunidad.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

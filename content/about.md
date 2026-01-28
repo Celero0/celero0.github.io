@@ -4,8 +4,7 @@ draft = false
 title = 'Sobre mí'
 +++
 
-Soy estudiante de **Ingeniería en Conectividad y Redes**, actualmente preparando la certificación **eJPT**.  
-Apasionado por la **ciberseguridad**, las **redes** y la **programación**, siempre estoy explorando nuevas
-tecnologías y aprendiendo sobre **ethical hacking**.
- 
-En este blog comparto **writeups**, notas de aprendizaje y experiencias relacionadas con el **hacking ético**, con el objetivo de documentar mi camino y aportar a la comunidad.
+Soy estudiante de **Ingeniería en Conectividad y Redes**, certificado en **eJPT (eLearnSecurity Junior Penetration Tester)**.
+Apasionado por la **ciberseguridad**, las **redes** y la **programación**, con especial interés en **pentesting** y **ethical hacking**.
+
+En este blog comparto **writeups**, notas de aprendizaje y experiencias relacionadas con el **hacking ético**, con el objetivo de documentar mi progreso y aportar a la comunidad.

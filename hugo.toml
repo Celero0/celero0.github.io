@@ -17,7 +17,7 @@ style = "github-dark"
 [params]
   author = "CeleroRKX"
   info = "Junior Penetration Tester, Apasionado de la ciberseguridad"
-  description = "John Doe's personal website"
+  description = "Blog personal de CeleroRKX"
   keywords = "blog,developer,personal"
   avatarurl = "images/avatar.jpg"
   #gravatar = "john.doe@example.com"
@@ -63,7 +63,7 @@ style = "github-dark"
   name = "HackTheBox"
   icon = "fa-brands fa-square-font-awesome-stroke fa-2x"
   weight = 3
-  url = "https://app.hackthebox.com/users/2051078/"
+  url = "https://app.hackthebox.com/public/users/2051078/"
 
 
 

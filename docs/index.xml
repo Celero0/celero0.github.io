@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Jan 2026 05:30:45 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 31 Jan 2026 01:35:22 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Magic Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/magic/</link>
+      <pubDate>Sat, 31 Jan 2026 01:35:22 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/magic/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Linux #Medium #SQLI #Fileupload #PathHijacking&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Esta es una máquina Linux que aloja un servidor web con una aplicación que permite subir imágenes una vez autenticado. Debido a que no contamos con credenciales válidas, se busca una vía de acceso alternativa, logrando un bypass del login mediante una vulnerabilidad de inyección SQL (SQLi).&lt;/p&gt;&#xA;&lt;p&gt;Una vez confirmada la existencia del SQLi, se procede a dumpear la base de datos utilizando la técnica &lt;em&gt;boolean-based&lt;/em&gt;, encontrando así las credenciales del administrador de la aplicación web.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Usage Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/usage/</link>

@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Jan 2026 01:35:22 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Feb 2026 16:44:24 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Permx Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/permx/</link>
+      <pubDate>Sat, 14 Feb 2026 16:44:24 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/permx/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Linux #Easy #CVE-2023-4220&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Esta es una máquina Linux que aloja un servidor web en la cual, después de realizar &lt;em&gt;fuzzing&lt;/em&gt; de subdominios, encontramos un login de &lt;code&gt;Chamilo 1&lt;/code&gt;, el cual es vulnerable a &lt;code&gt;CVE-2023-4220&lt;/code&gt;, lo que permite RCE mediante la subida de un archivo &lt;code&gt;PHP&lt;/code&gt; malicioso.&lt;br&gt;&#xA;Una vez dentro de la máquina víctima, al leer los archivos de configuración de la base de datos, encontramos una contraseña en texto plano que es reutilizada por un usuario de bajos privilegios del sistema.&lt;br&gt;&#xA;Posteriormente, al revisar los permisos de &lt;code&gt;sudo&lt;/code&gt;, encontramos un script que permite cambiar los permisos de archivos dentro de un directorio específico. Mediante un enlace simbólico, somos capaces de modificar permisos de archivos fuera de ese directorio, lo que nos permite escalar privilegios y obtener acceso total al sistema.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Magic Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/magic/</link>

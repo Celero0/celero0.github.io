@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Feb 2026 16:44:24 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2026 05:44:18 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Administrator Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/administrator/</link>
+      <pubDate>Sat, 07 Mar 2026 05:44:18 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/administrator/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Windows #Medium&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Administrator&lt;/strong&gt; es una máquina Windows de dificultad media basada en el compromiso completo de un dominio de Active Directory. Al iniciar la máquina se proporcionan credenciales de un usuario con bajos privilegios, las cuales se utilizan para enumerar el dominio mediante &lt;code&gt;BloodHound&lt;/code&gt; y descubrir relaciones de permisos entre usuarios.&lt;/p&gt;&#xA;&lt;p&gt;Durante la enumeración se observa que el usuario &lt;code&gt;Olivia&lt;/code&gt; posee permisos &lt;code&gt;GenericAll&lt;/code&gt; sobre &lt;code&gt;Michael&lt;/code&gt;, lo que permite restablecer su contraseña y obtener acceso a su cuenta. Una vez autenticados como &lt;code&gt;Michael&lt;/code&gt;, se descubre que puede forzar el cambio de contraseña del usuario &lt;code&gt;Benjamin&lt;/code&gt;, lo que permite comprometer también esa cuenta.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Permx Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/permx/</link>

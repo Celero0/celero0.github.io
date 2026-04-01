@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Mar 2026 05:44:18 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Apr 2026 04:04:12 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JinjaCare Web Challenge - HackTheBox</title>
+      <link>https://celero0.github.io/posts/jinjacare/</link>
+      <pubDate>Wed, 01 Apr 2026 04:04:12 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/jinjacare/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Challenge #SSTI #VeryEasy #Jinja2&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;En este writeup detallaremos la solución paso a paso de un desafío de la categoría Web de HackTheBox, cuyo entorno gira en torno a JinjaCare  un portal de registro y descarga de certificados de vacunación.&lt;/p&gt;&#xA;&lt;p&gt;El objetivo principal de este reto es comprender y explotar una de las vulnerabilidades más críticas en aplicaciones web modernas: el &lt;code&gt;ServerSide Template Injection (SSTI)&lt;/code&gt;. A lo largo del desafío, veremos cómo una funcionalidad aparentemente inofensiva (la generación de un certificado en PDF que refleja nuestros datos personales) se convierte en un vector de ataque directo cuando los &lt;code&gt;inputs&lt;/code&gt; del usuario no son sanitizados correctamente por el motor de plantillas de backend.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Administrator Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/administrator/</link>

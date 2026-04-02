@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Apr 2026 03:31:41 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 18:08:15 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TimeKorp Web Challenge - HackTheBox</title>
+      <link>https://celero0.github.io/posts/timekorp/</link>
+      <pubDate>Thu, 02 Apr 2026 18:08:15 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/timekorp/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Challenge #VeryEasy #CommandInjection&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;En este writeup detallaremos la resolución del reto &lt;code&gt;TimeKORP&lt;/code&gt; de la plataforma HackTheBox. Este laboratorio es un excelente ejemplo práctico para entender las vulnerabilidades de &lt;code&gt;Inyección de Comandos&lt;/code&gt; (&lt;code&gt;Command Injection&lt;/code&gt;) y cómo la falta de sanitización en el &lt;code&gt;input&lt;/code&gt; del usuario puede comprometer un servidor por completo.&lt;/p&gt;&#xA;&lt;p&gt;Durante la fase de reconocimiento, nos enfrentaremos a una aplicación web que interactúa directamente con el sistema operativo para formatear la fecha y hora. A través del análisis de los parámetros de la URL, descubriremos cómo el backend concatena nuestra entrada dentro del comando &lt;code&gt;date&lt;/code&gt; de Linux.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>OnlyHacks Web Challenge - HackTheBox</title>
       <link>https://celero0.github.io/posts/onlyhacks/</link>

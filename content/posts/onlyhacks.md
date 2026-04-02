@@ -45,7 +45,7 @@ Si vamos a `Matches` nos aparecen los match con sus respectivos chats
 En el chat procedemos a probar si el campo interpreta etiquetas html con el siguiente payload
 
 ```html
-Hola,<h1>amigoa</h1>
+Hola,<h1>amiga</h1>
 ```
 
 Y vemos que la web lo interpreta, lo cual da señal de la mala implementación de la web
@@ -93,11 +93,11 @@ y al recargar la página de `Request Bin`, obtenemos la petición con la Cookie 
 
 <img src="/images/Pasted image 20260402002020.png" style="width:100%; height:auto; display:block; margin:auto;">
 
-Ahora si reemplazamos nuestra cookie, por la que obtuvimos de la víctima
+Ahora podemos reemplazar nuestra cookie, por la que obtuvimos de la víctima
 
 <img src="/images/Pasted image 20260402001958.png" style="width:100%; height:auto; display:block; margin:auto;">
 
-Ahora si recargamos la página, entramos al perfil de la víctima
+Y recargando la página, entramos al perfil de la víctima
 
 <img src="/images/Pasted image 20260402002131.png" style="width:100%; height:auto; display:block; margin:auto;">
 

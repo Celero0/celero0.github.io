@@ -196,7 +196,7 @@
 <p>Si vamos a <code>Matches</code> nos aparecen los match con sus respectivos chats</p>
 <img src="/images/Pasted image 20260402000331.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>En el chat procedemos a probar si el campo interpreta etiquetas html con el siguiente payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Hola,&lt;<span style="color:#7ee787">h1</span>&gt;amigoa&lt;/<span style="color:#7ee787">h1</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Hola,&lt;<span style="color:#7ee787">h1</span>&gt;amiga&lt;/<span style="color:#7ee787">h1</span>&gt;
 </span></span></code></pre></div><p>Y vemos que la web lo interpreta, lo cual da señal de la mala implementación de la web</p>
 <img src="/images/Pasted image 202604020006511.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="explotando-xss">
@@ -230,9 +230,9 @@ El problema radica en el funcionamiento del laboratorio, como no estamos conecta
 <img src="/images/Pasted image 20260402001628.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>y al recargar la página de <code>Request Bin</code>, obtenemos la petición con la Cookie de sesión de la víctima <code>eyJ1c2VyIjp7ImlkIjo1LCJ1c2VybmFtZSI6ImNlbGVybzAifX0.ac3cOA.JkuMO5aS_6oFkXOIyXaHvjC5Kis</code></p>
 <img src="/images/Pasted image 20260402002020.png" style="width:100%; height:auto; display:block; margin:auto;">
-<p>Ahora si reemplazamos nuestra cookie, por la que obtuvimos de la víctima</p>
+<p>Ahora podemos reemplazar nuestra cookie, por la que obtuvimos de la víctima</p>
 <img src="/images/Pasted image 20260402001958.png" style="width:100%; height:auto; display:block; margin:auto;">
-<p>Ahora si recargamos la página, entramos al perfil de la víctima</p>
+<p>Y recargando la página, entramos al perfil de la víctima</p>
 <img src="/images/Pasted image 20260402002131.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Donde podemos leer sus chats privados, encontrando la <code>flag</code> y terminando el <code>Challenge</code></p>
 <img src="/images/Pasted image 20260402002155.png" style="width:100%; height:auto; display:block; margin:auto;">

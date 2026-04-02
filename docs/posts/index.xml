@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Apr 2026 04:04:12 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 03:31:41 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OnlyHacks Web Challenge - HackTheBox</title>
+      <link>https://celero0.github.io/posts/onlyhacks/</link>
+      <pubDate>Thu, 02 Apr 2026 03:31:41 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/onlyhacks/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Challenge #XSS #VeryEasy #Cookie&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;En este writeup detallaremos la resolución del challenge web &lt;code&gt;OnlyHacks&lt;/code&gt; de HackTheBox. Nos enfrentamos a una aplicación web de citas que permite a los usuarios registrarse, interactuar mediante &lt;code&gt;matches&lt;/code&gt; y enviarse mensajes privados.&lt;/p&gt;&#xA;&lt;p&gt;Durante la fase de enumeración, descubriremos que el sistema de chat no sanitiza correctamente la entrada del usuario, permitiendo la inyección de etiquetas HTML. Escalaremos esta vulnerabilidad a un &lt;code&gt;XSS Stored&lt;/code&gt; para inyectar código JavaScript malicioso. Dado que el laboratorio opera sin VPN directa, utilizaremos un servicio externo (&lt;code&gt;Request Bin&lt;/code&gt;) para exfiltrar datos de forma &lt;code&gt;Out of Band&lt;/code&gt; (OOB). El objetivo final será robar la cookie de sesión de una víctima, realizar un &lt;code&gt;Cookie Hijacking&lt;/code&gt; para tomar control de su cuenta y, finalmente, acceder a sus mensajes privados para capturar la &lt;code&gt;flag&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>JinjaCare Web Challenge - HackTheBox</title>
       <link>https://celero0.github.io/posts/jinjacare/</link>

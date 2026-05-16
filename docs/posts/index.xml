@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Apr 2026 18:08:15 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 16 May 2026 07:56:08 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reset Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/reset/</link>
+      <pubDate>Sat, 16 May 2026 07:56:08 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/reset/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Linux #LFI #nano #rlogin #LogPoisoning&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;En este &lt;em&gt;writeup&lt;/em&gt; detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de &lt;em&gt;Log Poisoning&lt;/em&gt; sobre los registros de Apache.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>TimeKorp Web Challenge - HackTheBox</title>
       <link>https://celero0.github.io/posts/timekorp/</link>

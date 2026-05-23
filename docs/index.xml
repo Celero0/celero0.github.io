@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 May 2026 07:56:08 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 May 2026 02:59:04 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Certified Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/certified/</link>
+      <pubDate>Sat, 23 May 2026 02:59:04 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/certified/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Windows #Medium #ADCS&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Este writeup documenta la resolución de la máquina Windows &lt;strong&gt;Certified&lt;/strong&gt; en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.&lt;/p&gt;&#xA;&lt;p&gt;El ataque se centra en la enumeración y abuso de ACLs en Active Directory. El usuario inicial dispone de permisos &lt;strong&gt;WriteOwner&lt;/strong&gt; sobre un grupo administrativo, lo que permite tomar control del objeto y escalar privilegios mediante delegaciones encadenadas hasta comprometer cuentas de servicio. Mediante la toma de propiedad del objeto y el abuso de estas delegaciones, se compromete una cuenta de servicio mediante ataques de &lt;em&gt;Shadow Credentials&lt;/em&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Reset Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/reset/</link>

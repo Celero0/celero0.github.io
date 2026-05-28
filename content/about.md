@@ -3,7 +3,6 @@ date = '2025-11-15T01:50:17Z'
 draft = false
 title = 'Sobre mí'
 +++
-
 Soy estudiante de último año de **Ingeniería en Conectividad y Redes**, certificado en **eJPT (eLearnSecurity Junior Penetration Tester)**, **Cisco CCST Cybersecurity**, **Cisco Ethical Hacker** y **AWS Cloud Foundations**. Apasionado por la **ciberseguridad**, las **redes** y la **programación**, con especial interés en **pentesting** y **ethical hacking**, y actualmente preparándome para la **CPTS** de **Hack The Box**.
 
 En este blog comparto **writeups**, notas de aprendizaje y experiencias relacionadas con el **hacking ético**, con el objetivo de documentar mi progreso y aportar a la comunidad.
@@ -21,7 +20,7 @@ En este blog comparto **writeups**, notas de aprendizaje y experiencias relacion
 
   <div class="cert-card">
     <img src="/images/cisco-ccst.png" alt="Cisco CCST Cybersecurity" class="white-circle">
-    <p>Cisco CCST<br>Cybersecurity</p>
+    <p>Cisco CCST Cybersecurity</p>
   </div>
 
   <div class="cert-card">
@@ -45,11 +44,18 @@ En este blog comparto **writeups**, notas de aprendizaje y experiencias relacion
   }
   
   .cert-card {
-    background-color: #1a1a1a; /* Fondo oscuro integrado con el tema Coder */
+    background-color: #1a1a1a;
     border: 1px solid #333;
     border-radius: 8px;
     padding: 25px 15px;
+    
+    /* Estas 4 líneas fuerzan un centrado perfecto (Flexbox) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    
     transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
   }
 
@@ -67,7 +73,6 @@ En este blog comparto **writeups**, notas de aprendizaje y experiencias relacion
     margin-right: auto;
   }
 
-  /* Efecto de la Opción 1: Genera un círculo blanco perfecto detrás del logo de CCST */
   .cert-card img.white-circle {
     background-color: #ffffff;
     border-radius: 50%;

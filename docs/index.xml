@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 May 2026 02:59:04 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 19:58:38 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Broscience Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/broscience/</link>
+      <pubDate>Fri, 05 Jun 2026 19:58:38 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/broscience/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por &lt;code&gt;root&lt;/code&gt; conduce al compromiso total de la máquina.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Certified Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/certified/</link>

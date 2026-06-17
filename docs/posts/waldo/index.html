@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Waldo Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Waldo Machine - HackTheBox">
+  <meta name="twitter:description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
+
+<meta property="og:url" content="https://celero0.github.io/posts/waldo/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Waldo Machine - HackTheBox">
+  <meta property="og:description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-17T06:08:21+00:00">
+    <meta property="article:modified_time" content="2026-06-17T06:08:21+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/waldo/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/waldo/">
+              Waldo Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-06-17T06:08:21Z">
+                June 17, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              6-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Waldo</strong> es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de <code>Linux Capabilities</code> para obtener privilegios elevados.</p>
+<p>Durante la enumeración inicial se identifican los servicios <code>SSH</code> y <code>HTTP</code> expuestos. A través del análisis de la aplicación web y de las peticiones interceptadas con <code>Burp Suite</code>, se descubren los <code>endpoints</code> <code>dirRead.php</code> y <code>fileRead.php</code>, los cuales presentan vulnerabilidades de <code>Path Traversal</code> y <code>Local File Inclusion (LFI)</code>. Mediante estas vulnerabilidades es posible enumerar directorios del sistema y acceder al contenido de archivos sensibles, obteniendo una clave privada <code>RSA</code> perteneciente al usuario <code>nobody</code>.</p>
+<p>Una vez autenticados mediante <code>SSH</code> como <code>nobody</code>, se realiza una enumeración interna que permite identificar una segunda instancia de <code>SSH</code> y una clave privada adicional perteneciente al usuario <code>monitor</code>. Utilizando estas credenciales se consigue movimiento lateral hacia dicha cuenta, aunque inicialmente el acceso se encuentra restringido mediante una <code>rbash</code>.</p>
+<p>Finalmente, se evade la <code>restricted bash</code> aprovechando la ejecución de comandos a través de <code>SSH</code> y se lleva a cabo una nueva fase de enumeración local. En ella se identifica que el binario <code>tac</code> posee la <code>capability</code> <code>cap_dac_read_search</code>, la cual permite leer archivos ignorando las restricciones tradicionales de permisos del sistema. Aprovechando esta configuración insegura, es posible acceder a archivos sensibles del usuario <code>root</code>, incluyendo la flag <code>root.txt</code>, logrando así el compromiso completo de la máquina.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Realizamos un escaneo completo de puertos en busca de servicios expuestos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.229.141 -oG allPorts
+</span></span></code></pre></div><p>Obteniendo los siguientes puertos abiertos:</p>
+<img src="/images/Pasted image 20260616012228.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>A continuación, realizamos un escaneo de versiones y scripts sobre los puertos identificados:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.229.141 -oN portServices
+</span></span></code></pre></div><img src="/images/Pasted image 20260616012307.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Comenzamos la enumeración del servicio web. Al acceder a la aplicación observamos la siguiente página:</p>
+<img src="/images/Pasted image 20260616012328.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos que tenemos el apartado <code>List Manager</code>, donde podemos crear o eliminar listas. Además, si entramos a cada lista, podemos agregar, renombrar o eliminar las sublistas.</p>
+<img src="/images/Pasted image 20260616012454.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al interceptar las peticiones web con <code>Burp Suite</code>, vemos que el mapeado del sitio es el siguiente:</p>
+<img src="/images/Pasted image 20260616012547.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Encontramos dos <code>endpoints</code> interesantes: <code>dirRead.php</code> y <code>fileRead.php</code>.</p>
+<h1 id="explotando-path-traversal">
+  Explotando Path Traversal
+  <a class="heading-link" href="#explotando-path-traversal">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si analizamos la petición hacia <code>dirRead.php</code>, observamos lo siguiente:</p>
+<img src="/images/Pasted image 20260616012725.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Vemos una solicitud <code>POST</code> con el siguiente valor:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">path</span><span style="color:#ff7b72;font-weight:bold">=</span>./.list/
+</span></span></code></pre></div><p>Esta nos muestra una serie de listas, además de <code>.</code> y <code>..</code>, como si internamente se estuviese ejecutando un comando similar a <code>ls -a</code>.</p>
+<p>Por lo tanto, podemos intentar realizar un <code>Path Traversal</code> utilizando <code>../</code>, pero observamos que no funciona.</p>
+<img src="/images/Pasted image 20260616013004.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por ello, probamos utilizando <code>....//</code>, intentando <code>bypassear</code> alguna restricción, y comprobamos que logramos explotar el <code>Path Traversal</code>.</p>
+<img src="/images/Pasted image 20260616013051.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Con esta técnica podemos identificar la existencia del directorio <code>/home/nobody</code>, el cual contiene el directorio <code>.ssh</code>, encargado de almacenar las llaves de <code>SSH</code>.</p>
+<img src="/images/Pasted image 20260616013229.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Dentro del directorio <code>/home/nobody/.ssh/</code> se encuentra un archivo llamado <code>.monitor</code>.</p>
+<img src="/images/Pasted image 20260616013317.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotando-lfi">
+  Explotando LFI
+  <a class="heading-link" href="#explotando-lfi">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si analizamos ahora el <code>endpoint</code> llamado <code>fileRead.php</code>, observamos una petición similar a la anterior; sin embargo, esta devuelve el contenido de un archivo, como si estuviese ejecutando un comando similar a <code>cat</code>.</p>
+<img src="/images/Pasted image 20260616013421.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por lo tanto, de forma análoga a la explotación del <code>Path Traversal</code>, intentaremos realizar un <code>Local File Inclusion</code> sobre el archivo encontrado anteriormente mediante el siguiente payload:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">file</span><span style="color:#ff7b72;font-weight:bold">=</span>./.list/....//....//....//....//home//nobody//.ssh//.monitor
+</span></span></code></pre></div><p>Obteniendo una clave <code>RSA</code>, cuyo formato no está sanitizado, debido a que presenta secuencias <code>\n</code> y otros caracteres adicionales.</p>
+<img src="/images/Pasted image 20260616013615.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por lo tanto, la guardamos y eliminamos los saltos de línea, quedando como se muestra a continuación:</p>
+<img src="/images/Pasted image 20260616013728.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como el usuario propietario del <code>id_rsa</code> era <code>nobody</code>, intentaremos autenticarnos mediante <code>SSH</code> utilizando la clave obtenida con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh nobody@10.129.229.141 -i id_rsa
+</span></span></code></pre></div><p>Logrando acceder exitosamente y encontrando la flag <code>user.txt</code>.</p>
+<img src="/images/Pasted image 20260616013929.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="movimiento-lateral">
+  Movimiento lateral
+  <a class="heading-link" href="#movimiento-lateral">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como nuestra shell inicial es una <code>sh</code>, migramos a una <code>bash</code> con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">SHELL</span><span style="color:#ff7b72;font-weight:bold">=</span>/bin/bash
+</span></span></code></pre></div><p>Una vez realizado este cambio, debemos exportar nuestro <code>PATH</code>, debido a que el <code>PATH</code> disponible en la <code>SHELL</code> es muy limitado. Para ello, primero podemos visualizar nuestro <code>PATH</code> actual con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#79c0ff">$PATH</span>
+</span></span></code></pre></div><p>Y posteriormente ampliar el <code>PATH</code> de la máquina víctima utilizando el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/root/.local/bin:/root/.local/bin
+</span></span></code></pre></div><p>Ahora podemos utilizar correctamente el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netstat -an
+</span></span></code></pre></div><p>Encontrando los puertos activos en la máquina víctima. Entre ellos, destaca el puerto 8888.</p>
+<img src="/images/Pasted image 20260616014657.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como posible servicio ejecutándose en dicho puerto, y considerando que mantiene una conexión establecida con nuestra IP, podemos inferir que podría tratarse de <code>SSH</code>. Por ello, revisamos los archivos de configuración de este servicio:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/ssh/sshd_config
+</span></span></code></pre></div><p>Confirmando que <code>SSH</code> está corriendo sobre el puerto 8888.</p>
+<img src="/images/Pasted image 20260616015237.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Sin embargo, durante el escaneo inicial observamos que el puerto 22 también ejecuta <code>SSH</code> y se encuentra accesible. Por ello, podemos intentar conectarnos utilizando el <code>id_rsa</code> denominado <code>.monitor</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor@localhost -i /home/nobody/.ssh/.monitor -p <span style="color:#a5d6ff">22</span>
+</span></span></code></pre></div><p>Comprobando que obtenemos acceso, aunque restringidos a una <code>rbash</code> (<code>restricted bash</code>).</p>
+<img src="/images/Pasted image 20260617014204 1.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Para escapar de esta <code>restricted bash</code>, y dado que la conexión inicial se realiza mediante <code>SSH</code>, podemos especificar un comando antes de establecer la sesión:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor@localhost -i /home/nobody/.ssh/.monitor -p <span style="color:#a5d6ff">22</span> bash
+</span></span></code></pre></div><p>De esta forma obtenemos acceso a una consola interactiva sin restricciones.</p>
+<img src="/images/Pasted image 20260617014318.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si intentamos buscar <code>capabilities</code> utilizando el comando <code>getcap</code>, aparecerá un error. Esto ocurre debido a que el <code>PATH</code> es nuevamente muy limitado, por lo que volveremos a ampliarlo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/home/monitor/bin:/home/monitor/app-dev:/home/monitor/app-dev/v0.1:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/root/.local/bin:/root/.local/bin
+</span></span></code></pre></div><p>Ahora podemos ejecutar el siguiente comando para buscar <code>capabilities</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>getcap -r / 2&gt;/dev/null
+</span></span></code></pre></div><p>Encontrando la <code>capability</code> <code>cap_dac_read_search+ei</code>.</p>
+<img src="/images/Pasted image 20260617014710.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Esta <code>capability</code> permite leer archivos aunque el usuario no posea permisos de lectura sobre ellos. Dado que el binario <code>tac</code> posee este privilegio, y considerando que funciona de manera similar a <code>cat</code>, aunque invirtiendo el orden de las líneas, podemos utilizarlo para leer archivos sensibles del sistema.</p>
+<p>Por lo tanto, podríamos leer directamente la <code>root.txt</code> con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tac /root/root.txt
+</span></span></code></pre></div><p>Y obtenemos la flag.</p>
+<img src="/images/Pasted image 20260617015033.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>De forma similar, también podemos leer el <code>id_rsa</code> de <code>root</code> o el archivo <code>/etc/shadow</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tac /root/.ssh/id_rsa -s ,
+</span></span></code></pre></div><img src="/images/Pasted image 20260617015437.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>El problema radica en que no existen permisos para iniciar sesión como <code>root</code> mediante <code>SSH</code>. Si revisamos la configuración:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/ssh/sshd_config | grep -i <span style="color:#a5d6ff">&#34;root&#34;</span>
+</span></span></code></pre></div><p>Observamos que la directiva <code>PermitRootLogin</code> está deshabilitada:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>PermitRootLogin no
+</span></span></code></pre></div><img src="/images/Pasted image 20260617015611.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>La resolución de <strong>Waldo</strong> demuestra cómo vulnerabilidades aparentemente simples, como un <code>Path Traversal</code> y un <code>Local File Inclusion</code>, pueden derivar en el compromiso total de un sistema cuando se combinan con una correcta enumeración y configuraciones inseguras. A través del acceso inicial como <code>nobody</code>, el movimiento lateral hacia <code>monitor</code> y el abuso de la <code>capability</code> <code>cap_dac_read_search</code> asignada al binario <code>tac</code>, fue posible obtener acceso a información sensible y completar la escalada de privilegios hasta <code>root</code>.</p>
+<p>Esta máquina destaca la importancia de validar adecuadamente las entradas de las aplicaciones web, restringir el acceso a archivos sensibles y revisar periódicamente las <code>Linux Capabilities</code> asignadas a los binarios del sistema para evitar que mecanismos diseñados para otorgar privilegios específicos se conviertan en vectores de ataque.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

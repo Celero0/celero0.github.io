@@ -10,6 +10,11 @@ categories = []
 externalLink = ""
 series = []
 +++
+
+-------------------------
+- Tags: #Machine #Linux #Medium  #LFI #LinuxCapabilities
+----------------
+
 # Introducción
 
 **Waldo** es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de `Linux Capabilities` para obtener privilegios elevados.

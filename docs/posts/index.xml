@@ -6,8 +6,15 @@
     <description>Recent content in Writeups on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 17 Jun 2026 06:08:21 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2026 05:56:37 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fluffy Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/fluffy/</link>
+      <pubDate>Sat, 10 Oct 2026 05:56:37 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/fluffy/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Windows #Easy #AD #ADCS&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Este writeup documenta la resolución de la máquina Windows &lt;strong&gt;Fluffy&lt;/strong&gt; en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.&lt;/p&gt;&#xA;&lt;p&gt;El acceso inicial se obtiene abusando de permisos de escritura sobre un recurso compartido SMB, donde se encuentran archivos que permiten preparar un ataque de coerción NTLM mediante &lt;strong&gt;CVE-2025-24054&lt;/strong&gt; (identificada originalmente como CVE-2025-24071). Esto permite capturar el desafío-respuesta NTLMv2 de un segundo usuario del dominio, cuya contraseña es posteriormente recuperada mediante un ataque de diccionario.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Waldo Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/waldo/</link>

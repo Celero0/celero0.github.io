@@ -53,7 +53,7 @@ style = "github-dark"
   name = "Gitlab"
   icon = "fa-brands fa-gitlab fa-2x"
   weight = 2
-  url = "https://gitlab.com/celero0/"
+  url = ""
 #[[params.social]]
  # name = "Twitter"
  # icon = "fa-brands fa-x-twitter fa-2x"

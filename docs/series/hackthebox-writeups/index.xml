@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HackTheBox Writeups on Celero0 Blog</title>
+    <link>https://celero0.github.io/series/hackthebox-writeups/</link>
+    <description>Recent content in HackTheBox Writeups on Celero0 Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 30 Oct 2026 04:43:33 +0000</lastBuildDate>
+    <atom:link href="https://celero0.github.io/series/hackthebox-writeups/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Altered Machine - HackTheBox</title>
+      <link>https://celero0.github.io/posts/altered/</link>
+      <pubDate>Fri, 30 Oct 2026 04:43:33 +0000</pubDate>
+      <guid>https://celero0.github.io/posts/altered/</guid>
+      <description>&lt;hr&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Tags: #Machine #Hard #Linux #SQLi #TypeJuggling #RateLimitBypass #Laravel #DirtyPipe #PHP&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;h1 id=&#34;introducción&#34;&gt;&#xA;  Introducción&#xA;  &lt;a class=&#34;heading-link&#34; href=&#34;#introducci%c3%b3n&#34;&gt;&#xA;    &lt;i class=&#34;fa-solid fa-link&#34; aria-hidden=&#34;true&#34; title=&#34;Link to heading&#34;&gt;&lt;/i&gt;&#xA;    &lt;span class=&#34;sr-only&#34;&gt;Link to heading&lt;/span&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;&lt;strong&gt;Altered&lt;/strong&gt; es una máquina Linux de HackTheBox de dificultad &lt;strong&gt;Hard&lt;/strong&gt;. El vector de explotación parte de una aplicación web en Laravel (&lt;em&gt;UHC March Finals&lt;/em&gt;), donde primero se abusa de la cabecera &lt;code&gt;X-Forwarded-For&lt;/code&gt; para evadir el rate limiting y forzar por fuerza bruta el PIN de recuperación de contraseña del usuario &lt;code&gt;admin&lt;/code&gt;. Ya autenticado, un endpoint de perfiles protegido por un parámetro &lt;code&gt;secret&lt;/code&gt; resulta vulnerable a PHP Type Juggling: al enviarlo como booleano (&lt;code&gt;true&lt;/code&gt;) dentro de una petición JSON, la comparación floja (&lt;code&gt;==&lt;/code&gt;) de PHP lo acepta como válido sin importar el hash real, lo que además deja colar una inyección SQL (UNION-based) sobre el parámetro &lt;code&gt;id&lt;/code&gt;. A través de esta inyección se leen archivos del sistema con &lt;code&gt;load_file()&lt;/code&gt; y se escribe una webshell con &lt;code&gt;INTO OUTFILE&lt;/code&gt;, logrando ejecución remota de comandos como &lt;code&gt;www-data&lt;/code&gt;. La escalada de privilegios se logra explotando la vulnerabilidad de kernel Dirty Pipe (&lt;code&gt;CVE-2022-0847&lt;/code&gt;) para obtener una shell como &lt;code&gt;root&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

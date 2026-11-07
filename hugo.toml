@@ -1,5 +1,6 @@
 baseURL = 'https://celero0.github.io/'
-languageCode = 'en-us'
+locale = 'es'
+defaultContentLanguage = 'es'
 title = 'Celero0 Blog'
 theme = "hugo-coder"
 
@@ -16,9 +17,9 @@ style = "github-dark"
 
 [params]
   author = "CeleroRKX"
-  info = "Junior Penetration Tester <br> Estudiante de Ing. en Conectividad y Redes  <br>eJPT & CCST"
-  description = "Blog personal de CeleroRKX"
-  keywords = "blog,developer,personal"
+  info = "Junior Penetration Tester <br> Estudiante de Ing. en Conectividad y Redes  <br>eJPT & CCST · Preparando CWES"
+  description = "Writeups de pentesting, máquinas de HackTheBox y proyectos de ciberseguridad ofensiva."
+  keywords = "ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES"
   avatarurl = "images/avatar.jpg"
   #gravatar = "john.doe@example.com"
   mainSections = ["posts"]
@@ -26,16 +27,18 @@ style = "github-dark"
   favicon_32 = "/img/favicon-32x32.png"
   favicon_16 = "/img/favicon-16x16.png"
 
-  since = 2019
+  since = 2025
 
   enableTwemoji = true
 
-  colorScheme = "auto"
+  dateFormat = "2 de January de 2006"
+
+  colorScheme = "dark"
   hidecolorschemetoggle = false
 
   # customCSS = ["css/custom.css"]
-  # customSCSS = ["scss/custom.scss"]
-  # customJS = ["js/custom.js"]
+  customSCSS = ["scss/custom.scss"]
+  customJS = ["js/gestures.js"]
 
 [taxonomies]
   category = "categories"
@@ -49,11 +52,8 @@ style = "github-dark"
   icon = "fa-brands fa-github fa-2x"
   weight = 1
   url = "https://github.com/Celero0/"
-[[params.social]]
-  name = "Gitlab"
-  icon = "fa-brands fa-gitlab fa-2x"
-  weight = 2
-  url = ""
+  target = "_blank"
+  rel = "noopener noreferrer"
 #[[params.social]]
  # name = "Twitter"
  # icon = "fa-brands fa-x-twitter fa-2x"
@@ -61,9 +61,11 @@ style = "github-dark"
  # url = "https://twitter.com/johndoe/"
 [[params.social]]
   name = "HackTheBox"
-  icon = "fa-brands fa-square-font-awesome-stroke fa-2x"
-  weight = 3
+  svg = "hackthebox.svg"
+  weight = 2
   url = "https://app.hackthebox.com/public/users/2051078/"
+  target = "_blank"
+  rel = "noopener noreferrer"
 
 
 
@@ -73,8 +75,16 @@ style = "github-dark"
   weight = 1
   url  = "posts/"
 [[menu.main]]
-  name = "About"
+  name = "Labs"
   weight = 2
+  url  = "labs/"
+[[menu.main]]
+  name = "Proyectos"
+  weight = 3
+  url  = "projects/"
+[[menu.main]]
+  name = "About"
+  weight = 4
   url = "about/"
 [markup]
   [markup.goldmark]

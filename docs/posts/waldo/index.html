@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -14,23 +14,23 @@
 
 <meta name="author" content="CeleroRKX">
 <meta name="description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Waldo Machine - HackTheBox">
-  <meta name="twitter:description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Waldo Machine - HackTheBox">
+	<meta name="twitter:description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
 
 <meta property="og:url" content="https://celero0.github.io/posts/waldo/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="Waldo Machine - HackTheBox">
-  <meta property="og:description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-06-17T06:08:21+00:00">
-    <meta property="article:modified_time" content="2026-06-17T06:08:21+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Waldo Machine - HackTheBox">
+	<meta property="og:description" content="Waldo es una máquina Linux de dificultad media cuya explotación se basa en el abuso de vulnerabilidades de lectura arbitraria de archivos, movimiento lateral entre usuarios y el aprovechamiento indebido de Linux Capabilities para obtener privilegios elevados.">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-06-17T06:08:21+00:00">
+		<meta property="article:modified_time" content="2026-06-17T06:08:21+00:00">
 
 
 
@@ -45,7 +45,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -55,13 +55,19 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -90,7 +96,7 @@
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -117,6 +123,14 @@
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -148,12 +162,12 @@
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2026-06-17T06:08:21Z">
-                June 17, 2026
+                17 de junio de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              6-minute read
+              6 minutos de lectura.
             </span>
           </div>
           
@@ -188,11 +202,11 @@
   </a>
 </h1>
 <p>Realizamos un escaneo completo de puertos en busca de servicios expuestos:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.229.141 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.229.141 -oG allPorts
 </span></span></code></pre></div><p>Obteniendo los siguientes puertos abiertos:</p>
 <img src="/images/Pasted image 20260616012228.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>A continuación, realizamos un escaneo de versiones y scripts sobre los puertos identificados:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.229.141 -oN portServices
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.229.141 -oN portServices
 </span></span></code></pre></div><img src="/images/Pasted image 20260616012307.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="enumeración-http">
   Enumeración HTTP
@@ -218,7 +232,7 @@
 <p>Si analizamos la petición hacia <code>dirRead.php</code>, observamos lo siguiente:</p>
 <img src="/images/Pasted image 20260616012725.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Vemos una solicitud <code>POST</code> con el siguiente valor:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">path</span><span style="color:#ff7b72;font-weight:bold">=</span>./.list/
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">path</span><span style="color:#ff7b72;font-weight:bold">=</span>./.list/
 </span></span></code></pre></div><p>Esta nos muestra una serie de listas, además de <code>.</code> y <code>..</code>, como si internamente se estuviese ejecutando un comando similar a <code>ls -a</code>.</p>
 <p>Por lo tanto, podemos intentar realizar un <code>Path Traversal</code> utilizando <code>../</code>, pero observamos que no funciona.</p>
 <img src="/images/Pasted image 20260616013004.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -238,13 +252,13 @@
 <p>Si analizamos ahora el <code>endpoint</code> llamado <code>fileRead.php</code>, observamos una petición similar a la anterior; sin embargo, esta devuelve el contenido de un archivo, como si estuviese ejecutando un comando similar a <code>cat</code>.</p>
 <img src="/images/Pasted image 20260616013421.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por lo tanto, de forma análoga a la explotación del <code>Path Traversal</code>, intentaremos realizar un <code>Local File Inclusion</code> sobre el archivo encontrado anteriormente mediante el siguiente payload:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">file</span><span style="color:#ff7b72;font-weight:bold">=</span>./.list/....//....//....//....//home//nobody//.ssh//.monitor
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">file</span><span style="color:#ff7b72;font-weight:bold">=</span>./.list/....//....//....//....//home//nobody//.ssh//.monitor
 </span></span></code></pre></div><p>Obteniendo una clave <code>RSA</code>, cuyo formato no está sanitizado, debido a que presenta secuencias <code>\n</code> y otros caracteres adicionales.</p>
 <img src="/images/Pasted image 20260616013615.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por lo tanto, la guardamos y eliminamos los saltos de línea, quedando como se muestra a continuación:</p>
 <img src="/images/Pasted image 20260616013728.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como el usuario propietario del <code>id_rsa</code> era <code>nobody</code>, intentaremos autenticarnos mediante <code>SSH</code> utilizando la clave obtenida con el siguiente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh nobody@10.129.229.141 -i id_rsa
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh nobody@10.129.229.141 -i id_rsa
 </span></span></code></pre></div><p>Logrando acceder exitosamente y encontrando la flag <code>user.txt</code>.</p>
 <img src="/images/Pasted image 20260616013929.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="movimiento-lateral">
@@ -255,21 +269,21 @@
   </a>
 </h1>
 <p>Como nuestra shell inicial es una <code>sh</code>, migramos a una <code>bash</code> con el siguiente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">SHELL</span><span style="color:#ff7b72;font-weight:bold">=</span>/bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">SHELL</span><span style="color:#ff7b72;font-weight:bold">=</span>/bin/bash
 </span></span></code></pre></div><p>Una vez realizado este cambio, debemos exportar nuestro <code>PATH</code>, debido a que el <code>PATH</code> disponible en la <code>SHELL</code> es muy limitado. Para ello, primero podemos visualizar nuestro <code>PATH</code> actual con el siguiente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#79c0ff">$PATH</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#79c0ff">$PATH</span>
 </span></span></code></pre></div><p>Y posteriormente ampliar el <code>PATH</code> de la máquina víctima utilizando el siguiente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/root/.local/bin:/root/.local/bin
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/root/.local/bin:/root/.local/bin
 </span></span></code></pre></div><p>Ahora podemos utilizar correctamente el siguiente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netstat -an
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netstat -an
 </span></span></code></pre></div><p>Encontrando los puertos activos en la máquina víctima. Entre ellos, destaca el puerto 8888.</p>
 <img src="/images/Pasted image 20260616014657.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como posible servicio ejecutándose en dicho puerto, y considerando que mantiene una conexión establecida con nuestra IP, podemos inferir que podría tratarse de <code>SSH</code>. Por ello, revisamos los archivos de configuración de este servicio:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/ssh/sshd_config
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/ssh/sshd_config
 </span></span></code></pre></div><p>Confirmando que <code>SSH</code> está corriendo sobre el puerto 8888.</p>
 <img src="/images/Pasted image 20260616015237.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Sin embargo, durante el escaneo inicial observamos que el puerto 22 también ejecuta <code>SSH</code> y se encuentra accesible. Por ello, podemos intentar conectarnos utilizando el <code>id_rsa</code> denominado <code>.monitor</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor@localhost -i /home/nobody/.ssh/.monitor -p <span style="color:#a5d6ff">22</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor@localhost -i /home/nobody/.ssh/.monitor -p <span style="color:#a5d6ff">22</span>
 </span></span></code></pre></div><p>Comprobando que obtenemos acceso, aunque restringidos a una <code>rbash</code> (<code>restricted bash</code>).</p>
 <img src="/images/Pasted image 20260617014204 1.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="escalada-de-privilegios">
@@ -280,27 +294,27 @@
   </a>
 </h1>
 <p>Para escapar de esta <code>restricted bash</code>, y dado que la conexión inicial se realiza mediante <code>SSH</code>, podemos especificar un comando antes de establecer la sesión:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor@localhost -i /home/nobody/.ssh/.monitor -p <span style="color:#a5d6ff">22</span> bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor@localhost -i /home/nobody/.ssh/.monitor -p <span style="color:#a5d6ff">22</span> bash
 </span></span></code></pre></div><p>De esta forma obtenemos acceso a una consola interactiva sin restricciones.</p>
 <img src="/images/Pasted image 20260617014318.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Si intentamos buscar <code>capabilities</code> utilizando el comando <code>getcap</code>, aparecerá un error. Esto ocurre debido a que el <code>PATH</code> es nuevamente muy limitado, por lo que volveremos a ampliarlo:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/home/monitor/bin:/home/monitor/app-dev:/home/monitor/app-dev/v0.1:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/root/.local/bin:/root/.local/bin
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/home/monitor/bin:/home/monitor/app-dev:/home/monitor/app-dev/v0.1:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.dotnet/tools:/root/.local/bin:/root/.local/bin
 </span></span></code></pre></div><p>Ahora podemos ejecutar el siguiente comando para buscar <code>capabilities</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>getcap -r / 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>getcap -r / 2&gt;/dev/null
 </span></span></code></pre></div><p>Encontrando la <code>capability</code> <code>cap_dac_read_search+ei</code>.</p>
 <img src="/images/Pasted image 20260617014710.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Esta <code>capability</code> permite leer archivos aunque el usuario no posea permisos de lectura sobre ellos. Dado que el binario <code>tac</code> posee este privilegio, y considerando que funciona de manera similar a <code>cat</code>, aunque invirtiendo el orden de las líneas, podemos utilizarlo para leer archivos sensibles del sistema.</p>
 <p>Por lo tanto, podríamos leer directamente la <code>root.txt</code> con el siguiente comando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tac /root/root.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tac /root/root.txt
 </span></span></code></pre></div><p>Y obtenemos la flag.</p>
 <img src="/images/Pasted image 20260617015033.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>De forma similar, también podemos leer el <code>id_rsa</code> de <code>root</code> o el archivo <code>/etc/shadow</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tac /root/.ssh/id_rsa -s ,
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tac /root/.ssh/id_rsa -s ,
 </span></span></code></pre></div><img src="/images/Pasted image 20260617015437.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>El problema radica en que no existen permisos para iniciar sesión como <code>root</code> mediante <code>SSH</code>. Si revisamos la configuración:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/ssh/sshd_config | grep -i <span style="color:#a5d6ff">&#34;root&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /etc/ssh/sshd_config | grep -i <span style="color:#a5d6ff">&#34;root&#34;</span>
 </span></span></code></pre></div><p>Observamos que la directiva <code>PermitRootLogin</code> está deshabilitada:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>PermitRootLogin no
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>PermitRootLogin no
 </span></span></code></pre></div><img src="/images/Pasted image 20260617015611.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="conclusión">
   Conclusión
@@ -338,13 +352,13 @@
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -358,6 +372,11 @@
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

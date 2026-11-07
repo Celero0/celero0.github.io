@@ -3,9 +3,9 @@ date = '2025-11-15T01:50:17Z'
 draft = false
 title = 'Sobre mí'
 +++
-Soy estudiante de último año de **Ingeniería en Conectividad y Redes**, certificado en **eJPT (eLearnSecurity Junior Penetration Tester)**, **Cisco CCST Cybersecurity**, **Cisco Ethical Hacker** y **AWS Cloud Foundations**. Apasionado por la **ciberseguridad**, las **redes** y la **programación**, con especial interés en **pentesting** y **ethical hacking**, y actualmente preparándome para la **CPTS** de **Hack The Box**.
+Soy estudiante de último año de **Ingeniería en Conectividad y Redes**, certificado en **eJPT (eLearnSecurity Junior Penetration Tester)**, **Cisco CCST Cybersecurity**, **Cisco Ethical Hacker**, **AWS Cloud Foundations** y **Google IT Automation with Python**. Apasionado por la **ciberseguridad**, las **redes** y la **programación**, con especial interés en **pentesting** y **ethical hacking**, y actualmente preparándome para la **CWES (Certified Web Exploitation Specialist)** de **Hack The Box**, enfocada en explotación web y bug bounty.
 
-En este blog comparto **writeups**, notas de aprendizaje y experiencias relacionadas con el **hacking ético**, con el objetivo de documentar mi progreso y aportar a la comunidad.
+En este blog comparto [writeups](/posts/) de máquinas HackTheBox, [laboratorios de redes](/labs/) (routing, switching y WAN) y experiencias relacionadas con el **hacking ético**, con el objetivo de documentar mi progreso y aportar a la comunidad.
 
 <br>
 
@@ -33,60 +33,9 @@ En este blog comparto **writeups**, notas de aprendizaje y experiencias relacion
     <p>AWS Academy<br>Cloud Foundations</p>
   </div>
 
+  <div class="cert-card">
+    <img src="/images/google-it-automation.png" alt="Google IT Automation with Python">
+    <p>Google<br>IT Automation with Python</p>
+  </div>
+
 </div>
-
-<style>
-  .cert-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .cert-card {
-    background-color: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 25px 15px;
-    
-    /* Estas 4 líneas fuerzan un centrado perfecto (Flexbox) */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    
-    transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
-  }
-
-  .cert-card:hover {
-    transform: translateY(-5px);
-    border-color: #555;
-  }
-
-  .cert-card img {
-    max-height: 90px; /* Controla que las imágenes mantengan una altura uniforme */
-    width: auto;
-    margin-bottom: 15px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .cert-card img.white-circle {
-    background-color: #ffffff;
-    border-radius: 50%;
-    padding: 8px;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    box-sizing: border-box;
-  }
-
-  .cert-card p {
-    margin: 0;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #e0e0e0;
-    line-height: 1.4;
-  }
-</style>

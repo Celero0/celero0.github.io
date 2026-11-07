@@ -1,0 +1,74 @@
+// ============================================================
+//  Paleta "Gengar" — violeta suave, profesional y sin saturar.
+//  Este archivo sombrea themes/hugo-coder/assets/scss/_variables.scss
+//  para que el theme compile con estos colores sin modificarlo.
+// ============================================================
+
+// Fonts
+$font-family: -apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+Oxygen-Sans,
+Ubuntu,
+Cantarell,
+"Helvetica Neue",
+Helvetica,
+"游ゴシック",
+"PingFang SC",
+STXihei,"华文细黑",
+"Microsoft YaHei","微软雅黑",
+SimSun,"宋体",
+Heiti,"黑体",
+sans-serif;
+$code-font-family: SFMono-Regular,
+Consolas,
+Liberation Mono,
+Menlo,
+monospace;
+
+// ------------------------------------------------------------
+// Light colors — lavanda muy tenue, limpio y legible
+// ------------------------------------------------------------
+$bg-color: #faf8fd !default;
+$fg-color: #2a2333 !default;
+$alt-bg-color: #eae1f5 !default;
+$alt-fg-color: #1d1628 !default;
+$darker-alt-bg-color: #dcd1eb !default;
+$link-color: #6d28d9 !default;
+
+// ------------------------------------------------------------
+// Dark colors — plum profundo (el modo principal)
+// ------------------------------------------------------------
+$bg-color-dark: #16121e !default;
+$fg-color-dark: #d6cde4 !default;
+$alt-bg-color-dark: #282034 !default;
+$alt-fg-color-dark: #ece4f7 !default;
+$lighter-alt-bg-color-dark: #362a4a !default;
+$link-color-dark: #b794f6 !default;
+
+// Notice colors — afinadas al violeta de la paleta
+$fg-color-notice-note-icon: #b794f6 !default;
+$bg-color-notice-note-title: #b794f61a !default;
+$bg-color-notice-note-content: #b794f61a !default;
+$fg-color-notice-tip-icon: #2dd4bf !default;
+$bg-color-notice-tip-title: #14b8a61a !default;
+$bg-color-notice-tip-content: #14b8a61a !default;
+$fg-color-notice-example-icon: #c4a484 !default;
+$bg-color-notice-example-title: #a3805e1a !default;
+$bg-color-notice-example-content: #a3805e1a !default;
+$fg-color-notice-question-icon: #a3e635 !default;
+$bg-color-notice-question-title: #84cc161a !default;
+$bg-color-notice-question-content: #84cc161a !default;
+$fg-color-notice-info-icon: #60a5fa !default;
+$bg-color-notice-info-title: #3b82f61a !default;
+$bg-color-notice-info-content: #3b82f61a !default;
+$fg-color-notice-warning-icon: #fbbf24 !default;
+$bg-color-notice-warning-title: #f59e0b1a !default;
+$bg-color-notice-warning-content: #f59e0b1a !default;
+$fg-color-notice-error-icon: #f87171 !default;
+$bg-color-notice-error-title: #ef44441a !default;
+$bg-color-notice-error-content: #ef44441a !default;
+
+// Path to FontAwesome TTF/WOFF files.
+$fa-font-path: "../fonts" !default;

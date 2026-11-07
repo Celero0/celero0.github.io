@@ -1,0 +1,220 @@
+// ============================================================
+//  Ajustes finos de la paleta Gengar.
+//  Se carga DESPUÉS del CSS del theme, así que gana en cascada.
+//  No redefine colores base: esos vienen de _variables.scss.
+// ============================================================
+
+@import "variables";
+
+// ---------- Selección de texto ----------
+::selection {
+  background-color: rgba(183, 148, 246, 0.35);
+  color: inherit;
+}
+
+// ---------- Scrollbar sutil (WebKit) ----------
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(124, 58, 237, 0.35);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+
+  &:hover {
+    background-color: rgba(124, 58, 237, 0.6);
+  }
+}
+
+// ---------- Título de la home ----------
+.about h1 {
+  letter-spacing: 0.02em;
+}
+
+body.colorscheme-dark .about h1 {
+  text-shadow: 0 0 28px rgba(183, 148, 246, 0.22);
+}
+
+// ---------- Blockquote con acento ----------
+blockquote {
+  border-left: 3px solid $link-color;
+  padding-left: 2rem;
+}
+
+body.colorscheme-dark blockquote {
+  border-left-color: $link-color-dark;
+}
+
+// ---------- Tags / pills ----------
+.content .post .post-meta .tags .tag {
+  border: 1px solid rgba(109, 40, 217, 0.18);
+}
+
+body.colorscheme-dark .content .post .post-meta .tags .tag {
+  border-color: rgba(183, 148, 246, 0.14);
+}
+
+// ============================================================
+//  Tarjetas de certificación (antes estaban inline en about.md)
+// ============================================================
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.cert-card {
+  background-color: $alt-bg-color;
+  border: 1px solid $darker-alt-bg-color;
+  border-radius: 10px;
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: $link-color;
+    box-shadow: 0 10px 30px rgba(109, 40, 217, 0.12);
+  }
+
+  img {
+    max-height: 90px;
+    width: auto;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  img.white-circle {
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 8px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    box-sizing: border-box;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $fg-color;
+    line-height: 1.4;
+  }
+}
+
+body.colorscheme-dark .cert-card {
+  background-color: $alt-bg-color-dark;
+  border-color: $lighter-alt-bg-color-dark;
+
+  &:hover {
+    border-color: $link-color-dark;
+    box-shadow: 0 10px 30px rgba(183, 148, 246, 0.12);
+  }
+
+  p {
+    color: $fg-color-dark;
+  }
+}
+
+// ============================================================
+//  Tarjetas de proyectos
+// ============================================================
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.project-card {
+  display: block;
+  background-color: $alt-bg-color;
+  border: 1px solid $darker-alt-bg-color;
+  border-radius: 10px;
+  padding: 24px;
+  text-decoration: none;
+  color: $fg-color;
+  transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-5px);
+    border-color: $link-color;
+    box-shadow: 0 10px 30px rgba(109, 40, 217, 0.12);
+    text-decoration: none;
+    color: $fg-color;
+  }
+
+  .project-icon {
+    font-size: 1.8rem;
+    color: $link-color;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.9rem;
+    color: $alt-fg-color;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: $fg-color;
+    opacity: 0.85;
+    text-align: left;
+  }
+}
+
+body.colorscheme-dark .project-card {
+  background-color: $alt-bg-color-dark;
+  border-color: $lighter-alt-bg-color-dark;
+  color: $fg-color-dark;
+
+  &:hover,
+  &:focus {
+    border-color: $link-color-dark;
+    box-shadow: 0 10px 30px rgba(183, 148, 246, 0.12);
+    color: $fg-color-dark;
+  }
+
+  .project-icon {
+    color: $link-color-dark;
+  }
+
+  h3 {
+    color: $alt-fg-color-dark;
+  }
+
+  p {
+    color: $fg-color-dark;
+  }
+}
+
+// ============================================================
+//  Ícono SVG de HackTheBox en la home
+// ============================================================
+.about ul li a svg {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.1875em;
+  fill: currentColor;
+}

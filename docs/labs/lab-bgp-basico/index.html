@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>
+  Implementación de BGP Básico · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Laboratorio de BGP básico: EIGRP en dos sucursales, vecindades iBGP/eBGP, next-hop-self, prefix-lists y redistribución con route-maps.">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Implementación de BGP Básico">
+	<meta name="twitter:description" content="Laboratorio de BGP básico: EIGRP en dos sucursales, vecindades iBGP/eBGP, next-hop-self, prefix-lists y redistribución con route-maps.">
+
+<meta property="og:url" content="https://celero0.github.io/labs/lab-bgp-basico/">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Implementación de BGP Básico">
+	<meta property="og:description" content="Laboratorio de BGP básico: EIGRP en dos sucursales, vecindades iBGP/eBGP, next-hop-self, prefix-lists y redistribución con route-maps.">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="labs">
+		<meta property="article:published_time" content="2026-11-04T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-11-04T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/labs/lab-bgp-basico/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/labs/lab-bgp-basico/">
+              Implementación de BGP Básico
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-11-04T00:00:00Z">
+                4 de noviembre de 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              9 minutos de lectura.
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #BGP #EIGRP #DHCP #Prefix-List #Route-Map</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Este laboratorio conecta dos sucursales a través de un ISP usando BGP. Cada sucursal corre EIGRP internamente y BGP hacia el borde; el ISP actúa como sistema autónomo de tránsito. El objetivo es practicar el ciclo completo de un despliegue BGP:</p>
+<ul>
+<li>Direccionamiento base y loopbacks de router-id.</li>
+<li>EIGRP como IGP en cada sucursal.</li>
+<li>Rutas por defecto y redistribución estática.</li>
+<li>Filtrado de prefijos con <code>prefix-list</code> y <code>distribute-list</code>.</li>
+<li>iBGP dentro de cada AS y eBGP con el ISP.</li>
+<li><code>next-hop-self</code> para que los routers internos alcancen redes externas.</li>
+<li>Redistribución bidireccional BGP ↔ EIGRP con <code>route-map</code> y métricas.</li>
+</ul>
+<h1 id="topología">
+  Topología
+  <a class="heading-link" href="#topolog%c3%ada">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<img src="/images/Pasted image 20250524201939.png" style="width:100%; height:auto; display:block; margin:auto;">
+<ul>
+<li><strong>Sucursal A</strong>: R1, R2 y R3. EIGRP AS 10 y BGP AS 65000.</li>
+<li><strong>Sucursal B</strong>: R5, R6 y R7. EIGRP AS 20 y BGP AS 65100.</li>
+<li><strong>ISP</strong>: AS 200. Conecta con R2 por <code>209.50.0.0/30</code> y con R5 por <code>219.50.0.0/30</code>, y anuncia el loopback <code>8.8.8.8/32</code>.</li>
+<li><strong>Loopbacks</strong>: R1 <code>10.10.10.1/24</code>, R2 <code>20.20.20.1/24</code>, R3 <code>30.30.30.1/24</code> y <code>30.30.31.1/24</code>, R5 <code>50.50.50.1/24</code>, R6 <code>60.60.60.1/24</code>, R7 <code>70.70.70.1/24</code> y <code>70.70.71.1/24</code>.</li>
+</ul>
+<h1 id="requerimientos">
+  Requerimientos
+  <a class="heading-link" href="#requerimientos">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<ul>
+<li>Habilitar EIGRP con el AS propuesto en ambas sucursales, dejando interfaces pasivas donde corresponda.</li>
+<li>Garantizar conectividad a la red externa; los routers borde deben recibir IP por DHCP del ISP.</li>
+<li>Filtrar las loopbacks 3 y 77 para que solo los routers que las tienen las vean en su RIB.</li>
+<li>Habilitar BGP con <code>bgp router-id</code> en formato <code>X.X.X.X</code>, donde <code>X</code> es el número de router.</li>
+<li>Las vecindades iBGP se forman por loopback y las eBGP por next-hop.</li>
+<li>Las loopbacks deben participar en BGP; en el ISP, anunciar su loopback dentro del EGP.</li>
+<li>Los routers iBGP deben usar <code>next-hop-self</code> para que las rutas externas sean alcanzables.</li>
+<li>Redistribuir BGP en el IGP mediante <code>route-map</code>.</li>
+<li>Comprobar conectividad completa en la topología.</li>
+</ul>
+<h1 id="desarrollo">
+  Desarrollo
+  <a class="heading-link" href="#desarrollo">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h2 id="1-direccionamiento-base">
+  1. Direccionamiento base
+  <a class="heading-link" href="#1-direccionamiento-base">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Se completan las loopbacks que faltaban y se corrigen las direcciones de los enlaces seriales de R2. El ISP anuncia su loopback <code>8.8.8.8/32</code>, que será la red externa de prueba.</p>
+<p><strong>R1</strong> — loopback 1</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>int l1
+</span></span><span style="display:flex;"><span>ip add 10.10.10.1 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R2</strong> — corrección de <code>s1/2</code> y <code>s1/0</code>, y loopback 2</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>int s1/2
+</span></span><span style="display:flex;"><span>ip add 192.168.23.2 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int s1/0
+</span></span><span style="display:flex;"><span>ip add 192.168.12.2 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int l2
+</span></span><span style="display:flex;"><span>ip add 20.20.20.1 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><blockquote>
+<p>En los apuntes, <code>s1/2</code> tenía <code>192.16.23.2</code> y <code>s1/0</code> tenía un error similar. La corrección deja ambas en la red <code>192.168.x.0/24</code>.</p>
+</blockquote>
+<p><strong>R5</strong> — loopback 5</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>int l5
+</span></span><span style="display:flex;"><span>ip add 50.50.50.1 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R6</strong> — loopback 6</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>int l6
+</span></span><span style="display:flex;"><span>ip add 60.60.60.1 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>ISP</strong> — loopback 0</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>int l0
+</span></span><span style="display:flex;"><span>ip add 8.8.8.8 255.255.255.255
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="2-eigrp-as-10-sucursal-a">
+  2. EIGRP AS 10 (Sucursal A)
+  <a class="heading-link" href="#2-eigrp-as-10-sucursal-a">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>EIGRP mantiene la conectividad interna de la sucursal. Las interfaces que no tienen vecinos (loopbacks y la interfaz hacia el host) se marcan como <code>passive-interface</code> para que no envíen hellos.</p>
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 1.1.1.1
+</span></span><span style="display:flex;"><span>network 192.168.12.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 192.168.13.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 10.10.10.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 192.168.10.0 0.0.0.255
+</span></span><span style="display:flex;"><span>passive-interface e0/0
+</span></span><span style="display:flex;"><span>passive-interface l1
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 2.2.2.2
+</span></span><span style="display:flex;"><span>network 192.168.12.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 192.168.23.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 20.20.20.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 209.50.0.0 0.0.0.3
+</span></span><span style="display:flex;"><span>passive-interface l2
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 3.3.3.3
+</span></span><span style="display:flex;"><span>network 192.168.13.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 192.168.23.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 30.30.30.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 30.30.31.0 0.0.0.255
+</span></span><span style="display:flex;"><span>passive-interface l3
+</span></span><span style="display:flex;"><span>passive-interface l33
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="3-ruta-por-defecto-y-redistribución-estática-sucursal-a">
+  3. Ruta por defecto y redistribución estática (Sucursal A)
+  <a class="heading-link" href="#3-ruta-por-defecto-y-redistribuci%c3%b3n-est%c3%a1tica-sucursal-a">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>R2 es el borde de la sucursal. Aprende la salida a Internet por una ruta estática y la redistribuye en EIGRP para que R1 y R3 la conozcan.</p>
+<p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 209.50.0.1
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>redistribute static
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="4-eigrp-as-20-sucursal-b">
+  4. EIGRP AS 20 (Sucursal B)
+  <a class="heading-link" href="#4-eigrp-as-20-sucursal-b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Mismo esquema en la sucursal B, con su propio AS de EIGRP.</p>
+<p><strong>R5</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 5.5.5.5
+</span></span><span style="display:flex;"><span>network 219.50.0.0 0.0.0.3
+</span></span><span style="display:flex;"><span>network 50.50.50.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 172.16.56.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 172.16.57.0 0.0.0.255
+</span></span><span style="display:flex;"><span>passive-interface l5
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R6</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 6.6.6.6
+</span></span><span style="display:flex;"><span>network 172.16.56.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 60.60.60.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 172.16.60.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 172.16.67.0 0.0.0.255
+</span></span><span style="display:flex;"><span>passive-interface l6
+</span></span><span style="display:flex;"><span>passive-interface e0/0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R7</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 7.7.7.7
+</span></span><span style="display:flex;"><span>network 172.16.57.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 172.16.67.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 70.70.70.0 0.0.0.255
+</span></span><span style="display:flex;"><span>network 70.70.71.0 0.0.0.255
+</span></span><span style="display:flex;"><span>passive-interface l7
+</span></span><span style="display:flex;"><span>passive-interface l77
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="5-ruta-por-defecto-y-redistribución-estática-sucursal-b">
+  5. Ruta por defecto y redistribución estática (Sucursal B)
+  <a class="heading-link" href="#5-ruta-por-defecto-y-redistribuci%c3%b3n-est%c3%a1tica-sucursal-b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p><strong>R5</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 219.50.0.1
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>redistribute static
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="6-dhcp-de-los-enlaces-al-isp">
+  6. DHCP de los enlaces al ISP
+  <a class="heading-link" href="#6-dhcp-de-los-enlaces-al-isp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>El requerimiento pide que los routers borde reciban su IP por DHCP del ISP. Se definen los pools para las dos subredes <code>/30</code> y se excluyen las direcciones de los gateways.</p>
+<p><strong>R7</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip dhcp excluded-address 209.50.0.1
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 219.50.0.1
+</span></span><span style="display:flex;"><span>ip dhcp pool SUCURSALA
+</span></span><span style="display:flex;"><span>network 209.50.0.0 255.255.255.252
+</span></span><span style="display:flex;"><span>default-router 209.50.0.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool SUCURSALB
+</span></span><span style="display:flex;"><span>network 219.50.0.0 255.255.255.252
+</span></span><span style="display:flex;"><span>default-router 219.50.0.1
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><blockquote>
+<p><strong>Nota:</strong> en los apuntes originales estos pools quedaron configurados en R7. Para que R2 y R5 obtengan dirección, el servidor DHCP debe estar en el ISP (o bien usar <code>ip helper-address</code> hacia un servidor alcanzable). En el lado cliente, la interfaz hacia el ISP se configura con <code>ip address dhcp</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>! R2
+</span></span><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ip address dhcp
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>! R5
+</span></span><span style="display:flex;"><span>int e0/1
+</span></span><span style="display:flex;"><span>ip address dhcp
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div></blockquote>
+<h2 id="7-filtrado-con-prefix-list">
+  7. Filtrado con prefix-list
+  <a class="heading-link" href="#7-filtrado-con-prefix-list">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Las loopbacks <code>L3</code> (<code>30.30.30.0/24</code>) y <code>L77</code> (<code>70.70.71.0/24</code>) no deben propagarse a los demás routers. Se logra con una <code>prefix-list</code> que niega esa red y permite todo lo demás, aplicada como <code>distribute-list</code> de salida en las interfaces de EIGRP.</p>
+<img src="/images/Pasted image 20250524235315.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>R3</strong> — no anunciar <code>30.30.30.0/24</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list FILTRO-1 deny 30.30.30.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list FILTRO-1 permit 0.0.0.0/0 le <span style="color:#a5d6ff">32</span>
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>distribute-list prefix FILTRO-1 out s1/1
+</span></span><span style="display:flex;"><span>distribute-list prefix FILTRO-1 out s1/2
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><img src="/images/Pasted image 20250524235532.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>R7</strong> — no anunciar <code>70.70.71.0/24</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list FILTRO-2 deny 70.70.71.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list FILTRO-2 permit 0.0.0.0/0 le <span style="color:#a5d6ff">32</span>
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>distribute-list prefix FILTRO-2 out s1/1
+</span></span><span style="display:flex;"><span>distribute-list prefix FILTRO-2 out s1/2
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="8-ibgp-as-65000-sucursal-a">
+  8. iBGP AS 65000 (Sucursal A)
+  <a class="heading-link" href="#8-ibgp-as-65000-sucursal-a">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Dentro de la sucursal, los routers forman vecindades iBGP usando las loopbacks como origen de las sesiones (<code>update-source loopback</code>). En BGP no se anuncian los enlaces punto a punto: solo las loopbacks y las redes internas que deben ser alcanzables.</p>
+<img src="/images/Pasted image 20250525003004.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>bgp router-id 1.1.1.1
+</span></span><span style="display:flex;"><span>neighbor 20.20.20.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 20.20.20.1 update-source loopback <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>neighbor 30.30.31.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 30.30.31.1 update-source loopback <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 10.10.10.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>network 192.168.10.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>bgp router-id 2.2.2.2
+</span></span><span style="display:flex;"><span>neighbor 10.10.10.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 10.10.10.1 update-source loopback <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>neighbor 30.30.31.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 30.30.31.1 update-source loopback <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>network 20.20.20.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>bgp router-id 3.3.3.3
+</span></span><span style="display:flex;"><span>neighbor 10.10.10.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 10.10.10.1 update-source loopback <span style="color:#a5d6ff">33</span>
+</span></span><span style="display:flex;"><span>neighbor 20.20.20.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 20.20.20.1 update-source loopback <span style="color:#a5d6ff">33</span>
+</span></span><span style="display:flex;"><span>network 30.30.31.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>network 30.30.30.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="9-ibgp-as-65100-sucursal-b">
+  9. iBGP AS 65100 (Sucursal B)
+  <a class="heading-link" href="#9-ibgp-as-65100-sucursal-b">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Mismo esquema para la sucursal B, con su propio AS.</p>
+<p><strong>R5</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>bgp router-id 5.5.5.5
+</span></span><span style="display:flex;"><span>neighbor 60.60.60.1 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 60.60.60.1 update-source loopback <span style="color:#a5d6ff">5</span>
+</span></span><span style="display:flex;"><span>neighbor 70.70.70.1 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 70.70.70.1 update-source loopback <span style="color:#a5d6ff">5</span>
+</span></span><span style="display:flex;"><span>network 50.50.50.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R6</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>bgp router-id 6.6.6.6
+</span></span><span style="display:flex;"><span>neighbor 50.50.50.1 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 50.50.50.1 update-source loopback <span style="color:#a5d6ff">6</span>
+</span></span><span style="display:flex;"><span>neighbor 70.70.70.1 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 70.70.70.1 update-source loopback <span style="color:#a5d6ff">6</span>
+</span></span><span style="display:flex;"><span>network 60.60.60.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>network 172.16.60.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R7</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>bgp router-id 7.7.7.7
+</span></span><span style="display:flex;"><span>neighbor 60.60.60.1 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 60.60.60.1 update-source loopback <span style="color:#a5d6ff">7</span>
+</span></span><span style="display:flex;"><span>neighbor 50.50.50.1 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 50.50.50.1 update-source loopback <span style="color:#a5d6ff">7</span>
+</span></span><span style="display:flex;"><span>network 70.70.70.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>network 70.70.71.0 mask 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="10-ebgp-con-el-isp">
+  10. eBGP con el ISP
+  <a class="heading-link" href="#10-ebgp-con-el-isp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>El ISP tiene una sesión eBGP con el router borde de cada sucursal. R2 usa el AS 65000 y R5 el AS 65100; el ISP es el AS 200 en ambos casos.</p>
+<img src="/images/Pasted image 20250525010007.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>ISP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">200</span>
+</span></span><span style="display:flex;"><span>bgp router-id 20.20.20.20
+</span></span><span style="display:flex;"><span>neighbor 209.50.0.2 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 219.50.0.2 remote-as <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>network 8.8.8.8 mask 255.255.255.255
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 209.50.0.1 remote-as <span style="color:#a5d6ff">200</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R5</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 219.50.0.1 remote-as <span style="color:#a5d6ff">200</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="11-next-hop-self">
+  11. next-hop-self
+  <a class="heading-link" href="#11-next-hop-self">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Cuando R1 recibe por iBGP las redes externas que aprendió R2, el next-hop sigue siendo la IP del ISP (<code>209.50.0.1</code>), que R1 no conoce. La solución es que R2 reescriba el next-hop con su propia loopback antes de anunciar la ruta a sus vecinos iBGP.</p>
+<img src="/images/Pasted image 20250525013013.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 10.10.10.1 next-hop-self
+</span></span><span style="display:flex;"><span>neighbor 30.30.31.1 next-hop-self
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>end
+</span></span><span style="display:flex;"><span>clear ip bgp * soft
+</span></span></code></pre></div><p><strong>R5</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>neighbor 60.60.60.1 next-hop-self
+</span></span><span style="display:flex;"><span>neighbor 70.70.70.1 next-hop-self
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>end
+</span></span><span style="display:flex;"><span>clear ip bgp * soft
+</span></span></code></pre></div><h2 id="12-redistribución-bgp--eigrp-con-route-map">
+  12. Redistribución BGP ↔ EIGRP con route-map
+  <a class="heading-link" href="#12-redistribuci%c3%b3n-bgp--eigrp-con-route-map">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para que las rutas de una sucursal lleguen a la otra (y a Internet) hay que redistribuir en ambos sentidos. Se usan <code>prefix-list</code> para seleccionar qué rutas se redistribuyen y <code>route-map</code> para asignar la métrica adecuada.</p>
+<h3 id="sucursal-b-r5">
+  Sucursal B (R5)
+  <a class="heading-link" href="#sucursal-b-r5">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>EIGRP → BGP</strong>: se seleccionan las redes internas de la sucursal y se les asigna métrica 50.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 50.50.50.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 172.16.56.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 172.16.57.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 172.16.67.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 70.70.70.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 60.60.60.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-B permit 172.16.60.0/24
+</span></span><span style="display:flex;"><span>route-map BGP-B permit
+</span></span><span style="display:flex;"><span>match ip address prefix-list RUTAS-EIGRP-B
+</span></span><span style="display:flex;"><span>set metric <span style="color:#a5d6ff">50</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65100</span>
+</span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">20</span> route-map BGP-B
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>BGP → EIGRP</strong>: se seleccionan la red externa y el enlace al ISP, y se asigna la métrica de EIGRP (ancho de banda, delay, confiabilidad, carga y MTU).</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list RUTAS-BGP-B permit 219.50.0.0/30
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-BGP-B permit 8.8.8.8/32
+</span></span><span style="display:flex;"><span>route-map EIGRP-B permit
+</span></span><span style="display:flex;"><span>match ip address prefix-list RUTAS-BGP-B
+</span></span><span style="display:flex;"><span>set metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>redistribute bgp <span style="color:#a5d6ff">65100</span> route-map EIGRP-B
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h3 id="sucursal-a-r2">
+  Sucursal A (R2)
+  <a class="heading-link" href="#sucursal-a-r2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>EIGRP → BGP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 20.20.20.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 192.168.12.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 10.10.10.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 192.168.10.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 192.168.13.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 30.30.31.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP-A permit 192.168.23.0/24
+</span></span><span style="display:flex;"><span>route-map BGP-A permit
+</span></span><span style="display:flex;"><span>match ip address prefix-list RUTAS-EIGRP-A
+</span></span><span style="display:flex;"><span>set metric <span style="color:#a5d6ff">50</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">10</span> route-map BGP-A
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>BGP → EIGRP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list RUTAS-BGP-A permit 209.50.0.0/30
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-BGP-A permit 8.8.8.8/32
+</span></span><span style="display:flex;"><span>route-map EIGRP-A permit
+</span></span><span style="display:flex;"><span>match ip address prefix-list RUTAS-BGP-A
+</span></span><span style="display:flex;"><span>set metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+</span></span><span style="display:flex;"><span>redistribute bgp <span style="color:#a5d6ff">65000</span> route-map EIGRP-A
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="verificación">
+  Verificación
+  <a class="heading-link" href="#verificaci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><strong>Vecindades</strong>
+<ul>
+<li><code>show ip bgp summary</code> (sesiones iBGP y eBGP en estado <code>Established</code>).</li>
+<li><code>show ip eigrp neighbors</code>.</li>
+</ul>
+</li>
+<li><strong>Rutas</strong>
+<ul>
+<li><code>show ip bgp</code> — revisar el next-hop de las redes externas (debe ser la loopback del borde tras <code>next-hop-self</code>).</li>
+<li><code>show ip route bgp</code> y <code>show ip route eigrp</code>.</li>
+<li><code>show ip route 8.8.8.8</code> — debe salir por el borde hacia el ISP.</li>
+</ul>
+</li>
+<li><strong>Filtrado</strong>
+<ul>
+<li><code>show ip prefix-list</code>.</li>
+<li><code>show ip eigrp topology</code> en R1/R5 para confirmar que las loopbacks filtradas no aparecen.</li>
+</ul>
+</li>
+<li><strong>Conectividad</strong>
+<ul>
+<li><code>ping 8.8.8.8 source 10.10.10.1</code> desde R1.</li>
+<li><code>ping 8.8.8.8 source 50.50.50.1</code> desde R5.</li>
+<li><code>traceroute 8.8.8.8</code> para ver el path sucursal → ISP.</li>
+</ul>
+</li>
+</ul>
+<h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>El laboratorio cubre el ciclo completo de BGP en un escenario de dos sucursales: IGP interno con EIGRP, sesiones iBGP por loopback, eBGP con el ISP, control del next-hop y redistribución selectiva con <code>prefix-list</code> + <code>route-map</code>.</p>
+<p>Los puntos que más suelen fallar al reproducirlo son: el <code>update-source</code> de las sesiones iBGP, el <code>next-hop-self</code> en los routers borde, la coincidencia de las <code>prefix-list</code> con las redes realmente anunciadas, y la métrica de EIGRP al redistribuir desde BGP. También conviene revisar que el DHCP de los enlaces al ISP esté en el lado correcto (ISP o relay) para que R2 y R5 obtengan su dirección.</p>
+
+      </div>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2025 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

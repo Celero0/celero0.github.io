@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>
+  Enrutamiento Intervlan con OSPF · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Laboratorio de routing y switching: VLANs, EtherChannel, MST, SVIs, DHCP y OSPFv2/OSPFv3 en una red corporativa segmentada.">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Enrutamiento Intervlan con OSPF">
+	<meta name="twitter:description" content="Laboratorio de routing y switching: VLANs, EtherChannel, MST, SVIs, DHCP y OSPFv2/OSPFv3 en una red corporativa segmentada.">
+
+<meta property="og:url" content="https://celero0.github.io/labs/lab-intervlan-ospf/">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Enrutamiento Intervlan con OSPF">
+	<meta property="og:description" content="Laboratorio de routing y switching: VLANs, EtherChannel, MST, SVIs, DHCP y OSPFv2/OSPFv3 en una red corporativa segmentada.">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="labs">
+		<meta property="article:published_time" content="2026-11-02T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-11-02T00:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/labs/lab-intervlan-ospf/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/labs/lab-intervlan-ospf/">
+              Enrutamiento Intervlan con OSPF
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-11-02T00:00:00Z">
+                2 de noviembre de 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              11 minutos de lectura.
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #STP #MST #IPv6 #OSPF #VLAN #DHCP #EtherChannel</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>En este laboratorio se construye una red corporativa segmentada en VLANs sobre cuatro switches y se conecta a un backbone OSPF a través de dos routers. El objetivo es practicar, de punta a punta, los temas de switching y routing que aparecen en entornos reales:</p>
+<ul>
+<li>Segmentación de capa 2 con VLANs y enlaces troncales 802.1Q.</li>
+<li>Agregación de enlaces con EtherChannel (LACP, PAgP y modo <code>on</code>).</li>
+<li>Spanning Tree Multiple (MST) con regiones e instancias.</li>
+<li>Seguridad de puerto y estabilización de STP.</li>
+<li>Enrutamiento inter-VLAN con SVIs en un switch de capa 3.</li>
+<li>DHCP centralizado.</li>
+<li>OSPFv2 y OSPFv3 (IPv4 e IPv6), áreas, redistribución de ruta por defecto, temporizadores y enlaces point-to-point.</li>
+</ul>
+<h1 id="topología">
+  Topología
+  <a class="heading-link" href="#topolog%c3%ada">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<img src="/images/Pasted image 20250409193253.png" style="width:100%; height:auto; display:block; margin:auto;">
+<ul>
+<li><strong>SW1, SW2 y SW3</strong>: switches de acceso.</li>
+<li><strong>SW4</strong>: switch de capa 3; concentra las SVIs, el servidor DHCP y el gateway de las VLANs.</li>
+<li><strong>R1</strong>: router de borde entre el área 1 y el área 0.</li>
+<li><strong>R2</strong>: router del área 0 con salida al ISP.</li>
+<li><strong>ISP</strong>: router externo que representa Internet.</li>
+</ul>
+<h1 id="requerimientos">
+  Requerimientos
+  <a class="heading-link" href="#requerimientos">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<ul>
+<li>Crear las VLAN 12, 13, 14, 15 y 16, y usar la VLAN 17 como nativa en los troncales.</li>
+<li>Agregar los enlaces entre switches con EtherChannel, combinando los modos <code>on</code>, <code>active/passive</code> y <code>desirable/auto</code>.</li>
+<li>Configurar los puertos de acceso con port-security, BPDU guard, BPDU filter y PortFast.</li>
+<li>Implementar MST con las instancias 1, 2 y 3.</li>
+<li>Configurar las SVIs en SW4 y el direccionamiento IPv4/IPv6 de cada VLAN.</li>
+<li>Habilitar DHCP para las VLAN 13, 14, 15 y 16.</li>
+<li>Configurar OSPFv2 y OSPFv3 entre SW4, R1 y R2.</li>
+<li>Propagar una ruta por defecto desde R2 y ajustar temporizadores y el tipo de red del enlace R1-R2.</li>
+</ul>
+<h1 id="desarrollo">
+  Desarrollo
+  <a class="heading-link" href="#desarrollo">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h2 id="1-configuración-base-hostname-vlans-y-dúplex">
+  1. Configuración base: hostname, VLANs y dúplex
+  <a class="heading-link" href="#1-configuraci%c3%b3n-base-hostname-vlans-y-d%c3%baplex">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Cada switch arranca con su hostname, crea las VLAN de datos y desactiva VTP en modo transparente. En modo <code>transparent</code> el switch no propaga ni aprende VLANs por VTP: cada uno mantiene su propia base de datos local, que es lo deseado en este laboratorio.</p>
+<p>Además, en SW1 y SW2 se fuerza <code>duplex half</code> en las interfaces <code>e0/2-3</code> para corregir el error de <em>duplex mismatch</em> que aparece en la topología.</p>
+<p><strong>SW1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>host SW1
+</span></span><span style="display:flex;"><span>vlan 12,13,14,15,16
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>vtp mode transparent
+</span></span><span style="display:flex;"><span>int ran e0/2-3
+</span></span><span style="display:flex;"><span>duplex half
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><p><strong>SW2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>host SW2
+</span></span><span style="display:flex;"><span>vlan 12,13,14,15,16
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>vtp mode transparent
+</span></span><span style="display:flex;"><span>int ran e0/2-3
+</span></span><span style="display:flex;"><span>duplex half
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><p><strong>SW3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>host SW3
+</span></span><span style="display:flex;"><span>vlan 12,13,14,15,16
+</span></span><span style="display:flex;"><span>exit
+</span></span><span style="display:flex;"><span>vtp mode transparent
+</span></span></code></pre></div><p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>host SW4
+</span></span><span style="display:flex;"><span>vlan 12,13,14,15,16
+</span></span><span style="display:flex;"><span>vtp mode transparent
+</span></span><span style="display:flex;"><span>exit
+</span></span></code></pre></div><h2 id="2-etherchannel">
+  2. EtherChannel
+  <a class="heading-link" href="#2-etherchannel">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Los enlaces entre switches se agrupan para sumar ancho de banda y evitar que STP bloquee puertos redundantes. Se usan tres formas de negociación:</p>
+<ul>
+<li><code>on</code>: agrega el canal de forma estática, sin negociación.</li>
+<li><code>active</code> / <code>passive</code>: LACP (IEEE 802.3ad).</li>
+<li><code>desirable</code> / <code>auto</code>: PAgP (propietario de Cisco).</li>
+</ul>
+<p>Los números de <code>channel-group</code> son locales de cada switch; lo que debe coincidir es la compatibilidad de modos entre los dos extremos. Como referencia, el switch con menor número suele quedar como activo del agregado.</p>
+<p><strong>SW1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">1</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">5</span> mode desirable
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">4</span> mode active
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">3</span> mode desirable
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">6</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">4</span> mode passive
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">5</span> mode auto
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">6</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">2</span> mode desirable
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">3</span> mode auto
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">1</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">2</span> mode auto
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="3-enlaces-troncales">
+  3. Enlaces troncales
+  <a class="heading-link" href="#3-enlaces-troncales">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Todos los enlaces entre switches se configuran como troncales 802.1Q. Se permite el paso de las VLAN 12 a 16, se define la VLAN 17 como nativa y se desactiva DTP con <code>switchport nonegotiate</code> para que el troncal no negocie su modo.</p>
+<p><strong>SW1, SW2, SW3 y SW4</strong> (mismo bloque en los cuatro)</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e0/0-1, e1/0-3
+</span></span><span style="display:flex;"><span>sw tr encap dot1q
+</span></span><span style="display:flex;"><span>sw mo tr
+</span></span><span style="display:flex;"><span>sw tr all vlan 12,13,14,15,16
+</span></span><span style="display:flex;"><span>sw tr native vlan <span style="color:#a5d6ff">17</span>
+</span></span><span style="display:flex;"><span>sw nonego
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="4-puertos-de-acceso-y-seguridad">
+  4. Puertos de acceso y seguridad
+  <a class="heading-link" href="#4-puertos-de-acceso-y-seguridad">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Los puertos que conectan equipos finales se dejan en modo acceso y se protegen con:</p>
+<ul>
+<li><code>switchport port-security</code>: limita las MAC aprendidas por puerto.</li>
+<li><code>spanning-tree bpduguard enable</code>: apaga el puerto si recibe un BPDU (evita que un switch no autorizado se conecte).</li>
+<li><code>spanning-tree bpdufilter enable</code>: deja de enviar y procesar BPDUs en ese puerto.</li>
+<li><code>spanning-tree portfast</code>: pasa el puerto directamente a <em>forwarding</em>, sin esperar los estados de STP.</li>
+</ul>
+<p><strong>SW1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">13</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/3
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">14</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/3
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="5-mst-multiple-spanning-tree">
+  5. MST (Multiple Spanning Tree)
+  <a class="heading-link" href="#5-mst-multiple-spanning-tree">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>MST agrupa las VLANs en instancias y permite un árbol distinto por instancia, en lugar de uno solo para todas las VLANs. La configuración debe ser idéntica en todos los switches que pertenezcan a la misma región: mismo <code>name</code>, misma <code>revision</code> y el mismo mapeo de VLANs a instancias.</p>
+<img src="/images/Pasted image 20250409200954.png" style="width:100%; height:auto; display:block; margin:auto;">
+<img src="/images/Pasted image 20250409201026.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>SW1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spanning-tree mode mst
+</span></span><span style="display:flex;"><span>spanning-tree mst configuration
+</span></span><span style="display:flex;"><span>name REGION13
+</span></span><span style="display:flex;"><span>revision <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">1</span> vlan 12, <span style="color:#a5d6ff">17</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">2</span> vlan 13, <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">3</span> vlan 14, <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spanning-tree mode mst
+</span></span><span style="display:flex;"><span>spanning-tree mst configuration
+</span></span><span style="display:flex;"><span>name REGION13
+</span></span><span style="display:flex;"><span>revision <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">1</span> vlan 12, <span style="color:#a5d6ff">17</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">2</span> vlan 13, <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">3</span> vlan 14, <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spanning-tree mode mst
+</span></span><span style="display:flex;"><span>spanning-tree mst configuration
+</span></span><span style="display:flex;"><span>name REGION13
+</span></span><span style="display:flex;"><span>revision <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">1</span> vlan 12, <span style="color:#a5d6ff">17</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">2</span> vlan 13, <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">3</span> vlan 14, <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SW3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spanning-tree mode mst
+</span></span><span style="display:flex;"><span>spanning-tree mst configuration
+</span></span><span style="display:flex;"><span>name REGION31
+</span></span><span style="display:flex;"><span>revision <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">1</span> vlan 12, <span style="color:#a5d6ff">17</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">2</span> vlan 13, <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">3</span> vlan 14, <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><blockquote>
+<p><strong>Nota:</strong> en los apuntes originales SW3 quedó con <code>REGION31</code> / <code>revision 2</code>. Para que todos los switches formen una única región MST, el <code>name</code> y la <code>revision</code> deben ser iguales en los cuatro; si buscas una sola región, alinea SW3 con <code>REGION13</code> / <code>revision 1</code>.</p>
+</blockquote>
+<h2 id="6-svis-y-direccionamiento-de-las-vlans">
+  6. SVIs y direccionamiento de las VLANs
+  <a class="heading-link" href="#6-svis-y-direccionamiento-de-las-vlans">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>SW4 es el switch de capa 3 y actúa como gateway de cada VLAN mediante interfaces virtuales (SVI). Cada SVI recibe la primera dirección IPv4 e IPv6 de su subred.</p>
+<img src="/images/Pasted image 20250409200723.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.10.1 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:08::1/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">13</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.20.1 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:A6::1/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">14</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.22.1 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:B2::1/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.24.1 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:C4::1/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.26.1 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:C8::1/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="7-configuración-administrativa-de-los-switches">
+  7. Configuración administrativa de los switches
+  <a class="heading-link" href="#7-configuraci%c3%b3n-administrativa-de-los-switches">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Para administrar SW1, SW2 y SW3 se les asigna una SVI en la VLAN 12 y un <code>default-gateway</code> que apunta a la SVI de SW4. Sin el gateway, el switch solo podría comunicarse con su propia subred.</p>
+<img src="/images/Pasted image 20250409200710.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>SW1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.10.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 add 3001:ABCD:ABCD:08::2/64
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 192.168.10.1
+</span></span></code></pre></div><p><strong>SW2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.10.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 add 3001:ABCD:ABCD:08::3/64
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 192.168.10.1
+</span></span></code></pre></div><p><strong>SW3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>ip add 192.168.10.4 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 add 3001:ABCD:ABCD:08::4/64
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 192.168.10.1
+</span></span></code></pre></div><h2 id="8-servidor-dhcp">
+  8. Servidor DHCP
+  <a class="heading-link" href="#8-servidor-dhcp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>SW4 entrega direcciones a las VLAN 13, 14, 15 y 16. Primero se excluyen las primeras diez direcciones de cada subred (reservadas para gateways y equipos fijos) y luego se crea un pool por VLAN con su <code>default-router</code>.</p>
+<p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip dhcp excluded-address 192.168.20.1 192.168.20.10
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 192.168.22.1 192.168.22.10
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 192.168.24.1 192.168.24.10
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 192.168.26.1 192.168.26.10
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN13
+</span></span><span style="display:flex;"><span>network 192.168.20.0 255.255.255.0
+</span></span><span style="display:flex;"><span>default-router 192.168.20.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN14
+</span></span><span style="display:flex;"><span>network 192.168.22.0 255.255.255.0
+</span></span><span style="display:flex;"><span>default-router 192.168.22.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN15
+</span></span><span style="display:flex;"><span>network 192.168.24.0 255.255.255.0
+</span></span><span style="display:flex;"><span>default-router 192.168.24.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN16
+</span></span><span style="display:flex;"><span>network 192.168.26.0 255.255.255.0
+</span></span><span style="display:flex;"><span>default-router 192.168.26.1
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="9-habilitar-el-routing-de-capa-3">
+  9. Habilitar el routing de capa 3
+  <a class="heading-link" href="#9-habilitar-el-routing-de-capa-3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Un switch de capa 3 no enruta por defecto. Hay que habilitar <code>ip routing</code> para IPv4 e <code>ipv6 unicast-routing</code> para IPv6. Después, el puerto <code>e0/2</code> que conecta con R1 se convierte en puerto enrutado con <code>no switchport</code> y recibe la dirección del enlace /30 (IPv4) y /112 (IPv6).</p>
+<p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip routing
+</span></span><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span></code></pre></div><img src="/images/Pasted image 20250409224950.png" style="width:100%; height:auto; display:block; margin:auto;">
+<p><strong>SW4 — enlace hacia R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>no sw
+</span></span><span style="display:flex;"><span>ip add 192.168.41.1 255.255.255.252
+</span></span><span style="display:flex;"><span>ipv6 add 3001:ABCD:ABCD:41::1/112
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="10-ospfv2-y-ospfv3">
+  10. OSPFv2 y OSPFv3
+  <a class="heading-link" href="#10-ospfv2-y-ospfv3">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>La red se divide en dos áreas:</p>
+<ul>
+<li><strong>Área 1</strong>: VLANs de SW4 y el enlace SW4-R1.</li>
+<li><strong>Área 0</strong>: enlace R1-R2 y salida al ISP.</li>
+</ul>
+<p>SW4 anuncia sus subredes y marca las SVIs como <code>passive-interface</code>, porque en esas interfaces no hay vecinos OSPF que descubrir. R1 actúa como ABR entre el área 1 y el área 0. R2 cierra el dominio y conecta con el ISP.</p>
+<h3 id="sw4">
+  SW4
+  <a class="heading-link" href="#sw4">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>IPv4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>router-id 4.4.4.4
+</span></span><span style="display:flex;"><span>network 192.168.10.0 0.0.0.255 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 192.168.20.0 0.0.0.255 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 192.168.22.0 0.0.0.255 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 192.168.24.0 0.0.0.255 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 192.168.26.0 0.0.0.255 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 192.168.41.0 0.0.0.3 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">13</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">14</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>IPv6</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>router-id 4.4.4.4
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">13</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">14</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">12</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">13</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">14</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">15</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">16</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h3 id="r1">
+  R1
+  <a class="heading-link" href="#r1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>IPv4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ip add 192.168.41.2 255.255.255.252
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span><span style="display:flex;"><span>router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>router-id 1.1.1.1
+</span></span><span style="display:flex;"><span>network 192.168.41.0 0.0.0.3 area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>network 192.168.21.0 0.0.0.3 area <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>IPv6</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>router-id 1.1.1.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/0
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h3 id="r2">
+  R2
+  <a class="heading-link" href="#r2">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>IPv4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span><span style="display:flex;"><span>router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>router-id 2.2.2.2
+</span></span><span style="display:flex;"><span>network 192.168.21.0 0.0.0.3 area <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>IPv6</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>router-id 2.2.2.2
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/0
+</span></span><span style="display:flex;"><span>ipv6 ospf <span style="color:#a5d6ff">1</span> area <span style="color:#a5d6ff">0</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="11-ruta-por-defecto-y-redistribución">
+  11. Ruta por defecto y redistribución
+  <a class="heading-link" href="#11-ruta-por-defecto-y-redistribuci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>R2 conoce al ISP por una ruta estática por defecto. Con <code>default-information originate</code> OSPF la inyecta en el dominio para que el resto de los routers sepan cómo salir a Internet. El ISP, a su vez, apunta su propia ruta por defecto hacia el siguiente salto de la topología.</p>
+<p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 200.0.0.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 route ::/0 3001:ABCD:ABCD:200::1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>default-information originate
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 router ospf <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>default-information originate
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>ISP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 200.0.0.2
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 route ::/0 3001:ABCD:ABCD:200::2
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="12-temporizadores-ospf">
+  12. Temporizadores OSPF
+  <a class="heading-link" href="#12-temporizadores-ospf">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Por defecto OSPF usa <code>hello 10</code> y <code>dead 40</code>. En este laboratorio se ajustan a <code>hello 20</code> y <code>dead 80</code> en los enlaces entre SW4, R1 y R2. El <code>dead-interval</code> debe ser, como mínimo, cuatro veces el <code>hello</code>, y <strong>ambos extremos del enlace deben coincidir</strong> o la vecindad no se forma.</p>
+<p><strong>SW4</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ip ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ip ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ip ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ip ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/0
+</span></span><span style="display:flex;"><span>ip ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ip ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
+</span></span><span style="display:flex;"><span>ip ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ip ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf hello-interval <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ipv6 ospf dead-interval <span style="color:#a5d6ff">80</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="13-ospf-point-to-point">
+  13. OSPF point-to-point
+  <a class="heading-link" href="#13-ospf-point-to-point">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>En un enlace dedicado entre dos routers no tiene sentido elegir DR y BDR. Al declarar la interfaz como <code>point-to-point</code>, OSPF omite la elección, forma la vecindad directamente y converge más rápido.</p>
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
+</span></span><span style="display:flex;"><span>ip ospf network point-to-point
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
+</span></span><span style="display:flex;"><span>ip ospf network point-to-point
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="verificación">
+  Verificación
+  <a class="heading-link" href="#verificaci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Comandos útiles para comprobar cada capa:</p>
+<ul>
+<li><strong>Capa 2</strong>
+<ul>
+<li><code>show vlan brief</code></li>
+<li><code>show etherchannel summary</code> (los canales deben aparecer en estado <code>SU</code>/<code>P</code>).</li>
+<li><code>show spanning-tree mst configuration</code></li>
+<li><code>show spanning-tree mst</code></li>
+</ul>
+</li>
+<li><strong>Direccionamiento y DHCP</strong>
+<ul>
+<li><code>show ip interface brief</code> y <code>show ipv6 interface brief</code></li>
+<li><code>show ip dhcp binding</code></li>
+<li><code>show ip dhcp pool</code></li>
+</ul>
+</li>
+<li><strong>OSPF</strong>
+<ul>
+<li><code>show ip ospf neighbor</code> (las vecindades deben estar en <code>FULL</code>).</li>
+<li><code>show ip ospf interface brief</code></li>
+<li><code>show ip route ospf</code> y <code>show ipv6 route ospf</code></li>
+<li><code>show ip route 0.0.0.0</code> y <code>show ipv6 route ::/0</code></li>
+</ul>
+</li>
+<li><strong>Conectividad</strong>
+<ul>
+<li><code>ping</code> entre VLANs y hacia el loopback del ISP.</li>
+<li><code>traceroute</code> para confirmar el path SW4 → R1 → R2 → ISP.</li>
+</ul>
+</li>
+</ul>
+<h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Este laboratorio integra el ciclo completo de una red corporativa: segmentación en capa 2, agregación de enlaces, STP/MST, direccionamiento y gateway en un switch de capa 3, DHCP y un dominio OSPF de dos áreas con IPv4 e IPv6.</p>
+<p>Los errores más comunes que conviene revisar al reproducirlo son: que todos los switches de la región MST compartan <code>name</code> y <code>revision</code>, que los temporizadores OSPF coincidan en ambos extremos, que las VLANs estén permitidas en los troncales, y que las SVIs estén marcadas como <code>passive-interface</code> cuando no tienen vecinos.</p>
+
+      </div>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2025 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

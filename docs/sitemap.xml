@@ -2,10 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://celero0.github.io/posts/altered/</loc>
-    <lastmod>2026-10-30T04:43:33+00:00</lastmod>
+    <loc>https://celero0.github.io/labs/lab-intervlan-ospf/</loc>
+    <lastmod>2026-11-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://celero0.github.io/labs/lab-bgp-basico/</loc>
+    <lastmod>2026-11-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://celero0.github.io/labs/lab-mpls-vpn-capa-3/</loc>
+    <lastmod>2026-11-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://celero0.github.io/</loc>
+    <lastmod>2026-11-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://celero0.github.io/labs/</loc>
+    <lastmod>2026-11-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://celero0.github.io/posts/altered/</loc>
     <lastmod>2026-10-30T04:43:33+00:00</lastmod>
   </url><url>
     <loc>https://celero0.github.io/series/hackthebox-writeups/</loc>
@@ -107,6 +119,8 @@
     <loc>https://celero0.github.io/authors/</loc>
   </url><url>
     <loc>https://celero0.github.io/categories/</loc>
+  </url><url>
+    <loc>https://celero0.github.io/projects/</loc>
   </url><url>
     <loc>https://celero0.github.io/tags/</loc>
   </url>

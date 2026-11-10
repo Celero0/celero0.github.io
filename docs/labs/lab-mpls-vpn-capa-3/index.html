@@ -29,8 +29,8 @@
 	<meta property="og:locale" content="es">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="labs">
-		<meta property="article:published_time" content="2026-11-06T00:00:00+00:00">
-		<meta property="article:modified_time" content="2026-11-06T00:00:00+00:00">
+		<meta property="article:published_time" content="2026-11-07T08:00:00+00:00">
+		<meta property="article:modified_time" content="2026-11-07T08:00:00+00:00">
 
 
 
@@ -161,13 +161,13 @@
           <div class="date">
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              <time datetime="2026-11-06T00:00:00Z">
-                6 de noviembre de 2026
+              <time datetime="2026-11-07T08:00:00Z">
+                7 de noviembre de 2026
               </time>
             </span>
             <span class="reading-time">
               <i class="fa-solid fa-clock" aria-hidden="true"></i>
-              10 minutos de lectura.
+              9 minutos de lectura.
             </span>
           </div>
           
@@ -446,14 +446,11 @@
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>ip vrf CLIENTE-B
-</span></span><span style="display:flex;"><span>rd 65200:1
+</span></span><span style="display:flex;"><span>rd 65200:2
 </span></span><span style="display:flex;"><span>route-target export 65400:1
 </span></span><span style="display:flex;"><span>route-target import 65400:2
 </span></span><span style="display:flex;"><span>ex
-</span></span></code></pre></div><blockquote>
-<p>El RD debe ser único por VRF. En los apuntes, <code>CLIENTE-B</code> quedó con el mismo RD que <code>CLIENTE-A</code> (<code>65200:1</code>). Si tu plataforma lo rechaza o las rutas se mezclan, usa un RD distinto, por ejemplo <code>65200:2</code>.</p>
-</blockquote>
-<p><strong>PE6 — Cliente A</strong></p>
+</span></span></code></pre></div><p><strong>PE6 — Cliente A</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>ip vrf CLIENTE-A

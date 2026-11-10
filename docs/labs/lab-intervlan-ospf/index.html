@@ -445,16 +445,13 @@
 </span></span></code></pre></div><p><strong>SW3</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spanning-tree mode mst
 </span></span><span style="display:flex;"><span>spanning-tree mst configuration
-</span></span><span style="display:flex;"><span>name REGION31
-</span></span><span style="display:flex;"><span>revision <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>name REGION13
+</span></span><span style="display:flex;"><span>revision <span style="color:#a5d6ff">1</span>
 </span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">1</span> vlan 12, <span style="color:#a5d6ff">17</span>
 </span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">2</span> vlan 13, <span style="color:#a5d6ff">15</span>
 </span></span><span style="display:flex;"><span>instance <span style="color:#a5d6ff">3</span> vlan 14, <span style="color:#a5d6ff">16</span>
 </span></span><span style="display:flex;"><span>ex
-</span></span></code></pre></div><blockquote>
-<p><strong>Nota:</strong> en los apuntes originales SW3 quedó con <code>REGION31</code> / <code>revision 2</code>. Para que todos los switches formen una única región MST, el <code>name</code> y la <code>revision</code> deben ser iguales en los cuatro; si buscas una sola región, alinea SW3 con <code>REGION13</code> / <code>revision 1</code>.</p>
-</blockquote>
-<h2 id="6-svis-y-direccionamiento-de-las-vlans">
+</span></span></code></pre></div><h2 id="6-svis-y-direccionamiento-de-las-vlans">
   6. SVIs y direccionamiento de las VLANs
   <a class="heading-link" href="#6-svis-y-direccionamiento-de-las-vlans">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>

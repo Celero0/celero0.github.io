@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>
+  Implementación de una Red con Alta Disponibilidad · Celero0 Blog
+</title>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+
+
+
+
+<meta name="author" content="CeleroRKX">
+<meta name="description" content="Laboratorio de alta disponibilidad: VLANs, EtherChannel, Rapid PVST&#43;, HSRPv2 para IPv4 e IPv6, IP SLA con tracking, EIGRP, DHCP relay, summarización y BGP.">
+<meta name="keywords" content="ciberseguridad, pentesting, hacking ético, HackTheBox, writeups, redes, eJPT, CWES">
+
+
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Implementación de una Red con Alta Disponibilidad">
+	<meta name="twitter:description" content="Laboratorio de alta disponibilidad: VLANs, EtherChannel, Rapid PVST&#43;, HSRPv2 para IPv4 e IPv6, IP SLA con tracking, EIGRP, DHCP relay, summarización y BGP.">
+
+<meta property="og:url" content="https://celero0.github.io/labs/lab-alta-disponibilidad/">
+	<meta property="og:site_name" content="Celero0 Blog">
+	<meta property="og:title" content="Implementación de una Red con Alta Disponibilidad">
+	<meta property="og:description" content="Laboratorio de alta disponibilidad: VLANs, EtherChannel, Rapid PVST&#43;, HSRPv2 para IPv4 e IPv6, IP SLA con tracking, EIGRP, DHCP relay, summarización y BGP.">
+	<meta property="og:locale" content="es">
+	<meta property="og:type" content="article">
+		<meta property="article:section" content="labs">
+		<meta property="article:published_time" content="2026-11-09T08:00:00+00:00">
+		<meta property="article:modified_time" content="2026-11-09T08:00:00+00:00">
+
+
+
+
+<link rel="canonical" href="https://celero0.github.io/labs/lab-alta-disponibilidad/">
+
+
+<link rel="preload" href="/fonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  
+  
+  <link rel="stylesheet" href="/css/coder.min.7931813641e92789c3090650cf34e053bf0a09b258f1e73ca3b5ba54e5c35b4f.css" integrity="sha256-eTGBNkHpJ4nDCQZQzzTgU78KCbJY8ec8o7W6VOXDW08=" crossorigin="anonymous" media="screen" />
+
+
+
+
+
+
+  
+    
+    
+    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+ 
+
+
+  
+  
+    
+    <link rel="stylesheet" href="/scss/custom.min.940f835c40977fce2ddd2fd8c55eb94de7e488a3ba45c0396d26445901b77774.css" integrity="sha256-lA&#43;DXECXf84t3S/YxV65TefkiKO6RcA5bSZEWQG3d3Q=" crossorigin="anonymous" media="screen" />
+  
+
+
+
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+<body class="preload-transitions colorscheme-dark">
+  
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+  <main class="wrapper">
+    <nav class="navigation">
+  <section class="container">
+    
+    <a class="navigation-title" href="https://celero0.github.io/">
+      Celero0 Blog
+    </a>
+    
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa-solid fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/posts/">Writeups</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/labs/">Labs</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/projects/">Proyectos</a>
+            </li>
+          
+            <li class="navigation-item">
+              <a class="navigation-link " href="/about/">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+    <div class="content">
+      
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="https://celero0.github.io/labs/lab-alta-disponibilidad/">
+              Implementación de una Red con Alta Disponibilidad
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa-solid fa-calendar" aria-hidden="true"></i>
+              <time datetime="2026-11-09T08:00:00Z">
+                9 de noviembre de 2026
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              15 minutos de lectura.
+            </span>
+          </div>
+          
+          
+          
+        </div>
+      </header>
+
+      <div class="post-content">
+        
+        <hr>
+<ul>
+<li>Tags: #HSRP #VRRP #AltaDisponibilidad #EtherChannel #EIGRP #BGP</li>
+</ul>
+<hr>
+<h1 id="introducción">
+  Introducción
+  <a class="heading-link" href="#introducci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>Este laboratorio construye una red de campus <strong>con alta disponibilidad</strong> de punta a punta. Dos switches multilayer (MLS2 y MLS3) actúan como gateways redundantes para las VLANs de datos, mientras cuatro switches de acceso (SWA-SWD) forman una topología redundante con EtherChannel y Rapid PVST+.</p>
+<p>La alta disponibilidad se logra en varias capas:</p>
+<ul>
+<li><strong>Capa 2</strong>: enlaces agregados con LACP, PAgP y modo estático, más Rapid PVST+ para evitar bucles.</li>
+<li><strong>Capa 3</strong>: HSRPv2 con dos grupos por VLAN (IPv4 e IPv6), prioridades opuestas y <code>preempt</code>.</li>
+<li><strong>Detección de fallas</strong>: IP SLA que monitorea <code>8.8.8.8</code> y baja la prioridad de HSRP si el destino deja de responder.</li>
+<li><strong>Routing</strong>: EIGRP AS 123, summarización hacia R1, ruta por defecto y BGP con el ISP.</li>
+</ul>
+<h1 id="topología">
+  Topología
+  <a class="heading-link" href="#topolog%c3%ada">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<img src="/images/Pasted image 20250618144947.png" style="width:100%; height:auto; display:block; margin:auto;">
+<ul>
+<li><strong>R1</strong>: router de borde del AS 65000. Conecta con MLS2 (<code>192.168.12.0/24</code>), MLS3 (<code>192.168.13.0/24</code>) y el ISP (<code>209.50.0.0/30</code>).</li>
+<li><strong>MLS2 y MLS3</strong>: switches multilayer que hacen el routing inter-VLAN y el gateway redundante (HSRP).</li>
+<li><strong>SWA, SWB, SWC y SWD</strong>: switches de acceso con enlaces redundantes y port-channels.</li>
+<li><strong>ISP (AS 100)</strong>: proveedor con loopback <code>8.8.8.8/32</code>.</li>
+<li><strong>BR (AS 64800)</strong>: router externo de prueba con loopback <code>10.0.71.1/32</code>.</li>
+</ul>
+<table>
+	<thead>
+			<tr>
+					<th>VLAN</th>
+					<th>Nombre</th>
+					<th>IPv4</th>
+					<th>IPv6</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>21</td>
+					<td>Informática</td>
+					<td><code>10.0.21.0/24</code></td>
+					<td><code>3001:ABCD:ABCD:A::/64</code></td>
+			</tr>
+			<tr>
+					<td>22</td>
+					<td>Servidores</td>
+					<td><code>10.0.31.0/24</code></td>
+					<td><code>3001:ABCD:ABCD:B::/64</code></td>
+			</tr>
+			<tr>
+					<td>23</td>
+					<td>Finanzas</td>
+					<td><code>10.0.41.0/24</code></td>
+					<td><code>3001:ABCD:ABCD:C::/64</code></td>
+			</tr>
+			<tr>
+					<td>24</td>
+					<td>Gestión</td>
+					<td><code>10.0.51.0/24</code></td>
+					<td><code>3001:ABCD:ABCD:D::/64</code></td>
+			</tr>
+			<tr>
+					<td>25</td>
+					<td>Administración</td>
+					<td><code>10.0.61.0/24</code></td>
+					<td><code>3001:ABCD:ABCD:E::/64</code></td>
+			</tr>
+	</tbody>
+</table>
+<h1 id="requerimientos">
+  Requerimientos
+  <a class="heading-link" href="#requerimientos">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<ul>
+<li>Crear las VLAN 21 a 25 en todos los switches.</li>
+<li>Asignar las interfaces en uso a su VLAN y apagar las sobrantes.</li>
+<li>Implementar port-security dinámica (MAC sticky).</li>
+<li>Agregar enlaces con LACP, PAgP y modo estático; un extremo negocia y el otro escucha.</li>
+<li>Permitir solo las VLAN de datos en los port-channels y desactivar DTP.</li>
+<li>Implementar Rapid PVST+ en todos los switches de capa 2.</li>
+<li>Estabilizar STP en los puertos de acceso.</li>
+<li>Administrar los switches por la VLAN 25.</li>
+<li>Hacer el routing inter-VLAN en los equipos adecuados.</li>
+<li>Implementar HSRPv2: IPv4 prefiere MLS2 e IPv6 prefiere MLS3.</li>
+<li>Modificar los temporizadores de HSRP.</li>
+<li>Implementar IP SLA sobre <code>8.8.8.8</code>: si cae, el tráfico IPv4 debe pasar al equipo de respaldo.</li>
+<li>Implementar EIGRP con el AS indicado y las interfaces pasivas necesarias.</li>
+<li>Sumarizar las rutas de los MLS hacia R1 en IPv4 e IPv6.</li>
+<li>Dar direccionamiento dinámico a los equipos finales desde R1.</li>
+<li>Permitir salida a Internet en IPv4 e IPv6.</li>
+<li>Implementar MP-BGP en IPv4 e IPv6, con las loopbacks como prefijos.</li>
+<li>Redistribuir IGP y EGP: IPv4 con route-maps, IPv6 de forma directa.</li>
+<li>Comprobar conectividad completa.</li>
+</ul>
+<h1 id="desarrollo">
+  Desarrollo
+  <a class="heading-link" href="#desarrollo">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<h2 id="1-vlans-y-vtp-transparente">
+  1. VLANs y VTP transparente
+  <a class="heading-link" href="#1-vlans-y-vtp-transparente">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Se crean las cinco VLANs en los seis switches. En modo <code>transparent</code> cada switch mantiene su propia base de datos y no aprende VLANs por VTP.</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>vlan 21-25
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>vtp mode transparent
+</span></span></code></pre></div><blockquote>
+<p>Repite el bloque en <strong>SWA, SWB, SWC, SWD, MLS2 y MLS3</strong>.</p>
+</blockquote>
+<h2 id="2-puertos-de-acceso-con-port-security-dinámica">
+  2. Puertos de acceso con port-security dinámica
+  <a class="heading-link" href="#2-puertos-de-acceso-con-port-security-din%c3%a1mica">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Los puertos de acceso de SWC y SWD se configuran con port-security y MAC sticky, además de los mecanismos de estabilización de STP:</p>
+<ul>
+<li><code>switchport port-security mac-address sticky</code>: aprende y fija la primera MAC que aparece.</li>
+<li><code>spanning-tree bpduguard enable</code>: apaga el puerto si recibe un BPDU.</li>
+<li><code>spanning-tree bpdufilter enable</code>: no envía ni procesa BPDUs.</li>
+<li><code>spanning-tree portfast</code>: pasa el puerto a <em>forwarding</em> de inmediato.</li>
+</ul>
+<p><strong>SWC</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>switchport port-security mac-address sticky
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/3
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>switchport port-security mac-address sticky
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SWD</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>switchport port-security mac-address sticky
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/3
+</span></span><span style="display:flex;"><span>sw mo acc
+</span></span><span style="display:flex;"><span>sw acc vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>sw port-security
+</span></span><span style="display:flex;"><span>switchport port-security mac-address sticky
+</span></span><span style="display:flex;"><span>spanning-tree bpduguard enable
+</span></span><span style="display:flex;"><span>spanning-tree bpdufilter enable
+</span></span><span style="display:flex;"><span>spanning-tree portfast
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="3-troncales-8021q">
+  3. Troncales 802.1Q
+  <a class="heading-link" href="#3-troncales-8021q">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Todos los enlaces entre switches transportan las VLAN 21 a 25. Se desactiva DTP con <code>switchport nonegotiate</code> y se permite solo ese rango.</p>
+<p><strong>SWA</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/0-3, e0/0-1, e0/3
+</span></span><span style="display:flex;"><span>sw tr encapsu dot1q
+</span></span><span style="display:flex;"><span>sw mo tr
+</span></span><span style="display:flex;"><span>sw nonegotiate
+</span></span><span style="display:flex;"><span>sw tr all vlan 21,22,23,24,25
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SWB</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/0-3, e0/0-1, e0/3
+</span></span><span style="display:flex;"><span>sw tr encapsu dot1q
+</span></span><span style="display:flex;"><span>sw mo tr
+</span></span><span style="display:flex;"><span>sw nonegotiate
+</span></span><span style="display:flex;"><span>sw tr all vlan 21,22,23,24,25
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SWC</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/0-3, e0/0-1
+</span></span><span style="display:flex;"><span>sw tr encapsu dot1q
+</span></span><span style="display:flex;"><span>sw mo tr
+</span></span><span style="display:flex;"><span>sw nonegotiate
+</span></span><span style="display:flex;"><span>sw tr all vlan 21,22,23,24,25
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>SWD</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/0-3, e0/0-1
+</span></span><span style="display:flex;"><span>sw tr encapsu dot1q
+</span></span><span style="display:flex;"><span>sw mo tr
+</span></span><span style="display:flex;"><span>sw nonegotiate
+</span></span><span style="display:flex;"><span>sw tr all vlan 21,22,23,24,25
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS2 y MLS3</strong> — enlace hacia el switch de acceso</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/3
+</span></span><span style="display:flex;"><span>sw tr encapsu dot1q
+</span></span><span style="display:flex;"><span>sw mo tr
+</span></span><span style="display:flex;"><span>sw nonegotiate
+</span></span><span style="display:flex;"><span>sw tr all vlan 21,22,23,24,25
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="4-etherchannel-y-rapid-pvst">
+  4. EtherChannel y Rapid PVST+
+  <a class="heading-link" href="#4-etherchannel-y-rapid-pvst">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Los enlaces redundantes se agrupan en port-channels. Se usan los tres modos de negociación:</p>
+<ul>
+<li><code>on</code>: estático, sin negociación (ambos extremos <code>on</code>).</li>
+<li><code>active</code> / <code>passive</code>: LACP.</li>
+<li><code>desirable</code> / <code>auto</code>: PAgP.</li>
+</ul>
+<table>
+	<thead>
+			<tr>
+					<th>Port-channel</th>
+					<th>Switches</th>
+					<th>Modo</th>
+					<th>Interfaces</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Po6</td>
+					<td>SWA-SWB</td>
+					<td>LACP active/passive</td>
+					<td>e1/0-1</td>
+			</tr>
+			<tr>
+					<td>Po5</td>
+					<td>SWA-SWC</td>
+					<td>Estático <code>on</code></td>
+					<td>e1/2-3</td>
+			</tr>
+			<tr>
+					<td>Po4</td>
+					<td>SWB-SWC</td>
+					<td>PAgP desirable/auto</td>
+					<td>e0/0-1</td>
+			</tr>
+			<tr>
+					<td>Po2</td>
+					<td>SWA-SWD</td>
+					<td>LACP active/passive</td>
+					<td>e0/0-1</td>
+			</tr>
+			<tr>
+					<td>Po3</td>
+					<td>SWB-SWD</td>
+					<td>Estático <code>on</code></td>
+					<td>e1/2-3</td>
+			</tr>
+			<tr>
+					<td>Po1</td>
+					<td>SWC-SWD</td>
+					<td>PAgP desirable/auto</td>
+					<td>e1/0-1</td>
+			</tr>
+	</tbody>
+</table>
+<p><strong>SWA</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">5</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">2</span> mode active
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">6</span> mode active
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>spanning-tree mode rapid-pvst
+</span></span></code></pre></div><p><strong>SWB</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">3</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">4</span> mode desirable
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">6</span> mode passive
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>spanning-tree mode rapid-pvst
+</span></span></code></pre></div><p><strong>SWC</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">5</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">4</span> mode auto
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">1</span> mode desirable
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>spanning-tree mode rapid-pvst
+</span></span></code></pre></div><p><strong>SWD</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int ran e1/2-3
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">3</span> mode on
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e0/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">2</span> mode passive
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int ran e1/0-1
+</span></span><span style="display:flex;"><span>channel-group <span style="color:#a5d6ff">1</span> mode auto
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>spanning-tree mode rapid-pvst
+</span></span></code></pre></div><h2 id="5-administración-remota-por-vlan-25">
+  5. Administración remota por VLAN 25
+  <a class="heading-link" href="#5-administraci%c3%b3n-remota-por-vlan-25">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>Cada switch recibe una SVI en la VLAN 25 y un <code>default-gateway</code> que apunta a la IP virtual de HSRP (<code>10.0.61.1</code>).</p>
+<p><strong>SWA</strong> — <code>10.0.61.7</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.61.7 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 10.0.61.1
+</span></span></code></pre></div><p><strong>SWB</strong> — <code>10.0.61.21</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.61.21 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 10.0.61.1
+</span></span></code></pre></div><p><strong>SWC</strong> — <code>10.0.61.14</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.61.14 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 10.0.61.1
+</span></span></code></pre></div><p><strong>SWD</strong> — <code>10.0.61.28</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.61.28 255.255.255.0
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip default-gateway 10.0.61.1
+</span></span></code></pre></div><h2 id="6-svis-y-routing-inter-vlan">
+  6. SVIs y routing inter-VLAN
+  <a class="heading-link" href="#6-svis-y-routing-inter-vlan">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>MLS2 y MLS3 tienen una SVI por VLAN. Cada uno usa la dirección <code>.2</code> o <code>.3</code> de la subred; la <code>.1</code> queda reservada para el gateway virtual de HSRP.</p>
+<p><strong>MLS2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.21.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:A::2/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.31.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:B::2/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.41.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:C::2/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.51.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:D::2/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.61.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:E::2/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.21.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:A::3/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.31.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:B::3/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.41.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:C::3/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.51.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:D::3/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ip add 10.0.61.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:E::3/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p>Habilitar el routing de capa 3 en ambos switches:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip routing
+</span></span><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span></code></pre></div><p>Y configurar los enlaces enrutados hacia R1:</p>
+<p><strong>MLS2</strong> — <code>e0/1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/1
+</span></span><span style="display:flex;"><span>no switchport
+</span></span><span style="display:flex;"><span>ip add 192.168.12.2 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:12::2/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS3</strong> — <code>e0/2</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>no switchport
+</span></span><span style="display:flex;"><span>ip add 192.168.13.3 255.255.255.0
+</span></span><span style="display:flex;"><span>ipv6 address 3001:ABCD:ABCD:13::3/64
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="7-hsrpv2-ipv4-e-ipv6">
+  7. HSRPv2 (IPv4 e IPv6)
+  <a class="heading-link" href="#7-hsrpv2-ipv4-e-ipv6">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>HSRP permite que dos switches compartan una IP virtual que actúa como gateway. La prioridad decide quién está activo; por defecto es 100 y <strong>a mayor prioridad, mejor</strong>. <code>preempt</code> permite recuperar el rol activo cuando el equipo vuelve.</p>
+<p>En este laboratorio las preferencias son cruzadas:</p>
+<ul>
+<li><strong>IPv4</strong>: MLS2 prioridad 120 (activo) y MLS3 prioridad 90 (respaldo).</li>
+<li><strong>IPv6</strong>: MLS2 prioridad 90 y MLS3 prioridad 120 (activo).</li>
+<li>Temporizadores: <code>hello 200 ms</code>, <code>hold 800 ms</code>.</li>
+</ul>
+<p>Los grupos IPv4 son 21-25 y los grupos IPv6 son 211, 222, 233, 244 y 255.</p>
+<p><strong>MLS2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> ip 10.0.21.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> ipv6 3001:ABCD:ABCD:A::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> ip 10.0.31.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> ipv6 3001:ABCD:ABCD:B::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> ip 10.0.41.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> ipv6 3001:ABCD:ABCD:C::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> ip 10.0.51.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> ipv6 3001:ABCD:ABCD:D::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> ip 10.0.61.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> ipv6 3001:ABCD:ABCD:E::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> ip 10.0.21.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> ipv6 3001:ABCD:ABCD:A::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">211</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> ip 10.0.31.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> ipv6 3001:ABCD:ABCD:B::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">222</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> ip 10.0.41.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> ipv6 3001:ABCD:ABCD:C::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">233</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> ip 10.0.51.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> ipv6 3001:ABCD:ABCD:D::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">244</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>standby version <span style="color:#a5d6ff">2</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> ip 10.0.61.1
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> priority <span style="color:#a5d6ff">90</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> ipv6 3001:ABCD:ABCD:E::1/64
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> priority <span style="color:#a5d6ff">120</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> preempt
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">255</span> timers msec <span style="color:#a5d6ff">200</span> msec <span style="color:#a5d6ff">800</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="8-ip-sla-y-tracking">
+  8. IP SLA y tracking
+  <a class="heading-link" href="#8-ip-sla-y-tracking">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>MLS2 monitorea <code>8.8.8.8</code> con IP SLA. Si el destino deja de responder, el objeto de tracking baja y HSRP resta 40 puntos a la prioridad IPv4 de MLS2 (120 → 80). Como MLS3 tiene 90, toma el rol activo.</p>
+<p><strong>MLS2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip sla <span style="color:#a5d6ff">1</span>
+</span></span><span style="display:flex;"><span>icmp-echo 8.8.8.8
+</span></span><span style="display:flex;"><span>frequency <span style="color:#a5d6ff">5</span>
+</span></span><span style="display:flex;"><span>exit
+</span></span><span style="display:flex;"><span>ip sla schedule <span style="color:#a5d6ff">1</span> start-time now life forever
+</span></span><span style="display:flex;"><span>track <span style="color:#a5d6ff">1</span> ip sla <span style="color:#a5d6ff">1</span> reachability
+</span></span><span style="display:flex;"><span>delay down <span style="color:#a5d6ff">5</span> up <span style="color:#a5d6ff">3</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p>Aplicar el tracking a cada grupo HSRP IPv4:</p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">21</span> track <span style="color:#a5d6ff">1</span> decrement <span style="color:#a5d6ff">40</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">22</span> track <span style="color:#a5d6ff">1</span> decrement <span style="color:#a5d6ff">40</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">23</span> track <span style="color:#a5d6ff">1</span> decrement <span style="color:#a5d6ff">40</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">24</span> track <span style="color:#a5d6ff">1</span> decrement <span style="color:#a5d6ff">40</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>standby <span style="color:#a5d6ff">25</span> track <span style="color:#a5d6ff">1</span> decrement <span style="color:#a5d6ff">40</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="9-eigrp-as-123">
+  9. EIGRP AS 123
+  <a class="heading-link" href="#9-eigrp-as-123">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>MLS2, MLS3 y R1 corren EIGRP AS 123. Las SVIs de las VLANs se marcan como pasivas porque no tienen vecinos EIGRP; solo las interfaces hacia R1 forman vecindad.</p>
+<p><strong>MLS2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 2.2.2.2
+</span></span><span style="display:flex;"><span>network 192.168.12.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.21.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.31.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.41.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.51.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.61.0 255.255.255.0
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 2.2.2.2
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/1
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 3.3.3.3
+</span></span><span style="display:flex;"><span>network 192.168.13.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.21.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.31.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.41.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.51.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 10.0.61.0 255.255.255.0
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 3.3.3.3
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>passive-interface vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">25</span>
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>eigrp router-id 1.1.1.1
+</span></span><span style="display:flex;"><span>network 192.168.12.0 255.255.255.0
+</span></span><span style="display:flex;"><span>network 192.168.13.0 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/1
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ipv6 eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="10-dhcp-y-ip-helper-address">
+  10. DHCP y ip helper-address
+  <a class="heading-link" href="#10-dhcp-y-ip-helper-address">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>R1 es el servidor DHCP de las VLANs de datos. Como los clientes están en otras subredes, MLS2 y MLS3 reenvían las peticiones con <code>ip helper-address</code> hacia R1.</p>
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip dhcp excluded-address 10.0.21.1 10.0.21.5
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 10.0.31.1 10.0.31.5
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 10.0.41.1 10.0.41.5
+</span></span><span style="display:flex;"><span>ip dhcp excluded-address 10.0.51.1 10.0.51.5
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN21
+</span></span><span style="display:flex;"><span>default-router 10.0.21.1
+</span></span><span style="display:flex;"><span>network 10.0.21.0 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN22
+</span></span><span style="display:flex;"><span>default-router 10.0.31.1
+</span></span><span style="display:flex;"><span>network 10.0.31.0 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN23
+</span></span><span style="display:flex;"><span>default-router 10.0.41.1
+</span></span><span style="display:flex;"><span>network 10.0.41.0 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ip dhcp pool VLAN24
+</span></span><span style="display:flex;"><span>default-router 10.0.51.1
+</span></span><span style="display:flex;"><span>network 10.0.51.0 255.255.255.0
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS2</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.12.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.12.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.12.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.12.1
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS3</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">21</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.13.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">22</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.13.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">23</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.13.1
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>int vlan <span style="color:#a5d6ff">24</span>
+</span></span><span style="display:flex;"><span>ip helper-address 192.168.13.1
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="11-summarización-hacia-r1">
+  11. Summarización hacia R1
+  <a class="heading-link" href="#11-summarizaci%c3%b3n-hacia-r1">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>MLS2 y MLS3 resumen las subredes de las VLANs antes de anunciarlas a R1:</p>
+<ul>
+<li><strong>IPv4</strong>: <code>10.0.0.0/18</code> cubre <code>10.0.0.0</code>–<code>10.0.63.255</code>, es decir, las VLAN 21-25.</li>
+<li><strong>IPv6</strong>: <code>3001:ABCD:ABCD:8::/61</code> cubre los prefijos <code>A::</code> a <code>E::</code>.</li>
+</ul>
+<p><strong>MLS2</strong> — en <code>e0/1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/1
+</span></span><span style="display:flex;"><span>ip summary-address eigrp <span style="color:#a5d6ff">123</span> 10.0.0.0 255.255.192.0
+</span></span><span style="display:flex;"><span>ipv6 summary-address eigrp <span style="color:#a5d6ff">123</span> 3001:ABCD:ABCD:8::/61
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>MLS3</strong> — en <code>e0/2</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>ip summary-address eigrp <span style="color:#a5d6ff">123</span> 10.0.0.0 255.255.192.0
+</span></span><span style="display:flex;"><span>ipv6 summary-address eigrp <span style="color:#a5d6ff">123</span> 3001:ABCD:ABCD:8::/61
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="12-ruta-por-defecto-y-redistribución-en-eigrp">
+  12. Ruta por defecto y redistribución en EIGRP
+  <a class="heading-link" href="#12-ruta-por-defecto-y-redistribuci%c3%b3n-en-eigrp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>R1 conoce al ISP por una ruta estática por defecto y la redistribuye en EIGRP para que toda la red interna sepa salir.</p>
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 209.50.0.2
+</span></span><span style="display:flex;"><span>ipv6 route ::/0 3001:ABCD:ABCD:209::2
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>redistribute static
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>redistribute static
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="13-mp-bgp-con-el-isp-y-br">
+  13. MP-BGP con el ISP y BR
+  <a class="heading-link" href="#13-mp-bgp-con-el-isp-y-br">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<p>R1 forma eBGP con el ISP (AS 100) en IPv4 e IPv6. El ISP también forma eBGP con BR (AS 64800), que anuncia su loopback como red de prueba.</p>
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>bgp router-id 1.1.1.1
+</span></span><span style="display:flex;"><span>address-family ipv4
+</span></span><span style="display:flex;"><span>neighbor 209.50.0.2 remote-as <span style="color:#a5d6ff">100</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>address-family ipv6
+</span></span><span style="display:flex;"><span>neighbor 3001:ABCD:ABCD:209::2 remote-as <span style="color:#a5d6ff">100</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>ISP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span><span style="display:flex;"><span>int e0/2
+</span></span><span style="display:flex;"><span>no shut
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">100</span>
+</span></span><span style="display:flex;"><span>bgp router-id 8.8.8.8
+</span></span><span style="display:flex;"><span>address-family ipv4
+</span></span><span style="display:flex;"><span>neighbor 209.50.0.1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 219.50.0.1 remote-as <span style="color:#a5d6ff">64800</span>
+</span></span><span style="display:flex;"><span>network 8.8.8.8 mask 255.255.255.255
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>address-family ipv6
+</span></span><span style="display:flex;"><span>neighbor 3001:ABCD:ABCD:209::1 remote-as <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>neighbor 3001:ABCD:ABCD:219::1 remote-as <span style="color:#a5d6ff">64800</span>
+</span></span><span style="display:flex;"><span>network 3001:ABCD:ABCD:8::8/128
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>BR</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+</span></span><span style="display:flex;"><span>conf t
+</span></span><span style="display:flex;"><span>ipv6 unicast-routing
+</span></span><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">64800</span>
+</span></span><span style="display:flex;"><span>bgp router-id 10.0.71.1
+</span></span><span style="display:flex;"><span>address-family ipv4
+</span></span><span style="display:flex;"><span>neighbor 219.50.0.2 remote-as <span style="color:#a5d6ff">100</span>
+</span></span><span style="display:flex;"><span>network 10.0.71.1 mask 255.255.255.255
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>address-family ipv6
+</span></span><span style="display:flex;"><span>neighbor 3001:ABCD:ABCD:219::2 remote-as <span style="color:#a5d6ff">100</span>
+</span></span><span style="display:flex;"><span>network 3001:ABCD:ABCD:71::1/128
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="14-redistribución-bgp--eigrp">
+  14. Redistribución BGP ↔ EIGRP
+  <a class="heading-link" href="#14-redistribuci%c3%b3n-bgp--eigrp">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<h3 id="ipv6-redistribución-directa">
+  IPv6: redistribución directa
+  <a class="heading-link" href="#ipv6-redistribuci%c3%b3n-directa">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>R1</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>redistribute bgp <span style="color:#a5d6ff">65000</span> metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>address-family ipv6
+</span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">123</span> metric <span style="color:#a5d6ff">20</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h3 id="ipv4-redistribución-con-route-maps">
+  IPv4: redistribución con route-maps
+  <a class="heading-link" href="#ipv4-redistribuci%c3%b3n-con-route-maps">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h3>
+<p><strong>EIGRP → BGP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP permit 192.168.12.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP permit 192.168.13.0/24
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP permit 10.0.0.0/18
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-EIGRP permit 0.0.0.0/0
+</span></span><span style="display:flex;"><span>route-map BGP permit
+</span></span><span style="display:flex;"><span>match ip address prefix-list RUTAS-EIGRP
+</span></span><span style="display:flex;"><span>set metric <span style="color:#a5d6ff">50</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router bgp <span style="color:#a5d6ff">65000</span>
+</span></span><span style="display:flex;"><span>address-family ipv4
+</span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">123</span> route-map BGP
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><p><strong>BGP → EIGRP</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip prefix-list RUTAS-BGP permit 209.50.0.0/30
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-BGP permit 219.50.0.0/30
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-BGP permit 8.8.8.8/32
+</span></span><span style="display:flex;"><span>ip prefix-list RUTAS-BGP permit 10.0.71.1/32
+</span></span><span style="display:flex;"><span>route-map EIGRP permit
+</span></span><span style="display:flex;"><span>match ip address prefix-list RUTAS-BGP
+</span></span><span style="display:flex;"><span>set metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span>
+</span></span><span style="display:flex;"><span>ex
+</span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">123</span>
+</span></span><span style="display:flex;"><span>redistribute bgp <span style="color:#a5d6ff">65000</span> route-map EIGRP
+</span></span><span style="display:flex;"><span>ex
+</span></span></code></pre></div><h2 id="verificación">
+  Verificación
+  <a class="heading-link" href="#verificaci%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h2>
+<ul>
+<li><strong>Capa 2</strong>
+<ul>
+<li><code>show vlan brief</code> — VLANs 21-25 creadas y asignadas.</li>
+<li><code>show etherchannel summary</code> — port-channels en estado <code>SU</code>/<code>P</code>.</li>
+<li><code>show spanning-tree</code> — Rapid PVST+ activo y sin bucles.</li>
+<li><code>show port-security</code> — MAC sticky aprendidas.</li>
+</ul>
+</li>
+<li><strong>HSRP</strong>
+<ul>
+<li><code>show standby brief</code> — MLS2 activo para IPv4 y MLS3 activo para IPv6.</li>
+<li><code>show standby vlan 21</code> — prioridades, timers y estado <code>Active</code>/<code>Standby</code>.</li>
+</ul>
+</li>
+<li><strong>IP SLA</strong>
+<ul>
+<li><code>show ip sla statistics</code> — el ICMP a <code>8.8.8.8</code> debe estar <code>OK</code>.</li>
+<li><code>show track</code> — objeto de tracking en <code>Up</code>.</li>
+<li>Al bloquear <code>8.8.8.8</code>, la prioridad de MLS2 debe bajar a 80 y MLS3 debe tomar el rol activo IPv4.</li>
+</ul>
+</li>
+<li><strong>Routing</strong>
+<ul>
+<li><code>show ip eigrp neighbors</code> — vecindades MLS2/MLS3/R1.</li>
+<li><code>show ip route eigrp</code> y <code>show ipv6 route eigrp</code>.</li>
+<li><code>show ip route 10.0.0.0</code> en R1 — debe aparecer la ruta sumarizada <code>10.0.0.0/18</code>.</li>
+<li><code>show ip route 3001:ABCD:ABCD:8::/61</code> en R1.</li>
+</ul>
+</li>
+<li><strong>DHCP</strong>
+<ul>
+<li><code>show ip dhcp binding</code> en R1.</li>
+<li><code>show ip dhcp pool</code>.</li>
+<li>En los PC, <code>ipconfig</code> debe mostrar gateway <code>10.0.21.1</code> (VIP de HSRP).</li>
+</ul>
+</li>
+<li><strong>BGP y conectividad</strong>
+<ul>
+<li><code>show ip bgp summary</code> — sesiones con AS 100 y AS 64800 en <code>Established</code>.</li>
+<li><code>show ip bgp</code> — loopbacks <code>8.8.8.8/32</code> y <code>10.0.71.1/32</code>.</li>
+<li><code>ping 8.8.8.8</code> y <code>ping 10.0.71.1</code> desde un PC.</li>
+<li><code>traceroute</code> para confirmar el path PC → MLS → R1 → ISP.</li>
+</ul>
+</li>
+</ul>
+<h1 id="conclusión">
+  Conclusión
+  <a class="heading-link" href="#conclusi%c3%b3n">
+    <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>
+    <span class="sr-only">Link to heading</span>
+  </a>
+</h1>
+<p>El laboratorio integra alta disponibilidad en todas las capas: EtherChannel y Rapid PVST+ en capa 2, HSRPv2 con preferencias cruzadas IPv4/IPv6 en capa 3, IP SLA con tracking para detectar fallas de salida, EIGRP con summarización, DHCP relay y BGP con el ISP.</p>
+<p>Los puntos críticos al reproducirlo son: que los dos extremos del EtherChannel usen modos compatibles, que las prioridades de HSRP estén invertidas entre IPv4 e IPv6, que el <code>decrement</code> del tracking deje la prioridad por debajo del respaldo, que el <code>ip helper-address</code> apunte a R1, y que las rutas sumarizadas cubran exactamente las VLANs anunciadas.</p>
+
+      </div>
+    </article>
+
+    
+  </section>
+
+    </div>
+
+    <footer class="footer">
+  <section class="container">
+    ©
+    
+      2025 -
+    
+    2026
+     CeleroRKX 
+    ·
+    
+    Desarrollado por <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/" target="_blank" rel="noopener">Coder</a>.
+    
+  </section>
+</footer>
+
+  </main>
+
+  
+
+  
+  
+  <script src="/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js" integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script>
+  
+
+  
+  
+  
+  <script src="/js/gestures.min.6cbd91590032e7f15addfe0af40403b55908afeef98fe1be098e196656366619.js" integrity="sha256-bL2RWQAy5/Fa3f4K9AQDtVkIr&#43;75j&#43;G&#43;CY4ZZlY2Zhk="></script>
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</body>
+</html>

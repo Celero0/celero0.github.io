@@ -29,8 +29,8 @@
 	<meta property="og:locale" content="es">
 	<meta property="og:type" content="article">
 		<meta property="article:section" content="labs">
-		<meta property="article:published_time" content="2026-11-04T00:00:00+00:00">
-		<meta property="article:modified_time" content="2026-11-04T00:00:00+00:00">
+		<meta property="article:published_time" content="2026-11-06T00:00:00+00:00">
+		<meta property="article:modified_time" content="2026-11-06T00:00:00+00:00">
 
 
 
@@ -161,8 +161,8 @@
           <div class="date">
             <span class="posted-on">
               <i class="fa-solid fa-calendar" aria-hidden="true"></i>
-              <time datetime="2026-11-04T00:00:00Z">
-                4 de noviembre de 2026
+              <time datetime="2026-11-06T00:00:00Z">
+                6 de noviembre de 2026
               </time>
             </span>
             <span class="reading-time">
@@ -246,7 +246,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h2>
-<p>Se completan las loopbacks que faltaban y se corrigen las direcciones de los enlaces seriales de R2. El ISP anuncia su loopback <code>8.8.8.8/32</code>, que será la red externa de prueba.</p>
+<p>Se configuran las loopbacks y las direcciones de los enlaces seriales de R2. El ISP anuncia su loopback <code>8.8.8.8/32</code>, que será la red externa de prueba.</p>
 <p><strong>R1</strong> — loopback 1</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
@@ -254,7 +254,7 @@
 </span></span><span style="display:flex;"><span>ip add 10.10.10.1 255.255.255.0
 </span></span><span style="display:flex;"><span>no shut
 </span></span><span style="display:flex;"><span>ex
-</span></span></code></pre></div><p><strong>R2</strong> — corrección de <code>s1/2</code> y <code>s1/0</code>, y loopback 2</p>
+</span></span></code></pre></div><p><strong>R2</strong> — <code>s1/2</code>, <code>s1/0</code> y loopback 2</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>int s1/2
@@ -269,10 +269,7 @@
 </span></span><span style="display:flex;"><span>ip add 20.20.20.1 255.255.255.0
 </span></span><span style="display:flex;"><span>no shut
 </span></span><span style="display:flex;"><span>ex
-</span></span></code></pre></div><blockquote>
-<p>En los apuntes, <code>s1/2</code> tenía <code>192.16.23.2</code> y <code>s1/0</code> tenía un error similar. La corrección deja ambas en la red <code>192.168.x.0/24</code>.</p>
-</blockquote>
-<p><strong>R5</strong> — loopback 5</p>
+</span></span></code></pre></div><p><strong>R5</strong> — loopback 5</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>int l5
@@ -413,8 +410,7 @@
 </span></span><span style="display:flex;"><span>network 219.50.0.0 255.255.255.252
 </span></span><span style="display:flex;"><span>default-router 219.50.0.1
 </span></span><span style="display:flex;"><span>ex
-</span></span></code></pre></div><blockquote>
-<p><strong>Nota:</strong> en los apuntes originales estos pools quedaron configurados en R7. Para que R2 y R5 obtengan dirección, el servidor DHCP debe estar en el ISP (o bien usar <code>ip helper-address</code> hacia un servidor alcanzable). En el lado cliente, la interfaz hacia el ISP se configura con <code>ip address dhcp</code>:</p>
+</span></span></code></pre></div><p>Para que R2 y R5 obtengan dirección, el servidor DHCP debe estar en el ISP o contar con un <code>ip helper-address</code> hacia un servidor alcanzable. En el lado cliente, la interfaz hacia el ISP se configura con <code>ip address dhcp</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>! R2
 </span></span><span style="display:flex;"><span>int e0/2
 </span></span><span style="display:flex;"><span>ip address dhcp
@@ -426,8 +422,7 @@
 </span></span><span style="display:flex;"><span>ip address dhcp
 </span></span><span style="display:flex;"><span>no shut
 </span></span><span style="display:flex;"><span>ex
-</span></span></code></pre></div></blockquote>
-<h2 id="7-filtrado-con-prefix-list">
+</span></span></code></pre></div><h2 id="7-filtrado-con-prefix-list">
   7. Filtrado con prefix-list
   <a class="heading-link" href="#7-filtrado-con-prefix-list">
     <i class="fa-solid fa-link" aria-hidden="true" title="Link to heading"></i>

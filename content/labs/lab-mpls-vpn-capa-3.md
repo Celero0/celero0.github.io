@@ -1,7 +1,7 @@
 +++
 draft = false
 title = "MPLS VPN de Capa 3"
-date = 2026-11-06T00:00:00Z
+date = 2026-11-07T08:00:00Z
 description = "Laboratorio de MPLS VPN L3: backbone MPLS con LDP, rangos de etiquetas, VRF, MP-BGP VPNv4 y conectividad entre sucursales."
 weight = 3
 tags = []
@@ -325,13 +325,11 @@ ex
 en
 conf t
 ip vrf CLIENTE-B
-rd 65200:1
+rd 65200:2
 route-target export 65400:1
 route-target import 65400:2
 ex
 ```
-
-> El RD debe ser único por VRF. En los apuntes, `CLIENTE-B` quedó con el mismo RD que `CLIENTE-A` (`65200:1`). Si tu plataforma lo rechaza o las rutas se mezclan, usa un RD distinto, por ejemplo `65200:2`.
 
 **PE6 — Cliente A**
 

@@ -296,15 +296,13 @@ ex
 ```bash
 spanning-tree mode mst
 spanning-tree mst configuration
-name REGION31
-revision 2
+name REGION13
+revision 1
 instance 1 vlan 12, 17
 instance 2 vlan 13, 15
 instance 3 vlan 14, 16
 ex
 ```
-
-> **Nota:** en los apuntes originales SW3 quedó con `REGION31` / `revision 2`. Para que todos los switches formen una única región MST, el `name` y la `revision` deben ser iguales en los cuatro; si buscas una sola región, alinea SW3 con `REGION13` / `revision 1`.
 
 ## 6. SVIs y direccionamiento de las VLANs
 

@@ -1,7 +1,7 @@
 +++
 draft = false
 title = "Implementación de BGP Básico"
-date = 2026-11-04T00:00:00Z
+date = 2026-11-06T00:00:00Z
 description = "Laboratorio de BGP básico: EIGRP en dos sucursales, vecindades iBGP/eBGP, next-hop-self, prefix-lists y redistribución con route-maps."
 weight = 2
 tags = []
@@ -53,7 +53,7 @@ Este laboratorio conecta dos sucursales a través de un ISP usando BGP. Cada suc
 
 ## 1. Direccionamiento base
 
-Se completan las loopbacks que faltaban y se corrigen las direcciones de los enlaces seriales de R2. El ISP anuncia su loopback `8.8.8.8/32`, que será la red externa de prueba.
+Se configuran las loopbacks y las direcciones de los enlaces seriales de R2. El ISP anuncia su loopback `8.8.8.8/32`, que será la red externa de prueba.
 
 **R1** — loopback 1
 
@@ -66,7 +66,7 @@ no shut
 ex
 ```
 
-**R2** — corrección de `s1/2` y `s1/0`, y loopback 2
+**R2** — `s1/2`, `s1/0` y loopback 2
 
 ```bash
 en
@@ -84,8 +84,6 @@ ip add 20.20.20.1 255.255.255.0
 no shut
 ex
 ```
-
-> En los apuntes, `s1/2` tenía `192.16.23.2` y `s1/0` tenía un error similar. La corrección deja ambas en la red `192.168.x.0/24`.
 
 **R5** — loopback 5
 
@@ -255,21 +253,21 @@ default-router 219.50.0.1
 ex
 ```
 
-> **Nota:** en los apuntes originales estos pools quedaron configurados en R7. Para que R2 y R5 obtengan dirección, el servidor DHCP debe estar en el ISP (o bien usar `ip helper-address` hacia un servidor alcanzable). En el lado cliente, la interfaz hacia el ISP se configura con `ip address dhcp`:
->
-> ```bash
-> ! R2
-> int e0/2
-> ip address dhcp
-> no shut
-> ex
->
-> ! R5
-> int e0/1
-> ip address dhcp
-> no shut
-> ex
-> ```
+Para que R2 y R5 obtengan dirección, el servidor DHCP debe estar en el ISP o contar con un `ip helper-address` hacia un servidor alcanzable. En el lado cliente, la interfaz hacia el ISP se configura con `ip address dhcp`:
+
+```bash
+! R2
+int e0/2
+ip address dhcp
+no shut
+ex
+
+! R5
+int e0/1
+ip address dhcp
+no shut
+ex
+```
 
 ## 7. Filtrado con prefix-list
 

@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Bank Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bank Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/bank/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Bank Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-11-25T23:28:19+00:00">
-		<meta property="article:modified_time" content="2025-11-25T23:28:19+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Bank Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Linux de nivel fácil de la plataforma HackTheBox">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-25T23:28:19+00:00">
+    <meta property="article:modified_time" content="2025-11-25T23:28:19+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -191,7 +191,7 @@
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.35 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.35 -oG allPorts
 </span></span></code></pre></div><img src="/images/Pasted image 20250327224124.png" style="width:100%; height:auto; display:block; margin:auto;">
 Como trabajamos con HackTheBox, asumiremos el dominio bank.htb
 <p>Agregándolo en nuestro /etc/hosts
@@ -200,7 +200,7 @@ Luego como tenemos el puerto 53 asociado a DNS
 <img src="/images/Pasted image 20250327224406.png" style="width:100%; height:auto; display:block; margin:auto;">
 utilizamos el siguiente comando para recopilar información de demás servidores
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dig any @10.10.10.29 bank.htb
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dig any @10.10.10.29 bank.htb
 </span></span></code></pre></div><p>Teniendo como respuesta un posible subdominio &ldquo;chris.bank.htb&rdquo; en la siguiente sección:
 <img src="/images/Pasted image 20250327224712.png" style="width:100%; height:auto; display:block; margin:auto;">
 Lo agregamos a nuestro /etc/hosts
@@ -227,7 +227,7 @@ Al entrar a <a href="http://bank.htb"  class="external-link" target="_blank" rel
 <img src="/images/Pasted image 20250327230023.png" style="width:100%; height:auto; display:block; margin:auto;">
 Por tanto fuzzeamos la página buscando archivos .php
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://bank.htb/FUZZ.php -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">7322</span> -t <span style="color:#a5d6ff">120</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://bank.htb/FUZZ.php -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">7322</span> -t <span style="color:#a5d6ff">120</span>
 </span></span></code></pre></div><p>Descubrimos 3 archivos disponibles (recordar que son archivos php), teniendo la ruta support con el código de estado 302, posible redirect
 <img src="/images/Pasted image 20250327230304.png" style="width:100%; height:auto; display:block; margin:auto;">
 por tanto intentamos acceder a la ruta <a href="http://bank.htb/support.php"  class="external-link" target="_blank" rel="noopener">http://bank.htb/support.php</a>
@@ -248,7 +248,7 @@ y se realiza con éxito el Open Redirect
 </h1>
 <p>Comenzamos el fuzzeo en <a href="http://bank.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb</a> para descubrir carpetas con la herramienta FFUF
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://bank.htb/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">7322</span> -t <span style="color:#a5d6ff">120</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://bank.htb/FUZZ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -fs <span style="color:#a5d6ff">7322</span> -t <span style="color:#a5d6ff">120</span>
 </span></span></code></pre></div><p>Descubrimos 5 rutas disponibles
 <img src="/images/Pasted image 20250327225631.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>La ruta uploads es interesante, al momento de tener alguna vía de subir archivos podemos consultar por ese directorio para poder apuntar al archivo subido</p>
@@ -292,12 +292,12 @@ como antes encontramos la ruta <a href="http://bank.htb/uploads"  class="externa
 <img src="/images/Pasted image 20250327225631.png" style="width:100%; height:auto; display:block; margin:auto;">
 nos ponemos en escucha con
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4444</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4444</span>
 </span></span></code></pre></div><p>y nos dirigimos a la ruta <a href="http://bank.htb/uploads/reverse.htb"  class="external-link" target="_blank" rel="noopener">http://bank.htb/uploads/reverse.htb</a>
 y nos dan una shell interactiva
 <img src="/images/Pasted image 20250327235918.png" style="width:100%; height:auto; display:block; margin:auto;">
 hacemos el tratamiento de tty respectivo</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
 </span></span><span style="display:flex;"><span>ctrl+z
 </span></span><span style="display:flex;"><span>stty raw -echo; fg
 </span></span><span style="display:flex;"><span>reset xterm
@@ -315,7 +315,7 @@ hacemos el tratamiento de tty respectivo</p>
 <img src="/images/Pasted image 20250328000238.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Despues de analizar vías potenciales al buscar archivos con privilegios SUID tenemos lo siguiente
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
 </span></span></code></pre></div><img src="/images/Pasted image 20250328001844.png" style="width:100%; height:auto; display:block; margin:auto;">
 El archivo /var/htb/bin/emergency no es común, y su propietario es root
 <img src="/images/Pasted image 20250328002007.png" style="width:100%; height:auto; display:block; margin:auto;">

@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Busqueda Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina Linux, de dificultad Easy de la plataforma HackTheBox">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Busqueda Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Linux, de dificultad Easy de la plataforma HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/busqueda/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Busqueda Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina Linux, de dificultad Easy de la plataforma HackTheBox">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-12-07T17:16:26+00:00">
-		<meta property="article:modified_time" content="2025-12-07T17:16:26+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Busqueda Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Linux, de dificultad Easy de la plataforma HackTheBox">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-07T17:16:26+00:00">
+    <meta property="article:modified_time" content="2025-12-07T17:16:26+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -191,7 +191,7 @@
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.208 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.208 -oG allPorts
 </span></span></code></pre></div><img src="/images/Pasted image 20250402145959.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como información relevante aparece un redirect hacia <code>http://searcher.htb</code></p>
 <img src="/images/Pasted image 20250402150147.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -233,7 +233,7 @@
 </h1>
 <p>Realizamos el tratamiento correspondiente de tty para trabajar de forma más cómoda</p>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
 </span></span><span style="display:flex;"><span>ctrl+z
 </span></span><span style="display:flex;"><span>stty raw -echo; fg
 </span></span><span style="display:flex;"><span>reset xterm
@@ -251,7 +251,7 @@
 <img src="/images/Pasted image 20250402152132.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Teniendo como resultado varios puertos con el siguiente comando buscaremos más información</p>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl 127.0.0.1:3000
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl 127.0.0.1:3000
 </span></span></code></pre></div><p>Obtenemos respuesta de una página web que está corriendo <em>Gitea</em> , viendo el código html obtenemos el subdominio <code>http://gitea.searcher.htb</code></p>
 <img src="/images/Pasted image 20250402152610.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Lo agregamos a <code>/etc/hosts</code> y enumeramos el nuevo subdominio por http</p>
@@ -263,12 +263,12 @@
 <img src="/images/Pasted image 20250402153057.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto realizamos una busqueda de palabras claves con el siguiente comando</p>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;password&#34;</span> 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;password&#34;</span> 2&gt;/dev/null
 </span></span><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;cody&#34;</span> 2&gt;/dev/null
 </span></span><span style="display:flex;"><span>grep -r -i <span style="color:#a5d6ff">&#34;administrator&#34;</span> 2&gt;/dev/null
 </span></span></code></pre></div><img src="/images/Pasted image 20250402153224.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Tenemos dos posibles contraseñas que guardaremos</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cody:jh1usoih2bkjaspwe92
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cody:jh1usoih2bkjaspwe92
 </span></span><span style="display:flex;"><span>administrator:5ede9ed9f2ee636b5eb559fdedfd006d2eae86f4
 </span></span></code></pre></div><p>Creamos un archivo pass y guardamos el contenido</p>
 <img src="/images/Pasted image 20250402153608.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -300,8 +300,8 @@
 <img src="/images/Pasted image 20250402161058.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Encontramos un posible punto de entrada, la única action que tiene un script que lo busca en el directorio actual es <code>./full-checkup.sh</code></p>
 <p>por tanto crearemos un script con ese nombre y le pondremos el siguiente script</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
-</span></span></span><span style="display:flex;"><span>chmod u+s /bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#8b949e;font-weight:bold;font-style:italic"></span>chmod u+s /bin/bash
 </span></span></code></pre></div><img src="/images/Pasted image 20250402161455.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>corremos el script</p>
 <img src="/images/Pasted image 20250402161911.png" style="width:100%; height:auto; display:block; margin:auto;">

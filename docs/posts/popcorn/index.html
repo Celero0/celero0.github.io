@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Popcorn Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina de Hackthebox de nivel fácil.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Popcorn Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina de Hackthebox de nivel fácil.">
 
 <meta property="og:url" content="https://celero0.github.io/posts/popcorn/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Popcorn Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina de Hackthebox de nivel fácil.">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-11-24T18:35:18+00:00">
-		<meta property="article:modified_time" content="2025-11-24T18:35:18+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Popcorn Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina de Hackthebox de nivel fácil.">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-24T18:35:18+00:00">
+    <meta property="article:modified_time" content="2025-11-24T18:35:18+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -191,7 +191,7 @@
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.6 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.6 -oG allPorts
 </span></span></code></pre></div><p>En el escaneo encontramos dos puertos abiertos, el puerto 22 que corre el servicio SSH, el cual por su versión 5.1p1 es vulnerable a <code>UserEnumeration</code>. Además del servicio HTTP que corre por el puerto 80, donde nos muestra el nombre de dominio <code>popcorn.htb</code>
 <img src="/images/Pasted image 20251031205654.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Por lo tanto, procederemos a agregar el dominio <code>popcorn.htb</code> a nuestro <code>/etc/hosts</code>
@@ -206,7 +206,7 @@
 <p>Entrando en el dominio <code>popcorn.htb</code> encontramos una página estatica
 <img src="/images/Pasted image 20251031213420.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Utilizando <code>fuzz</code> de la siguiente manera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://popcorn.htb/FUZZ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t <span style="color:#a5d6ff">100</span> -fs <span style="color:#a5d6ff">177</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://popcorn.htb/FUZZ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t <span style="color:#a5d6ff">100</span> -fs <span style="color:#a5d6ff">177</span>
 </span></span></code></pre></div><p>Encontramos los siguientes 3 directorios:
 <img src="/images/Pasted image 20251031213541.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>En el directorio <code>test</code>, encontramos una página de <code>PHP 5.2.10</code> por defecto
@@ -255,11 +255,11 @@ su nombre es <code>d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code></p>
 <p>Por lo tanto podemos hacer la estructura por detrás de la web</p>
 <img src="/images/Pasted image 20251031222420.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Nuestra reverse shell se encuentra en la ruta <code>/var/www/torrent/upload/d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code>, por tanto para cambiarle el nombre, y que sea interpretado el código debemos hacer lo siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://popcorn.htb/rename/index.php?filename<span style="color:#ff7b72;font-weight:bold">=</span>/var/www/torrent/upload/d0d14c926e6e99761a2fdcff27b403d96376eff6.png&amp;<span style="color:#79c0ff">newfilename</span><span style="color:#ff7b72;font-weight:bold">=</span>/var/www/torrent/upload/reverse.php
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>http://popcorn.htb/rename/index.php?filename<span style="color:#ff7b72;font-weight:bold">=</span>/var/www/torrent/upload/d0d14c926e6e99761a2fdcff27b403d96376eff6.png&amp;<span style="color:#79c0ff">newfilename</span><span style="color:#ff7b72;font-weight:bold">=</span>/var/www/torrent/upload/reverse.php
 </span></span></code></pre></div><p>y obtenemos un OK!, por tanto podemos suponer que el cambio de nombre resultó exitoso
 <img src="/images/Pasted image 20251031222540.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Ahora nos pondremos en escucha por el puerto 4443 con <code>nc</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4443</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nc -nlvp <span style="color:#a5d6ff">4443</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20251031222622.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Y hacemos un curl a <code>http://popcorn.htb/torrent/upload/reverse.php</code>, y obtenemos la shell
 <img src="/images/Pasted image 20251031223055.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
@@ -271,7 +271,7 @@ su nombre es <code>d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code></p>
   </a>
 </h1>
 <p>Para escalar privilegios primero vemos la versión del kernel, con el comando <code>uname</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uname -r
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uname -r
 </span></span></code></pre></div><p>Tenemos que la versión del kernel es <code>2.6.31-14</code>
 <img src="/images/Pasted image 20251031225646.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Por tanto buscamos por vulnerabilidades a esa versión y encontramos el dirtycow
@@ -280,7 +280,7 @@ su nombre es <code>d0d14c926e6e99761a2fdcff27b403d96376eff6.png</code></p>
 <p>El dirty cow es una vulnerabilidad de kernel que afecta a <code>Linux Kernel 2.6.22 &lt; 3.9</code>, la vulnerabilidad edita el archivo <code>/etc/passwd</code> agregando un usuario en este caso <code>firefart</code> con privilegios root</p>
 <img src="/images/Pasted image 20251031225940.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Copiamos todo el script y creamos el archivo dirtycow.c, el archivo se compila de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -pthread dirtycow.c -o dirty -lcrypt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -pthread dirtycow.c -o dirty -lcrypt
 </span></span></code></pre></div><p>Una vez compilado tenemos el archivo <code>dirty</code>
 <img src="/images/Pasted image 20251031230142.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Ahora si corremos el archivo con  <code>./dirty</code>, nos pedirá escribir una contraseña. Deberemos escribir una contraseña robusta y hacemos <code>su firefart</code>

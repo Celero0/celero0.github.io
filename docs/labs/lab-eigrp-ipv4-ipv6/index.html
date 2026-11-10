@@ -18,19 +18,19 @@
 
 
 
-	<meta name="twitter:card" content="summary">
-	<meta name="twitter:title" content="Configurando EIGRP en IPv4 e IPv6">
-	<meta name="twitter:description" content="Laboratorio de EIGRP: corrección de configuraciones, dos dominios EIGRP redistribuidos, summarización, métrica K, temporizadores y balanceo de carga en IPv4 e IPv6.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Configurando EIGRP en IPv4 e IPv6">
+  <meta name="twitter:description" content="Laboratorio de EIGRP: corrección de configuraciones, dos dominios EIGRP redistribuidos, summarización, métrica K, temporizadores y balanceo de carga en IPv4 e IPv6.">
 
 <meta property="og:url" content="https://celero0.github.io/labs/lab-eigrp-ipv4-ipv6/">
-	<meta property="og:site_name" content="Celero0 Blog">
-	<meta property="og:title" content="Configurando EIGRP en IPv4 e IPv6">
-	<meta property="og:description" content="Laboratorio de EIGRP: corrección de configuraciones, dos dominios EIGRP redistribuidos, summarización, métrica K, temporizadores y balanceo de carga en IPv4 e IPv6.">
-	<meta property="og:locale" content="es">
-	<meta property="og:type" content="article">
-		<meta property="article:section" content="labs">
-		<meta property="article:published_time" content="2026-11-07T16:00:00+00:00">
-		<meta property="article:modified_time" content="2026-11-07T16:00:00+00:00">
+  <meta property="og:site_name" content="Celero0 Blog">
+  <meta property="og:title" content="Configurando EIGRP en IPv4 e IPv6">
+  <meta property="og:description" content="Laboratorio de EIGRP: corrección de configuraciones, dos dominios EIGRP redistribuidos, summarización, métrica K, temporizadores y balanceo de carga en IPv4 e IPv6.">
+  <meta property="og:locale" content="es">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="labs">
+    <meta property="article:published_time" content="2026-11-07T16:00:00+00:00">
+    <meta property="article:modified_time" content="2026-11-07T16:00:00+00:00">
 
 
 
@@ -55,7 +55,7 @@
   
     
     
-    <link rel="stylesheet" href="/css/coder-dark.min.7bae3723f236dac3024e7729da8f0d026ba33c06ce79d59f1f7a1811c81cd52c.css" integrity="sha256-e643I/I22sMCTncp2o8NAmujPAbOedWfH3oYEcgc1Sw=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder-dark.min.c170d9bb5caa71f3db9a208ff97e771abf73c1f55b67a1df27ba5666cd49fa9b.css" integrity="sha256-wXDZu1yqcfPbmiCP&#43;X53Gr9zwfVbZ6HfJ7pWZs1J&#43;ps=" crossorigin="anonymous" media="screen" />
   
 
 
@@ -224,40 +224,40 @@
 <li><strong>IPv6</strong>: los mismos enlaces usan <code>3001:ABCD:ABCD:&lt;enlace&gt;::/64</code> y las loopbacks de R1 <code>3001:ABCD:ABCD:A:{10,20,30}::1/128</code>.</li>
 </ul>
 <table>
-	<thead>
-			<tr>
-					<th>Enlace</th>
-					<th>IPv4</th>
-					<th>IPv6</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td>R1-R2</td>
-					<td><code>192.168.12.0/24</code></td>
-					<td><code>3001:ABCD:ABCD:12::/64</code></td>
-			</tr>
-			<tr>
-					<td>R2-R3</td>
-					<td><code>192.168.23.0/24</code></td>
-					<td><code>3001:ABCD:ABCD:23::/64</code></td>
-			</tr>
-			<tr>
-					<td>R2-R4</td>
-					<td><code>192.168.24.0/24</code></td>
-					<td><code>3001:ABCD:ABCD:24::/64</code></td>
-			</tr>
-			<tr>
-					<td>R3-R4</td>
-					<td><code>192.168.34.0/24</code></td>
-					<td><code>3001:ABCD:ABCD:34::/64</code></td>
-			</tr>
-			<tr>
-					<td>R4-ISP</td>
-					<td><code>210.0.0.0/28</code></td>
-					<td><code>3001:ABCD:ABCD:210::/112</code></td>
-			</tr>
-	</tbody>
+  <thead>
+      <tr>
+          <th>Enlace</th>
+          <th>IPv4</th>
+          <th>IPv6</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>R1-R2</td>
+          <td><code>192.168.12.0/24</code></td>
+          <td><code>3001:ABCD:ABCD:12::/64</code></td>
+      </tr>
+      <tr>
+          <td>R2-R3</td>
+          <td><code>192.168.23.0/24</code></td>
+          <td><code>3001:ABCD:ABCD:23::/64</code></td>
+      </tr>
+      <tr>
+          <td>R2-R4</td>
+          <td><code>192.168.24.0/24</code></td>
+          <td><code>3001:ABCD:ABCD:24::/64</code></td>
+      </tr>
+      <tr>
+          <td>R3-R4</td>
+          <td><code>192.168.34.0/24</code></td>
+          <td><code>3001:ABCD:ABCD:34::/64</code></td>
+      </tr>
+      <tr>
+          <td>R4-ISP</td>
+          <td><code>210.0.0.0/28</code></td>
+          <td><code>3001:ABCD:ABCD:210::/112</code></td>
+      </tr>
+  </tbody>
 </table>
 <h1 id="requerimientos">
   Requerimientos
@@ -293,7 +293,7 @@
   </a>
 </h2>
 <p>Antes de tocar EIGRP se revisa que las IPs estén bien configuradas. En R1 el direccionamiento ya es correcto, así que se usa como punto de partida.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>show ip interface brief
 </span></span><span style="display:flex;"><span>show running-config
 </span></span></code></pre></div><h2 id="2-eigrp-ipv4-as-20-y-as-5">
@@ -311,7 +311,7 @@
   </a>
 </h3>
 <p>R1 anuncia sus tres loopbacks y el enlace hacia R2. Las loopbacks se marcan como pasivas porque no tienen vecinos EIGRP.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
 </span></span><span style="display:flex;"><span>eigrp router-id 1.1.1.1
@@ -331,7 +331,7 @@
   </a>
 </h3>
 <p>R2 solo necesita anunciar el enlace hacia R1 dentro del AS 20.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
 </span></span><span style="display:flex;"><span>eigrp router-id 2.2.2.2
@@ -346,8 +346,8 @@
 </h3>
 <p>La configuración previa del AS 5 estaba mal: usaba una máscara <code>0.0.0.0</code>, lo que anunciaba una única dirección en lugar de la subred completa. Se elimina el proceso y se crea de nuevo.</p>
 <img src="/images/Pasted image 20250514185532.png" style="width:100%; height:auto; display:block; margin:auto;">
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>no router eigrp <span style="color:#a5d6ff">5</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>no router eigrp <span style="color:#a5d6ff">5</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>router-id 2.2.2.2
 </span></span><span style="display:flex;"><span>network 192.168.24.0 0.0.0.255
 </span></span><span style="display:flex;"><span>network 192.168.23.0 0.0.0.255
@@ -359,7 +359,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>router-id 3.3.3.3
@@ -373,7 +373,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>en
 </span></span><span style="display:flex;"><span>conf t
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>router-id 4.4.4.4
@@ -395,7 +395,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
 </span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">40</span>
 </span></span><span style="display:flex;"><span>eigrp router-id 1.1.1.1
 </span></span><span style="display:flex;"><span>passive-interface loopback <span style="color:#a5d6ff">1</span>
@@ -421,7 +421,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
 </span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">40</span>
 </span></span><span style="display:flex;"><span>eigrp router-id 2.2.2.2
 </span></span><span style="display:flex;"><span>ex
@@ -435,7 +435,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">10</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">10</span>
 </span></span><span style="display:flex;"><span>router-id 2.2.2.2
 </span></span><span style="display:flex;"><span>ex
 </span></span><span style="display:flex;"><span>int e0/1
@@ -451,7 +451,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
 </span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">10</span>
 </span></span><span style="display:flex;"><span>router-id 3.3.3.3
 </span></span><span style="display:flex;"><span>ex
@@ -468,7 +468,7 @@
     <span class="sr-only">Link to heading</span>
   </a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipv6 unicast-routing
 </span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">10</span>
 </span></span><span style="display:flex;"><span>router-id 4.4.4.4
 </span></span><span style="display:flex;"><span>ex
@@ -486,7 +486,7 @@
   </a>
 </h2>
 <p>Una interfaz marcada como pasiva no envía ni procesa hellos, por lo que <strong>no puede formar vecindades</strong>. En la configuración previa, <code>e0/0</code> de R1 estaba pasiva por error. Se comprueba con <code>show ip protocols</code> y se corrige.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
 </span></span><span style="display:flex;"><span>no passive-interface e0/0
 </span></span><span style="display:flex;"><span>ex
 </span></span><span style="display:flex;"><span>ipv6 router eigrp <span style="color:#a5d6ff">40</span>
@@ -501,7 +501,7 @@
 </h2>
 <p>R4 es el router de borde. Conoce al ISP por una ruta estática por defecto y la redistribuye en EIGRP para que el resto del dominio sepa cómo salir.</p>
 <p><strong>R4</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 210.0.0.6
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 210.0.0.6
 </span></span><span style="display:flex;"><span>ipv6 route ::/0 3001:ABCD:ABCD:210::6
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>redistribute static
@@ -510,7 +510,7 @@
 </span></span><span style="display:flex;"><span>redistribute static
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>ISP</strong> — ruta de retorno hacia la red interna</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 210.0.0.5
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ip route 0.0.0.0 0.0.0.0 210.0.0.5
 </span></span><span style="display:flex;"><span>ipv6 route ::/0 3001:ABCD:ABCD:210::5
 </span></span></code></pre></div><h2 id="6-redistribución-entre-as-de-eigrp">
   6. Redistribución entre AS de EIGRP
@@ -521,14 +521,14 @@
 </h2>
 <p>R2 pertenece a los dos dominios, pero EIGRP no redistribuye entre AS automáticamente. Hay que hacerlo en ambos sentidos y en ambos protocolos. La métrica se toma de los valores de la interfaz: ancho de banda, delay, confiabilidad, carga y MTU.</p>
 <p><strong>R2 — IPv4</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">20</span> metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
 </span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">5</span> metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R2 — IPv6</strong> (con <code>include-connected</code>)</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">10</span>
 </span></span><span style="display:flex;"><span>redistribute eigrp <span style="color:#a5d6ff">40</span> metric <span style="color:#a5d6ff">10000</span> <span style="color:#a5d6ff">100</span> <span style="color:#a5d6ff">255</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1500</span> include-connected
 </span></span><span style="display:flex;"><span>ex
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">40</span>
@@ -542,24 +542,24 @@
   </a>
 </h2>
 <p>Por defecto EIGRP usa ancho de banda y delay. El requerimiento pide, en IPv4, usar los <strong>cuatro primeros parámetros K</strong>. El comando <code>metric weights</code> recibe seis valores: <code>TOS K1 K2 K3 K4 K5</code>. El primero (TOS) siempre es 0.</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
 </span></span></code></pre></div><p><strong>R1</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
 </span></span><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R2</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">20</span>
 </span></span><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R3</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R4</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>metric weights <span style="color:#a5d6ff">0</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">1</span> <span style="color:#a5d6ff">0</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><h2 id="8-summarización-de-rutas-en-r1">
@@ -580,7 +580,7 @@
 </h3>
 <p>Las loopbacks <code>172.16.10.0/24</code>, <code>172.16.20.0/24</code> y <code>172.16.30.0/24</code> se resumen en <code>172.16.0.0/19</code> (máscara <code>255.255.224.0</code>), que cubre el rango <code>172.16.0.0</code>–<code>172.16.31.255</code>.</p>
 <img src="/images/Pasted image 20250519165152.png" style="width:100%; height:auto; display:block; margin:auto;">
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
 </span></span><span style="display:flex;"><span>ip summary-address eigrp <span style="color:#a5d6ff">20</span> 172.16.0.0 255.255.224.0
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><h3 id="ipv6">
@@ -591,7 +591,7 @@
   </a>
 </h3>
 <img src="/images/Pasted image 20250519173115.png" style="width:100%; height:auto; display:block; margin:auto;">
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/0
 </span></span><span style="display:flex;"><span>ipv6 summary-address eigrp <span style="color:#a5d6ff">40</span> 3001:ABCD:ABCD:A::/74
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><h2 id="9-temporizadores-eigrp-en-ipv6">
@@ -603,12 +603,12 @@
 </h2>
 <p>El requerimiento pide <code>hello</code> de 3 segundos y <code>hold-time</code> de 9 segundos. Los temporizadores se configuran <strong>por interfaz</strong> y deben coincidir en ambos extremos del enlace. El <code>hold-time</code> debe ser al menos tres veces el <code>hello</code>.</p>
 <p><strong>R1</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/0
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/0
 </span></span><span style="display:flex;"><span>ipv6 hello-interval eigrp <span style="color:#a5d6ff">40</span> <span style="color:#a5d6ff">3</span>
 </span></span><span style="display:flex;"><span>ipv6 hold-time eigrp <span style="color:#a5d6ff">40</span> <span style="color:#a5d6ff">9</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R2</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/0
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/0
 </span></span><span style="display:flex;"><span>ipv6 hello-interval eigrp <span style="color:#a5d6ff">40</span> <span style="color:#a5d6ff">3</span>
 </span></span><span style="display:flex;"><span>ipv6 hold-time eigrp <span style="color:#a5d6ff">40</span> <span style="color:#a5d6ff">9</span>
 </span></span><span style="display:flex;"><span>ex
@@ -621,7 +621,7 @@
 </span></span><span style="display:flex;"><span>ipv6 hold-time eigrp <span style="color:#a5d6ff">10</span> <span style="color:#a5d6ff">9</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R3</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/3
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/3
 </span></span><span style="display:flex;"><span>ipv6 hello-interval eigrp <span style="color:#a5d6ff">10</span> <span style="color:#a5d6ff">3</span>
 </span></span><span style="display:flex;"><span>ipv6 hold-time eigrp <span style="color:#a5d6ff">10</span> <span style="color:#a5d6ff">9</span>
 </span></span><span style="display:flex;"><span>ex
@@ -630,7 +630,7 @@
 </span></span><span style="display:flex;"><span>ipv6 hold-time eigrp <span style="color:#a5d6ff">10</span> <span style="color:#a5d6ff">9</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R4</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/1
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>interface e0/1
 </span></span><span style="display:flex;"><span>ipv6 hello-interval eigrp <span style="color:#a5d6ff">10</span> <span style="color:#a5d6ff">3</span>
 </span></span><span style="display:flex;"><span>ipv6 hold-time eigrp <span style="color:#a5d6ff">10</span> <span style="color:#a5d6ff">9</span>
 </span></span><span style="display:flex;"><span>ex
@@ -651,22 +651,22 @@
 <li><strong><code>variance</code></strong>: permite instalar en la tabla de routing rutas con métrica hasta N veces la mejor. Sin <code>variance</code>, EIGRP solo instala la ruta de menor métrica.</li>
 </ul>
 <p><strong>R4</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
 </span></span><span style="display:flex;"><span>delay <span style="color:#a5d6ff">1</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R3</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/2
 </span></span><span style="display:flex;"><span>delay <span style="color:#a5d6ff">1</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span><span style="display:flex;"><span>int e0/3
 </span></span><span style="display:flex;"><span>delay <span style="color:#a5d6ff">1</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R2</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/3
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>int e0/3
 </span></span><span style="display:flex;"><span>delay <span style="color:#a5d6ff">1</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><p><strong>R2 y R4</strong> — habilitar el balanceo</p>
-<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
+<div class="highlight"><pre tabindex="0" style="color:#e6edf3;background-color:#0d1117;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>router eigrp <span style="color:#a5d6ff">5</span>
 </span></span><span style="display:flex;"><span>variance <span style="color:#a5d6ff">2</span>
 </span></span><span style="display:flex;"><span>ex
 </span></span></code></pre></div><h2 id="verificación">
